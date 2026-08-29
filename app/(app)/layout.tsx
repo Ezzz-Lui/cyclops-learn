@@ -1,12 +1,15 @@
+import { auth } from "@clerk/nextjs/server"
 import Link from "next/link"
 
-import { buttonVariants } from "@/components/ui/button"
+import { AuthControls } from "@/components/auth/auth-controls"
 
-export default function AppLayout({
+export default async function AppLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  await auth.protect()
+
   return (
     <div className="flex min-h-svh flex-col">
       <header className="flex items-center justify-between border-b px-6 py-3">
@@ -23,9 +26,7 @@ export default function AppLayout({
             </Link>
           </nav>
         </div>
-        <Link href="/" className={buttonVariants({ variant: "ghost", size: "sm" })}>
-          Landing
-        </Link>
+        <AuthControls />
       </header>
       {children}
     </div>

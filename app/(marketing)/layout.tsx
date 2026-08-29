@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { buttonVariants } from "@/components/ui/button"
+import { AuthControls } from "@/components/auth/auth-controls"
 
 export default function MarketingLayout({
   children,
@@ -13,14 +13,7 @@ export default function MarketingLayout({
         <Link href="/" className="text-sm font-medium">
           Cyclops AI
         </Link>
-        <nav className="flex items-center gap-2">
-          <Link href="/sign-in" className={buttonVariants({ variant: "ghost" })}>
-            Sign in
-          </Link>
-          <Link href="/sign-up" className={buttonVariants()}>
-            Sign up
-          </Link>
-        </nav>
+        <AuthControls />
       </header>
       {children}
     </div>
