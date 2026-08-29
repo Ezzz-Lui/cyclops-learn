@@ -8,7 +8,7 @@ export default function AuthLayout({
   return (
     <div className="flex min-h-svh flex-col items-center justify-center px-6">
       <Link href="/" className="mb-8 text-sm font-medium">
-        Cyclops AI
+        Cyclops
       </Link>
       {children}
     </div>

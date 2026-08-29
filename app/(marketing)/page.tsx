@@ -1,44 +1,33 @@
 import type { Metadata } from "next"
-import Link from "next/link"
 
-import { PlaceholderFrame } from "@/components/placeholders/placeholder-frame"
-import { buttonVariants } from "@/components/ui/button"
+import { BenchModesSection } from "@/components/marketing/bench-modes"
+import { CloseSection } from "@/components/marketing/close"
+import { DomainsSection } from "@/components/marketing/domains"
+import { HeroSection } from "@/components/marketing/hero"
+import { PatternSection } from "@/components/marketing/pattern"
 
 export const metadata: Metadata = {
-  title: "Cyclops AI",
-  description: "Learn complex objects by peeling layers and asking a contextual AI agent.",
+  title: "Cyclops",
+  description:
+    "A systems lab for peeling objects layer by layer and asking a contextual agent on the bench.",
 }
 
 export default function LandingPage() {
   return (
-    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-6 py-16">
-      <div className="space-y-3">
-        <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
-          Landing placeholder
-        </p>
-        <h1 className="font-heading text-3xl font-medium tracking-tight">
-          Learning by Shipping
-        </h1>
-        <p className="max-w-xl text-sm leading-relaxed text-muted-foreground">
-          Marketing page comes later. This route stays at <code>/</code> so the
-          public entry stays separate from home and canvas.
-        </p>
+    <main className="relative isolate flex flex-1 flex-col">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
+      >
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] [background-size:56px_56px] [mask-image:radial-gradient(ellipse_at_top,black_18%,transparent_62%)]" />
+        <div className="absolute top-[-12%] right-[-8%] size-[34rem] rounded-full bg-primary/30 blur-3xl dark:bg-primary/18" />
+        <div className="absolute bottom-[8%] left-[-12%] size-[26rem] rounded-full bg-primary/12 blur-3xl" />
       </div>
-
-      <PlaceholderFrame label="Hero / value proposition">
-        <p className="text-sm text-muted-foreground">
-          Explore buildings, machines, and computers layer by layer.
-        </p>
-      </PlaceholderFrame>
-
-      <div className="flex flex-wrap gap-2">
-        <Link href="/home" className={buttonVariants()}>
-          Open app home
-        </Link>
-        <Link href="/sign-up" className={buttonVariants({ variant: "outline" })}>
-          Create an account
-        </Link>
-      </div>
+      <HeroSection />
+      <PatternSection />
+      <BenchModesSection />
+      <DomainsSection />
+      <CloseSection />
     </main>
   )
 }
