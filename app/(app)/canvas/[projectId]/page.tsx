@@ -1,8 +1,11 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 
+import { ModelViewer } from "@/components/canvas/model-viewer"
 import { PlaceholderFrame } from "@/components/placeholders/placeholder-frame"
 import { buttonVariants } from "@/components/ui/button"
+import { listAvailableModels } from "@/lib/list-models"
+import { getModelSrc, resolveProjectModelFile } from "@/lib/model-catalog"
 
 export const metadata: Metadata = {
   title: "Canvas",
@@ -14,6 +17,8 @@ export default async function CanvasPage({
   params: Promise<{ projectId: string }>
 }) {
   const { projectId } = await params
+  const availableModels = await listAvailableModels()
+  const modelFile = resolveProjectModelFile(projectId, availableModels)
 
   return (
     <main className="flex flex-1 flex-col gap-4 px-4 py-4 lg:px-6">
@@ -34,14 +39,18 @@ export default async function CanvasPage({
           <ul className="space-y-2 text-sm text-muted-foreground">
             <li>Use case mode (explore / faults / diagnosis)</li>
             <li>Layer list</li>
-            <li>Component list</li>
+            <li>
+              Model: <code>{modelFile}</code>
+            </li>
           </ul>
         </PlaceholderFrame>
 
-        <PlaceholderFrame label="3D viewer" className="min-h-72">
-          <div className="flex h-full min-h-56 items-center justify-center rounded-xl bg-background/80 text-sm text-muted-foreground">
-            Viewer placeholder for {projectId}
-          </div>
+        <PlaceholderFrame label="3D viewer" className="flex min-h-72 flex-col">
+          <ModelViewer
+            src={getModelSrc(modelFile)}
+            modelName={modelFile}
+            className="min-h-72 flex-1"
+          />
         </PlaceholderFrame>
 
         <PlaceholderFrame label="Agent chat">
