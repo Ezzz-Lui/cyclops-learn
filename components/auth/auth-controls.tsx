@@ -8,12 +8,12 @@ export function AuthControls() {
   return (
     <nav className="flex items-center gap-2">
       <Show when="signed-out">
-        <SignInButton mode="redirect">
+        <SignInButton mode="redirect" forceRedirectUrl="/home">
           <button type="button" className={buttonVariants({ variant: "ghost" })}>
             Sign in
           </button>
         </SignInButton>
-        <SignUpButton mode="redirect">
+        <SignUpButton mode="redirect" forceRedirectUrl="/home">
           <button type="button" className={buttonVariants()}>
             Sign up
           </button>

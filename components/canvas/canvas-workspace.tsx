@@ -26,8 +26,9 @@ export function CanvasWorkspace({
   modelSrc,
   modelFile,
 }: CanvasWorkspaceProps) {
-  const { isSignedIn } = useAuth()
+  const { isSignedIn, getToken } = useAuth()
   const { isAuthenticated, isLoading } = useConvexAuth()
+  const [authHint, setAuthHint] = useState<string | null>(null)
   const getOrCreate = useMutation(api.sessions.getOrCreate)
   const setSelection = useMutation(api.sessions.setSelection)
   const respond = useAction(api.agent.respond)
@@ -74,10 +75,31 @@ export function CanvasWorkspace({
   }, [getOrCreate, isAuthenticated, projectSlug])
 
   useEffect(() => {
-    setPickedPartId(null)
-    setShowObjectLabel(false)
-    setFocusNonce(0)
-  }, [modelFile])
+    if (!isLoading) {
+      setAuthHint(null)
+      return
+    }
+
+    const timer = window.setTimeout(() => {
+      void getToken({ template: "convex" })
+        .then((token) => {
+          setAuthHint(
+            token
+              ? "Clerk issued a Convex JWT, but the backend never accepted it. This machine likely has a different NEXT_PUBLIC_CONVEX_URL than the shared silent-lobster-652 deployment."
+              : "Clerk is signed in, but getToken({ template: \"convex\" }) returned nothing. This Clerk app needs a JWT template named convex, and .env.local must use the same Clerk keys as the shared Cyclops Learn app."
+          )
+        })
+        .catch(() => {
+          setAuthHint(
+            "Clerk is signed in, but the convex JWT template failed. Create a JWT template named convex on this Clerk app, or copy the shared .env.local keys."
+          )
+        })
+    }, 10000)
+
+    return () => {
+      window.clearTimeout(timer)
+    }
+  }, [getToken, isLoading])
 
   async function handleSelectNode(gltfNodeName: string | null) {
     if (!sessionId) {
@@ -219,9 +241,12 @@ export function CanvasWorkspace({
         className="flex min-h-0 flex-col overflow-hidden"
       >
         {isLoading ? (
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Spinner className="size-4" />
-            Connecting to the lab backend…
+          <div className="space-y-2 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <Spinner className="size-4" />
+              Connecting to the lab backend…
+            </div>
+            {authHint ? <p className="text-xs text-destructive">{authHint}</p> : null}
           </div>
         ) : !isAuthenticated ? (
           <p className="text-sm text-muted-foreground">
