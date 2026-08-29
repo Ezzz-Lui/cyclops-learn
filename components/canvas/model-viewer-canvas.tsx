@@ -217,7 +217,7 @@ export function ModelViewerCanvas({
   return (
     <div
       className={cn(
-        "relative min-h-72 cursor-grab overflow-hidden rounded-xl bg-zinc-950 active:cursor-grabbing",
+        "relative min-h-0 cursor-grab overflow-hidden rounded-xl bg-zinc-950 active:cursor-grabbing",
         className
       )}
     >

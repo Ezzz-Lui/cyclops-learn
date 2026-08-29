@@ -99,40 +99,55 @@ export function CanvasWorkspace({
   const activePart = session?.activePart ?? null
 
   return (
-    <div className="grid min-h-[32rem] flex-1 gap-4 lg:grid-cols-[14rem_minmax(0,1fr)_20rem]">
-      <PlaceholderFrame label="Active part">
-        {activePart ? (
-          <div className="space-y-2 text-sm">
-            <p className="font-medium">{activePart.label}</p>
-            <p className="text-xs text-muted-foreground">
-              Node <code>{activePart.gltfNodeName}</code>
+    <div className="grid min-h-0 flex-1 grid-rows-[minmax(0,10rem)_minmax(0,1fr)_minmax(14rem,16rem)] gap-4 lg:grid-cols-[14rem_minmax(0,1fr)_20rem] lg:grid-rows-none">
+      <PlaceholderFrame
+        label="Active part"
+        className="flex min-h-0 flex-col overflow-hidden"
+      >
+        <div className="min-h-0 min-w-0 flex-1 overflow-y-auto">
+          {activePart ? (
+            <div className="space-y-2 text-sm">
+              <p className="font-medium">{activePart.label}</p>
+              <p className="text-xs text-muted-foreground">
+                Node <code>{activePart.gltfNodeName}</code>
+              </p>
+              <p className="text-muted-foreground">{activePart.summary}</p>
+            </div>
+          ) : (
+            <p className="text-sm text-muted-foreground">
+              Click a mesh on the engine. That selection is what the agent can
+              talk about.
             </p>
-            <p className="text-muted-foreground">{activePart.summary}</p>
-          </div>
-        ) : (
-          <p className="text-sm text-muted-foreground">
-            Click a mesh on the engine. That selection is what the agent can
-            talk about.
+          )}
+        </div>
+        <div className="mt-4 min-w-0 shrink-0 space-y-1 text-xs text-muted-foreground">
+          <p>File</p>
+          <p className="truncate font-mono" title={modelFile}>
+            {modelFile}
           </p>
-        )}
-        <p className="mt-4 text-xs text-muted-foreground">
-          File <code>{modelFile}</code> · mode explore
-        </p>
+          <p>mode explore</p>
+        </div>
       </PlaceholderFrame>
 
-      <PlaceholderFrame label="3D viewer" className="flex min-h-72 flex-col">
+      <PlaceholderFrame
+        label="3D viewer"
+        className="flex min-h-0 flex-col overflow-hidden"
+      >
         <ModelViewer
           src={modelSrc}
           modelName={session?.project.title ?? modelFile}
           selectedLabel={activePart?.label}
-          className="min-h-72 flex-1"
+          className="min-h-0 flex-1"
           onSelectNode={(node) => {
             void handleSelectNode(node)
           }}
         />
       </PlaceholderFrame>
 
-      <PlaceholderFrame label="Agent chat" className="flex min-h-56 flex-col">
+      <PlaceholderFrame
+        label="Agent chat"
+        className="flex min-h-0 flex-col overflow-hidden"
+      >
         {isLoading ? (
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Spinner className="size-4" />
@@ -145,8 +160,8 @@ export function CanvasWorkspace({
               : "Sign in to persist selection and talk to the lab instructor."}
           </p>
         ) : (
-          <div className="flex h-full min-h-56 flex-col gap-3">
-            <div className="min-h-40 flex-1 space-y-3 overflow-y-auto pr-1">
+          <div className="flex min-h-0 flex-1 flex-col gap-3">
+            <div className="min-h-0 flex-1 space-y-3 overflow-y-auto pr-1">
               {messages === undefined ? (
                 <Spinner className="size-4" />
               ) : messages.length === 0 ? (
@@ -164,7 +179,7 @@ export function CanvasWorkspace({
                       <MessageHeader>
                         {message.role === "user" ? "You" : "Cyclops"}
                       </MessageHeader>
-                      <p className="rounded-xl bg-muted px-3 py-2 text-sm">
+                      <p className="break-words rounded-xl bg-muted px-3 py-2 text-sm">
                         {message.text}
                       </p>
                     </MessageContent>
@@ -175,7 +190,7 @@ export function CanvasWorkspace({
             {error ? (
               <p className="text-xs text-destructive">{error}</p>
             ) : null}
-            <div className="space-y-2">
+            <div className="shrink-0 space-y-2">
               <Textarea
                 value={draft}
                 onChange={(event) => setDraft(event.target.value)}

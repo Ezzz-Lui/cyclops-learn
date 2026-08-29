@@ -20,8 +20,8 @@ export default async function CanvasPage({
   const modelFile = resolveProjectModelFile(projectId, availableModels)
 
   return (
-    <main className="flex flex-1 flex-col gap-4 px-4 py-4 lg:px-6">
-      <div className="flex items-center justify-between gap-3">
+    <main className="flex h-full min-h-0 flex-col gap-4 overflow-hidden px-4 py-4 lg:px-6">
+      <div className="flex shrink-0 items-center justify-between gap-3">
         <div>
           <h1 className="font-heading text-xl font-medium">Canvas</h1>
           <p className="text-sm text-muted-foreground">
