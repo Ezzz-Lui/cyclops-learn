@@ -42,6 +42,7 @@ export const getSnapshot = internalQuery({
       v.literal("faults"),
       v.literal("diagnosis")
     ),
+    projectSlug: v.string(),
     projectOverview: v.string(),
     projectTitle: v.string(),
     activePart: v.union(
@@ -49,6 +50,7 @@ export const getSnapshot = internalQuery({
         _id: v.id("parts"),
         label: v.string(),
         gltfNodeName: v.string(),
+        layer: v.optional(v.string()),
         summary: v.string(),
         teachable: v.boolean(),
       }),
@@ -87,6 +89,7 @@ export const getSnapshot = internalQuery({
       userId: session.userId,
       tokenIdentifier: user.tokenIdentifier,
       useCase: session.useCase,
+      projectSlug: project.slug,
       projectOverview: project.overview,
       projectTitle: project.title,
       activePart: activePart
@@ -94,6 +97,7 @@ export const getSnapshot = internalQuery({
             _id: activePart._id,
             label: activePart.label,
             gltfNodeName: activePart.gltfNodeName,
+            layer: activePart.layer,
             summary: activePart.summary,
             teachable: activePart.teachable,
           }

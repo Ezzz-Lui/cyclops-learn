@@ -4,31 +4,47 @@ import { v } from "convex/values"
 
 import { internal } from "./_generated/api"
 import { action } from "./_generated/server"
-import { ICE_SYSTEMS } from "./lib/motoEngineSeed"
+import { getForm, pickActivity } from "./forms/registry"
+import type { FormUseCase } from "./forms/types"
 
 type Snapshot = {
   userId: string
   tokenIdentifier: string
-  useCase: "explore" | "faults" | "diagnosis"
+  useCase: FormUseCase
+  projectSlug: string
   projectOverview: string
   projectTitle: string
   activePart: {
     _id: string
     label: string
     gltfNodeName: string
+    layer?: string
     summary: string
     teachable: boolean
   } | null
   messages: Array<{ role: "user" | "assistant"; text: string }>
 }
 
-function systemPrimer() {
-  return ICE_SYSTEMS.map((system) => `- ${system.name}: ${system.blurb}`).join(
-    "\n"
-  )
+function systemPrimer(snapshot: Snapshot) {
+  const form = getForm(snapshot.projectSlug, snapshot.useCase)
+  const systems = form?.systems ?? []
+  return systems.map((system) => `- ${system.name}: ${system.blurb}`).join("\n")
+}
+
+function nextMove(snapshot: Snapshot) {
+  const form = getForm(snapshot.projectSlug, snapshot.useCase)
+  if (!form) {
+    return null
+  }
+  return pickActivity(form, snapshot.activePart)
 }
 
 function buildSystemPrompt(snapshot: Snapshot) {
+  const activity = nextMove(snapshot)
+  const activityBlock = activity
+    ? `Learning-by-doing (propose at most one, as a concrete canvas action):\n- ${activity.prompt}`
+    : ""
+
   if (!snapshot.activePart) {
     return `You are Cyclops, a lab instructor for ${snapshot.projectTitle}.
 Mode: ${snapshot.useCase}.
@@ -36,7 +52,8 @@ No mesh is selected on the canvas.
 
 Rules:
 - Ask the student to click a mesh. Do not invent a specific part.
-- You cannot see the 3D pixels.`
+- You cannot see the 3D pixels.
+${activityBlock}`
   }
 
   const part = snapshot.activePart
@@ -51,15 +68,19 @@ Object notes: ${snapshot.projectOverview}
 AUTHORITATIVE CANVAS SELECTION:
 - Label: ${part.label}
 - Node: ${part.gltfNodeName}
+- Layer: ${part.layer ?? "assembly"}
 - ${curatedLine}
 - Notes: ${part.summary}
 
 ICE systems (use these when the mesh is unlabeled):
-${systemPrimer()}
+${systemPrimer(snapshot)}
+
+${activityBlock}
 
 Rules:
 - The student already selected the mesh above. Do not say nothing is selected.
 - Do not invent a specific name for an unlabeled Object_N mesh.
+- End with one canvas action from the learning-by-doing line when it fits.
 - Keep it short. You cannot see the 3D pixels.`
 }
 

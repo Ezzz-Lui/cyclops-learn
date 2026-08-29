@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Message, MessageContent, MessageHeader } from "@/components/ui/message"
 import { Spinner } from "@/components/ui/spinner"
 import { Textarea } from "@/components/ui/textarea"
+import { getForm, pickActivity } from "@/convex/forms/registry"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 
@@ -97,6 +98,10 @@ export function CanvasWorkspace({
   }
 
   const activePart = session?.activePart ?? null
+  const form = session
+    ? getForm(session.project.slug, session.useCase)
+    : null
+  const tryThis = form ? pickActivity(form, activePart) : null
 
   return (
     <div className="grid min-h-0 flex-1 grid-rows-[minmax(0,10rem)_minmax(0,1fr)_minmax(14rem,16rem)] gap-4 lg:grid-cols-[14rem_minmax(0,1fr)_20rem] lg:grid-rows-none">
@@ -119,6 +124,11 @@ export function CanvasWorkspace({
               talk about.
             </p>
           )}
+          {tryThis ? (
+            <p className="mt-3 text-xs text-muted-foreground">
+              Try this: {tryThis.prompt}
+            </p>
+          ) : null}
         </div>
         <div className="mt-4 min-w-0 shrink-0 space-y-1 text-xs text-muted-foreground">
           <p>File</p>

@@ -10,6 +10,8 @@
 
 import type * as agent from "../agent.js";
 import type * as chat from "../chat.js";
+import type * as forms_registry from "../forms/registry.js";
+import type * as forms_types from "../forms/types.js";
 import type * as lib_auth from "../lib/auth.js";
 import type * as lib_motoEngineSeed from "../lib/motoEngineSeed.js";
 import type * as lib_validators from "../lib/validators.js";
@@ -25,6 +27,8 @@ import type {
 declare const fullApi: ApiFromModules<{
   agent: typeof agent;
   chat: typeof chat;
+  "forms/registry": typeof forms_registry;
+  "forms/types": typeof forms_types;
   "lib/auth": typeof lib_auth;
   "lib/motoEngineSeed": typeof lib_motoEngineSeed;
   "lib/validators": typeof lib_validators;
