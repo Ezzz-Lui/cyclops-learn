@@ -18,10 +18,10 @@ export default function CanvasIndexPage() {
       <PlaceholderFrame label="No project selected">
         <div className="flex flex-wrap gap-2">
           <Link
-            href="/canvas/desktop-pc"
+            href="/canvas/moto-engine"
             className={buttonVariants()}
           >
-            Desktop PC
+            Motorcycle ICE
           </Link>
           <Link
             href="/home"

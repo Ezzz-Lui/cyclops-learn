@@ -24,15 +24,25 @@ const ModelViewerCanvas = dynamic(
 type ModelViewerProps = {
   src: string
   modelName: string
+  selectedLabel?: string | null
   className?: string
+  onSelectNode?: (gltfNodeName: string | null) => void
 }
 
-export function ModelViewer({ src, modelName, className }: ModelViewerProps) {
+export function ModelViewer({
+  src,
+  modelName,
+  selectedLabel,
+  className,
+  onSelectNode,
+}: ModelViewerProps) {
   return (
     <ModelViewerCanvas
       src={src}
       modelName={modelName}
+      selectedLabel={selectedLabel}
       className={cn("h-full min-h-72", className)}
+      onSelectNode={onSelectNode}
     />
   )
 }

@@ -28,13 +28,13 @@ const recentByTopic: Record<Topic, ProjectCard[]> = {
   architecture: [
     { id: "studio-apartment", title: "Studio apartment", topic: "architecture" },
   ],
-  mechanics: [{ id: "city-bike", title: "City bike", topic: "mechanics" }],
+  mechanics: [{ id: "moto-engine", title: "Motorcycle ICE", topic: "mechanics" }],
 }
 
 const recentlyAdded: ProjectCard[] = [
   { id: "desktop-pc", title: "Desktop PC", topic: "computing" },
   { id: "studio-apartment", title: "Studio apartment", topic: "architecture" },
-  { id: "city-bike", title: "City bike", topic: "mechanics" },
+  { id: "moto-engine", title: "Motorcycle ICE", topic: "mechanics" },
 ]
 
 const topicOrder: Topic[] = ["computing", "architecture", "mechanics"]

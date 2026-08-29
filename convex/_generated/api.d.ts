@@ -8,13 +8,29 @@
  * @module
  */
 
+import type * as agent from "../agent.js";
+import type * as chat from "../chat.js";
+import type * as lib_auth from "../lib/auth.js";
+import type * as lib_motoEngineSeed from "../lib/motoEngineSeed.js";
+import type * as lib_validators from "../lib/validators.js";
+import type * as seed from "../seed.js";
+import type * as sessions from "../sessions.js";
+
 import type {
   ApiFromModules,
   FilterApi,
   FunctionReference,
 } from "convex/server";
 
-declare const fullApi: ApiFromModules<{}>;
+declare const fullApi: ApiFromModules<{
+  agent: typeof agent;
+  chat: typeof chat;
+  "lib/auth": typeof lib_auth;
+  "lib/motoEngineSeed": typeof lib_motoEngineSeed;
+  "lib/validators": typeof lib_validators;
+  seed: typeof seed;
+  sessions: typeof sessions;
+}>;
 
 /**
  * A utility for referencing Convex functions in your app's public API.

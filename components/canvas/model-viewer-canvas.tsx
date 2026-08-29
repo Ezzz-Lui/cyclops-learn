@@ -22,7 +22,20 @@ import { cn } from "@/lib/utils"
 type ModelViewerCanvasProps = {
   src: string
   modelName: string
+  selectedLabel?: string | null
   className?: string
+  onSelectNode?: (gltfNodeName: string | null) => void
+}
+
+function resolveNodeName(object: THREE.Object3D) {
+  let current: THREE.Object3D | null = object
+  while (current) {
+    if (current.name) {
+      return current.name
+    }
+    current = current.parent
+  }
+  return "Unnamed"
 }
 
 type SelectedPart = {
@@ -90,7 +103,7 @@ function LoadedModel({
       onClick={(event: { object: THREE.Object3D; stopPropagation: () => void }) => {
         event.stopPropagation()
         onSelect({
-          name: humanizeName(event.object.name || event.object.parent?.name || "Part"),
+          name: resolveNodeName(event.object),
           object: event.object,
         })
       }}
@@ -169,16 +182,26 @@ class ViewerErrorBoundary extends Component<
 export function ModelViewerCanvas({
   src,
   modelName,
+  selectedLabel,
   className,
+  onSelectNode,
 }: ModelViewerCanvasProps) {
   const [selected, setSelected] = useState<SelectedPart | null>(null)
   const selectedRef = useRef<THREE.Object3D | null>(null)
   const fitRef = useRef<(() => void) | null>(null)
+  const onSelectNodeRef = useRef(onSelectNode)
+  onSelectNodeRef.current = onSelectNode
+
+  function handleSelect(part: SelectedPart | null) {
+    setSelected(part)
+    onSelectNodeRef.current?.(part?.name ?? null)
+  }
 
   useEffect(() => {
     setSelected(null)
     applyHighlight(selectedRef.current, false)
     selectedRef.current = null
+    onSelectNodeRef.current?.(null)
   }, [src])
 
   useEffect(() => {
@@ -209,7 +232,7 @@ export function ModelViewerCanvas({
             toneMapping: THREE.ACESFilmicToneMapping,
             toneMappingExposure: 1.05,
           }}
-          onPointerMissed={() => setSelected(null)}
+          onPointerMissed={() => handleSelect(null)}
         >
           <color attach="background" args={["#09090b"]} />
           <hemisphereLight args={["#f8fafc", "#1c1917", 0.7]} />
@@ -217,7 +240,7 @@ export function ModelViewerCanvas({
           <directionalLight position={[-5, 2, -3]} intensity={0.35} />
           <Suspense fallback={null}>
             <Bounds fit clip observe margin={1.25}>
-              <LoadedModel src={src} onSelect={setSelected} />
+              <LoadedModel src={src} onSelect={handleSelect} />
               <FitReporter fitRef={fitRef} />
             </Bounds>
             <ContactShadows opacity={0.4} scale={16} blur={1.8} far={8} />
@@ -254,7 +277,7 @@ export function ModelViewerCanvas({
         </p>
         {selected ? (
           <p className="rounded-lg bg-black/45 px-2 py-1 text-[11px] text-primary backdrop-blur-sm">
-            {selected.name}
+            {selectedLabel ?? humanizeName(selected.name)}
           </p>
         ) : null}
       </div>

@@ -4,6 +4,7 @@ export const DEFAULT_MODEL_FILE = "internal_combustion_engine_moto.glb"
 
 /** Project-specific GLB files in `/3Dmodels`. Unmapped projects use the reference model. */
 export const PROJECT_MODEL_FILES: Record<string, string> = {
+  "moto-engine": DEFAULT_MODEL_FILE,
   "city-bike": DEFAULT_MODEL_FILE,
 }
 
