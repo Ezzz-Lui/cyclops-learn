@@ -35,8 +35,8 @@ export default function LandingPage() {
         <Link href="/home" className={buttonVariants()}>
           Open app home
         </Link>
-        <Link href="/sign-in" className={buttonVariants({ variant: "outline" })}>
-          Auth pages
+        <Link href="/sign-up" className={buttonVariants({ variant: "outline" })}>
+          Create an account
         </Link>
       </div>
     </main>
