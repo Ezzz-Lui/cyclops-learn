@@ -33,7 +33,14 @@ export default function RootLayout({
       )}
     >
       <body>
-        <ClerkProvider appearance={{ theme: shadcn }}>
+        <ClerkProvider
+          appearance={{ theme: shadcn }}
+          signInUrl="/sign-in"
+          signUpUrl="/sign-up"
+          signInFallbackRedirectUrl="/home"
+          signUpFallbackRedirectUrl="/home"
+          afterSignOutUrl="/"
+        >
           <ConvexClientProvider>
             <ThemeProvider>
               <TooltipProvider>{children}</TooltipProvider>

@@ -1,6 +1,6 @@
 "use client"
 
-import { Bounds, ContactShadows, OrbitControls, useBounds, useCursor, useGLTF, useProgress } from "@react-three/drei"
+import { Bounds, ContactShadows, Html, OrbitControls, useBounds, useCursor, useGLTF, useProgress } from "@react-three/drei"
 import { Canvas } from "@react-three/fiber"
 import {
   Component,
@@ -17,76 +17,104 @@ import * as THREE from "three"
 
 import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
+import {
+  findBestPartForNodeNames,
+  type PartCatalogEntry,
+} from "@/lib/part-catalog"
 import { cn } from "@/lib/utils"
 
 type ModelViewerCanvasProps = {
   src: string
   modelName: string
+  selectedPartId?: string | null
   selectedLabel?: string | null
+  parts?: PartCatalogEntry[]
+  showObjectLabel?: boolean
+  focusNonce?: number
   className?: string
-  onSelectNode?: (gltfNodeName: string | null) => void
+  onIdentify?: (partId: string | null, gltfNodeName: string | null) => void
 }
 
-function resolveNodeName(object: THREE.Object3D) {
+function ancestorNames(object: THREE.Object3D) {
+  const names: string[] = []
   let current: THREE.Object3D | null = object
   while (current) {
     if (current.name) {
-      return current.name
+      names.push(current.name)
     }
     current = current.parent
   }
-  return "Unnamed"
+  return names
 }
 
-type SelectedPart = {
-  name: string
-  object: THREE.Object3D
+function resolveNodeName(object: THREE.Object3D) {
+  return ancestorNames(object)[0] ?? "Unnamed"
 }
 
-const SELECT_COLOR = new THREE.Color("#84cc16")
-
-function humanizeName(name: string) {
-  const cleaned = name.replace(/[_\-.]+/g, " ").replace(/\s+/g, " ").trim()
-  return cleaned || "Unnamed part"
+function worldAnchor(part: PartCatalogEntry, box: THREE.Box3) {
+  if (part.anchor?.length === 3) {
+    return new THREE.Vector3(part.anchor[0], part.anchor[1], part.anchor[2])
+  }
+  if (part.anchorNorm?.length === 3) {
+    const size = box.getSize(new THREE.Vector3())
+    return new THREE.Vector3(
+      box.min.x + size.x * part.anchorNorm[0],
+      box.min.y + size.y * part.anchorNorm[1],
+      box.min.z + size.z * part.anchorNorm[2]
+    )
+  }
+  return null
 }
 
-function applyHighlight(object: THREE.Object3D | null, enabled: boolean) {
-  if (!object) return
+function identifyPart(
+  parts: PartCatalogEntry[],
+  box: THREE.Box3,
+  point: THREE.Vector3,
+  nodeNames: string[]
+) {
+  const mapped = findBestPartForNodeNames(parts, nodeNames)
+  if (mapped) return mapped
 
-  object.traverse((child) => {
-    if (!(child instanceof THREE.Mesh)) return
-
-    const materials = Array.isArray(child.material) ? child.material : [child.material]
-    for (const material of materials) {
-      if (!material || !("emissive" in material)) continue
-      const colored = material as THREE.MeshStandardMaterial
-      if (!colored.userData._originalEmissive) {
-        colored.userData._originalEmissive = colored.emissive.clone()
-        colored.userData._originalEmissiveIntensity = colored.emissiveIntensity
-      }
-      if (enabled) {
-        colored.emissive.copy(SELECT_COLOR)
-        colored.emissiveIntensity = 0.45
-      } else {
-        colored.emissive.copy(colored.userData._originalEmissive)
-        colored.emissiveIntensity = colored.userData._originalEmissiveIntensity ?? 1
-      }
+  let best: PartCatalogEntry | null = null
+  let bestDist = Infinity
+  for (const part of parts) {
+    const anchor = worldAnchor(part, box)
+    if (!anchor) continue
+    const distance = anchor.distanceTo(point)
+    if (distance < bestDist) {
+      bestDist = distance
+      best = part
     }
-  })
+  }
+  return best
 }
 
 function LoadedModel({
   src,
-  onSelect,
+  parts,
+  selectedPartId,
+  showObjectLabel,
+  focusNonce,
+  onIdentify,
 }: {
   src: string
-  onSelect: (part: SelectedPart | null) => void
+  parts: PartCatalogEntry[]
+  selectedPartId?: string | null
+  showObjectLabel: boolean
+  focusNonce: number
+  onIdentify: (partId: string | null, gltfNodeName: string | null) => void
 }) {
   const { scene } = useGLTF(src, true, true)
   const cloned = useMemo(() => scene.clone(true), [scene])
   const bounds = useBounds()
   const [hovered, setHovered] = useState(false)
   useCursor(hovered, "pointer", "grab")
+
+  const modelBox = useMemo(() => new THREE.Box3().setFromObject(cloned), [cloned])
+  const highlightRadius = useMemo(
+    () => modelBox.getSize(new THREE.Vector3()).length() * 0.18,
+    [modelBox]
+  )
 
   useEffect(() => {
     cloned.traverse((child) => {
@@ -98,24 +126,113 @@ function LoadedModel({
   }, [cloned])
 
   return (
-    <primitive
-      object={cloned}
-      onClick={(event: { object: THREE.Object3D; stopPropagation: () => void }) => {
-        event.stopPropagation()
-        onSelect({
-          name: resolveNodeName(event.object),
-          object: event.object,
-        })
-      }}
-      onDoubleClick={(event: { object: THREE.Object3D; stopPropagation: () => void }) => {
-        event.stopPropagation()
-        bounds.refresh(event.object).fit()
-      }}
-      onPointerMissed={() => onSelect(null)}
-      onPointerOver={() => setHovered(true)}
-      onPointerOut={() => setHovered(false)}
-    />
+    <>
+      <primitive
+        object={cloned}
+        onClick={(event: {
+          object: THREE.Object3D
+          point: THREE.Vector3
+          stopPropagation: () => void
+        }) => {
+          event.stopPropagation()
+          const names = ancestorNames(event.object)
+          const nodeName = names[0] ?? "Unnamed"
+          const match = identifyPart(parts, modelBox, event.point, names)
+          onIdentify(match?.id ?? null, nodeName)
+        }}
+        onDoubleClick={(event: { object: THREE.Object3D; stopPropagation: () => void }) => {
+          event.stopPropagation()
+          bounds.refresh(event.object).fit()
+        }}
+        onPointerMissed={() => onIdentify(null, null)}
+        onPointerOver={() => setHovered(true)}
+        onPointerOut={() => setHovered(false)}
+      />
+      <PartMarkers
+        parts={parts}
+        box={modelBox}
+        selectedPartId={selectedPartId ?? null}
+      />
+      <FocusOnPart
+        parts={parts}
+        box={modelBox}
+        selectedPartId={selectedPartId ?? null}
+        radius={highlightRadius}
+        focusNonce={focusNonce}
+      />
+    </>
   )
+}
+
+function PartMarkers({
+  parts,
+  box,
+  selectedPartId,
+}: {
+  parts: PartCatalogEntry[]
+  box: THREE.Box3
+  selectedPartId: string | null
+}) {
+  return (
+    <>
+      {parts.map((part) => {
+        const position = worldAnchor(part, box)
+        if (!position) return null
+        const selected = part.id === selectedPartId
+        return (
+          <Html
+            key={part.id}
+            position={position}
+            center
+            zIndexRange={[120, 0]}
+            style={{ pointerEvents: "none" }}
+          >
+            <div
+              className={cn(
+                "whitespace-nowrap rounded-md border px-2 py-1 text-xs font-semibold shadow-md",
+                selected
+                  ? "border-primary bg-primary text-primary-foreground"
+                  : "border-white/20 bg-zinc-950/90 text-zinc-50"
+              )}
+            >
+              {part.diagramIndex != null ? `${part.diagramIndex} · ` : ""}
+              {part.label}
+            </div>
+          </Html>
+        )
+      })}
+    </>
+  )
+}
+
+function FocusOnPart({
+  parts,
+  box,
+  selectedPartId,
+  radius,
+  focusNonce,
+}: {
+  parts: PartCatalogEntry[]
+  box: THREE.Box3
+  selectedPartId: string | null
+  radius: number
+  focusNonce: number
+}) {
+  const bounds = useBounds()
+
+  useEffect(() => {
+    if (!selectedPartId || focusNonce === 0) return
+    const part = parts.find((entry) => entry.id === selectedPartId)
+    const anchor = part ? worldAnchor(part, box) : null
+    if (!anchor) return
+    const focus = new THREE.Box3().setFromCenterAndSize(
+      anchor,
+      new THREE.Vector3(radius, radius, radius)
+    )
+    bounds.refresh(focus).fit()
+  }, [bounds, box, focusNonce, parts, radius, selectedPartId])
+
+  return null
 }
 
 function FitReporter({
@@ -182,37 +299,21 @@ class ViewerErrorBoundary extends Component<
 export function ModelViewerCanvas({
   src,
   modelName,
+  selectedPartId,
   selectedLabel,
+  parts = [],
+  showObjectLabel = false,
+  focusNonce = 0,
   className,
-  onSelectNode,
+  onIdentify,
 }: ModelViewerCanvasProps) {
-  const [selected, setSelected] = useState<SelectedPart | null>(null)
-  const selectedRef = useRef<THREE.Object3D | null>(null)
   const fitRef = useRef<(() => void) | null>(null)
-  const onSelectNodeRef = useRef(onSelectNode)
-  onSelectNodeRef.current = onSelectNode
-
-  function handleSelect(part: SelectedPart | null) {
-    setSelected(part)
-    onSelectNodeRef.current?.(part?.name ?? null)
-  }
+  const onIdentifyRef = useRef(onIdentify)
+  onIdentifyRef.current = onIdentify
 
   useEffect(() => {
-    setSelected(null)
-    applyHighlight(selectedRef.current, false)
-    selectedRef.current = null
-    onSelectNodeRef.current?.(null)
+    onIdentifyRef.current?.(null, null)
   }, [src])
-
-  useEffect(() => {
-    applyHighlight(selectedRef.current, false)
-    selectedRef.current = selected?.object ?? null
-    applyHighlight(selectedRef.current, true)
-
-    return () => {
-      applyHighlight(selectedRef.current, false)
-    }
-  }, [selected])
 
   return (
     <div
@@ -232,7 +333,7 @@ export function ModelViewerCanvas({
             toneMapping: THREE.ACESFilmicToneMapping,
             toneMappingExposure: 1.05,
           }}
-          onPointerMissed={() => handleSelect(null)}
+          onPointerMissed={() => onIdentifyRef.current?.(null, null)}
         >
           <color attach="background" args={["#09090b"]} />
           <hemisphereLight args={["#f8fafc", "#1c1917", 0.7]} />
@@ -240,7 +341,14 @@ export function ModelViewerCanvas({
           <directionalLight position={[-5, 2, -3]} intensity={0.35} />
           <Suspense fallback={null}>
             <Bounds fit clip observe margin={1.25}>
-              <LoadedModel src={src} onSelect={handleSelect} />
+              <LoadedModel
+                src={src}
+                parts={parts}
+                selectedPartId={selectedPartId}
+                showObjectLabel={showObjectLabel}
+                focusNonce={focusNonce}
+                onIdentify={(partId, nodeName) => onIdentifyRef.current?.(partId, nodeName)}
+              />
               <FitReporter fitRef={fitRef} />
             </Bounds>
             <ContactShadows opacity={0.4} scale={16} blur={1.8} far={8} />
@@ -272,12 +380,11 @@ export function ModelViewerCanvas({
 
       <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-3">
         <p className="text-[11px] text-zinc-500">
-          Drag to orbit · scroll to zoom · right-drag to pan
-          <span className="hidden sm:inline"> · double-click a part to focus</span>
+          All part names are on · send a photo if a label is in the wrong place
         </p>
-        {selected ? (
-          <p className="rounded-lg bg-black/45 px-2 py-1 text-[11px] text-primary backdrop-blur-sm">
-            {selectedLabel ?? humanizeName(selected.name)}
+        {selectedLabel ? (
+          <p className="rounded-lg bg-primary px-2 py-1 text-xs font-medium text-primary-foreground">
+            {selectedLabel}
           </p>
         ) : null}
       </div>

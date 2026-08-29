@@ -3,18 +3,15 @@ import { v } from "convex/values"
 import type { Id } from "./_generated/dataModel"
 import type { MutationCtx } from "./_generated/server"
 import { internalMutation } from "./_generated/server"
-import { getFormBySlug } from "./forms/registry"
-import {
-  MOTO_ENGINE_OVERVIEW,
-  MOTO_ENGINE_SLUG,
-  motoEngineParts,
-} from "./lib/motoEngineSeed"
+import { getFormBySlug, listFormParts } from "./forms/registry"
+import { MOTO_ENGINE_SLUG } from "./lib/motoEngineSeed"
 
 async function applyCuratedOverrides(
   ctx: MutationCtx,
-  projectId: Id<"projects">
+  projectId: Id<"projects">,
+  slug: string
 ) {
-  const form = getFormBySlug(MOTO_ENGINE_SLUG)
+  const form = getFormBySlug(slug)
   if (!form) {
     return
   }
@@ -40,34 +37,50 @@ async function applyCuratedOverrides(
   }
 }
 
-export async function ensureMotoEngineCatalog(
-  ctx: MutationCtx
-): Promise<Id<"projects">> {
+export async function ensureFormCatalog(
+  ctx: MutationCtx,
+  slug: string
+): Promise<Id<"projects"> | null> {
+  const form = getFormBySlug(slug)
+  if (!form) {
+    return null
+  }
+
   const existing = await ctx.db
     .query("projects")
-    .withIndex("by_slug", (q) => q.eq("slug", MOTO_ENGINE_SLUG))
+    .withIndex("by_slug", (q) => q.eq("slug", slug))
     .unique()
 
   if (existing) {
-    await applyCuratedOverrides(ctx, existing._id)
+    await applyCuratedOverrides(ctx, existing._id, slug)
     return existing._id
   }
 
   const projectId = await ctx.db.insert("projects", {
-    slug: MOTO_ENGINE_SLUG,
-    domain: "mechanics",
-    title: "Motorcycle ICE",
-    modelFilename: "internal_combustion_engine_moto.glb",
-    overview: MOTO_ENGINE_OVERVIEW,
+    slug: form.slug,
+    domain: form.domain,
+    title: form.title,
+    modelFilename: form.modelFilename,
+    overview: form.overview,
   })
 
-  for (const part of motoEngineParts()) {
+  for (const part of listFormParts(form)) {
     await ctx.db.insert("parts", {
       projectId,
       ...part,
     })
   }
 
+  return projectId
+}
+
+export async function ensureMotoEngineCatalog(
+  ctx: MutationCtx
+): Promise<Id<"projects">> {
+  const projectId = await ensureFormCatalog(ctx, MOTO_ENGINE_SLUG)
+  if (!projectId) {
+    throw new Error("Missing moto-engine form")
+  }
   return projectId
 }
 

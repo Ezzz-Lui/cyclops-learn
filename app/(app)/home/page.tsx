@@ -24,17 +24,27 @@ type ProjectCard = {
 }
 
 const recentByTopic: Record<Topic, ProjectCard[]> = {
-  computing: [{ id: "desktop-pc", title: "Desktop PC", topic: "computing" }],
-  architecture: [
-    { id: "studio-apartment", title: "Studio apartment", topic: "architecture" },
+  computing: [
+    { id: "motherboard", title: "Placa base", topic: "computing" },
+    { id: "server", title: "Rack de servidores", topic: "computing" },
   ],
-  mechanics: [{ id: "moto-engine", title: "Motorcycle ICE", topic: "mechanics" }],
+  architecture: [
+    { id: "living-room", title: "Sala", topic: "architecture" },
+    { id: "bamboo", title: "Estructura de bambú", topic: "architecture" },
+  ],
+  mechanics: [
+    { id: "moto-engine", title: "Motorcycle ICE", topic: "mechanics" },
+    { id: "transmission", title: "Caja de cambios", topic: "mechanics" },
+  ],
 }
 
 const recentlyAdded: ProjectCard[] = [
-  { id: "desktop-pc", title: "Desktop PC", topic: "computing" },
-  { id: "studio-apartment", title: "Studio apartment", topic: "architecture" },
+  { id: "motherboard", title: "Placa base", topic: "computing" },
+  { id: "server", title: "Rack de servidores", topic: "computing" },
+  { id: "living-room", title: "Sala", topic: "architecture" },
+  { id: "bamboo", title: "Estructura de bambú", topic: "architecture" },
   { id: "moto-engine", title: "Motorcycle ICE", topic: "mechanics" },
+  { id: "transmission", title: "Caja de cambios", topic: "mechanics" },
 ]
 
 const topicOrder: Topic[] = ["computing", "architecture", "mechanics"]

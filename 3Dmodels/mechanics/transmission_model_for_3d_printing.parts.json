@@ -1,0 +1,100 @@
+{
+  "slug": "transmission",
+  "modelFilename": "transmission_model_for_3d_printing.glb",
+  "domain": "mechanics",
+  "title": "Caja de cambios",
+  "source": "CAJA DE CAMBIOS DESCRIPCION",
+  "overview": "Caja de cambios manual. El GLB no nombra los meshes; este catálogo identifica las 9 piezas del diagrama. Los anclajes 3D son aproximados según el eje de las flechas.",
+  "parts": [
+    {
+      "id": "contra-flecha",
+      "diagramIndex": 1,
+      "label": "Contra flecha",
+      "labelEn": "Countershaft",
+      "layer": "shafts",
+      "summary": "Eje inferior paralelo a la flecha de salida. Lleva los engranes que engranan con los de la flecha principal.",
+      "nodes": [],
+      "anchor": [-0.09, -0.12, 0.05]
+    },
+    {
+      "id": "flecha-de-mando",
+      "diagramIndex": 2,
+      "label": "Flecha de mando",
+      "labelEn": "Input shaft",
+      "layer": "shafts",
+      "summary": "Eje estriado de entrada, al lado del motor/embrague. Recibe el giro y lo entrega a la caja.",
+      "nodes": [],
+      "anchor": [-0.18, 0.01, 0.06]
+    },
+    {
+      "id": "caja-de-la-transmision",
+      "diagramIndex": 3,
+      "label": "Caja de la transmisión",
+      "labelEn": "Transmission case",
+      "layer": "housing",
+      "summary": "Carcasa exterior que contiene engranes, flechas y aceite. Es el cuerpo estructural de la caja.",
+      "nodes": [],
+      "anchor": [-0.16, -0.05, 0.08]
+    },
+    {
+      "id": "flecha-de-salida",
+      "diagramIndex": 4,
+      "label": "Flecha de salida",
+      "labelEn": "Output shaft",
+      "layer": "shafts",
+      "summary": "Eje estriado de salida. Envía el par ya reducido al resto de la transmisión.",
+      "nodes": [],
+      "anchor": [0.03, 0.01, 0.05]
+    },
+    {
+      "id": "palanca",
+      "diagramIndex": 5,
+      "label": "Palanca",
+      "labelEn": "Gear lever",
+      "layer": "shift",
+      "summary": "Palanca o varilla superior con la que el conductor selecciona la marcha.",
+      "nodes": [],
+      "anchor": [-0.08, 0.12, 0.05]
+    },
+    {
+      "id": "varillaje",
+      "diagramIndex": 6,
+      "label": "Varillaje",
+      "labelEn": "Shift linkage",
+      "layer": "shift",
+      "summary": "Varillas y horquillas internas bajo la palanca. Mueven los collares sincronizadores.",
+      "nodes": [],
+      "anchor": [-0.09, 0.07, 0.06]
+    },
+    {
+      "id": "collar-sincronizador-delantero",
+      "diagramIndex": 7,
+      "label": "Collar sincronizador delantero",
+      "labelEn": "Front synchronizer sleeve",
+      "layer": "synchronizers",
+      "summary": "Conjunto sincronizador en la flecha principal, del lado de la entrada. Iguala velocidades antes de engranar.",
+      "nodes": [],
+      "anchor": [-0.14, 0.02, 0.05]
+    },
+    {
+      "id": "engrane-de-reversa",
+      "diagramIndex": 8,
+      "label": "Engrane de reversa",
+      "labelEn": "Reverse gear",
+      "layer": "gears",
+      "summary": "Engrane del extremo de salida. Invierte el sentido de giro para la marcha atrás.",
+      "nodes": [],
+      "anchor": [0.01, -0.11, 0.05]
+    },
+    {
+      "id": "collar-sincronizador-posterior",
+      "diagramIndex": 9,
+      "label": "Collar sincronizador posterior",
+      "labelEn": "Rear synchronizer sleeve",
+      "layer": "synchronizers",
+      "summary": "Segundo sincronizador en la flecha principal, más cerca de la salida.",
+      "nodes": [],
+      "anchor": [-0.03, 0.02, 0.05]
+    }
+  ]
+}

@@ -6,5 +6,13 @@ export const metadata: Metadata = {
 }
 
 export default function SignInPage() {
-  return <SignIn />
+  return (
+    <SignIn
+      path="/sign-in"
+      routing="path"
+      signUpUrl="/sign-up"
+      forceRedirectUrl="/home"
+      fallbackRedirectUrl="/home"
+    />
+  )
 }

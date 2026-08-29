@@ -1,0 +1,60 @@
+{
+  "slug": "moto-engine",
+  "modelFilename": "internal_combustion_engine_moto.glb",
+  "domain": "mechanics",
+  "title": "Motor de combustión interna",
+  "source": "Diagrama de componentes del ICE",
+  "overview": "Piezas principales de un motor de combustión interna. El GLB de Sketchfab no nombra los meshes; este catálogo es la referencia para identificarlos.",
+  "parts": [
+    {
+      "id": "bloque-del-motor",
+      "diagramIndex": 1,
+      "label": "Bloque del motor",
+      "labelEn": "Engine block",
+      "layer": "block",
+      "summary": "Fundición principal del motor. Aloja los cilindros y da soporte estructural al cigüeñal y a los demás conjuntos.",
+      "nodes": [],
+      "anchorNorm": [0.62, 0.4, 0.38]
+    },
+    {
+      "id": "piston",
+      "diagramIndex": 2,
+      "label": "Pistón",
+      "labelEn": "Piston",
+      "layer": "cylinder",
+      "summary": "Se mueve hacia arriba y hacia abajo en el orificio del cilindro. La presión de combustión empuja el pistón y arranca el ciclo de potencia.",
+      "nodes": [],
+      "anchorNorm": [0.34, 0.66, 0.62]
+    },
+    {
+      "id": "ciguenal",
+      "diagramIndex": 3,
+      "label": "Cigüeñal",
+      "labelEn": "Crankshaft",
+      "layer": "crank",
+      "summary": "Convierte el movimiento ascendente y descendente de los pistones en movimiento de rotación.",
+      "nodes": [],
+      "anchorNorm": [0.5, 0.14, 0.52]
+    },
+    {
+      "id": "biela",
+      "diagramIndex": 4,
+      "label": "Biela",
+      "labelEn": "Connecting rod",
+      "layer": "crank",
+      "summary": "Conecta el pistón al cigüeñal. Transmite la fuerza lineal del pistón a la muñequilla del cigüeñal.",
+      "nodes": [],
+      "anchorNorm": [0.36, 0.46, 0.58]
+    },
+    {
+      "id": "culata",
+      "diagramIndex": 5,
+      "label": "Culata",
+      "labelEn": "Cylinder head",
+      "layer": "head",
+      "summary": "Cierra la cámara de combustión arriba del cilindro. Ahí van válvulas, muelles y, en muchos motores, el árbol de levas.",
+      "nodes": [],
+      "anchorNorm": [0.4, 0.86, 0.34]
+    }
+  ]
+}

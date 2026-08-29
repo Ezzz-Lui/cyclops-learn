@@ -1,0 +1,130 @@
+{
+  "slug": "living-room",
+  "modelFilename": "living_room.glb",
+  "domain": "architecture",
+  "title": "Sala",
+  "source": "Living room BIM export",
+  "overview": "Sala con muros, losa, ventanas, puertas y mobiliario. Los grupos del GLB sí tienen nombre (Wall_, Sofa3x_, Window_). Las anclas se afinan con fotos del canvas.",
+  "parts": [
+    {
+      "id": "muros",
+      "diagramIndex": 1,
+      "label": "Muros",
+      "labelEn": "Walls",
+      "layer": "envelope",
+      "summary": "Muros de carga o tabiques que cierran la sala y reciben ventanas y puertas.",
+      "nodes": ["Wall_"],
+      "anchor": [468, 50, -180]
+    },
+    {
+      "id": "losa",
+      "diagramIndex": 2,
+      "label": "Losa",
+      "labelEn": "Slab",
+      "layer": "structure",
+      "summary": "Losa estructural bajo el piso. Transmite cargas a muros o pilares.",
+      "nodes": ["Slab_"],
+      "anchor": [330, 2, -230]
+    },
+    {
+      "id": "alfombra",
+      "diagramIndex": 3,
+      "label": "Alfombra",
+      "labelEn": "Carpet",
+      "layer": "finish",
+      "summary": "Alfombra del estar, sobre el piso, delante del sofá.",
+      "nodes": ["Carpet_", "Surface_"],
+      "anchor": [209, 3, -178]
+    },
+    {
+      "id": "ventanas",
+      "diagramIndex": 4,
+      "label": "Ventanas",
+      "labelEn": "Windows",
+      "layer": "openings",
+      "summary": "Huecos y carpintería de ventana. Luz y ventilación hacia el exterior.",
+      "nodes": ["Window_", "Series_SC7650"],
+      "anchor": [210, 48, -85]
+    },
+    {
+      "id": "puertas",
+      "diagramIndex": 5,
+      "label": "Puertas",
+      "labelEn": "Doors",
+      "layer": "openings",
+      "summary": "Huecos y hojas de puerta. Circulación entre estancias.",
+      "nodes": ["Door_", "door"],
+      "anchor": [323, 42, -255]
+    },
+    {
+      "id": "sofa",
+      "diagramIndex": 6,
+      "label": "Sofá",
+      "labelEn": "Sofa",
+      "layer": "furniture",
+      "summary": "Sofá de tres plazas. Define el estar frente a la televisión.",
+      "nodes": ["Sofa3x_"],
+      "anchor": [259, 20, -179]
+    },
+    {
+      "id": "mesa",
+      "diagramIndex": 7,
+      "label": "Mesa",
+      "labelEn": "Table",
+      "layer": "furniture",
+      "summary": "Mesa de centro o comedor. Superficie de apoyo en la sala.",
+      "nodes": ["Furniture_", "G_4041"],
+      "anchor": [387, 18, -174]
+    },
+    {
+      "id": "sillas",
+      "diagramIndex": 8,
+      "label": "Sillas",
+      "labelEn": "Chairs",
+      "layer": "furniture",
+      "summary": "Asientos sueltos (Driade) junto a la mesa o el estar.",
+      "nodes": ["Driade_", "Stool_"],
+      "anchor": [336, 18, -174]
+    },
+    {
+      "id": "television",
+      "diagramIndex": 9,
+      "label": "Televisión",
+      "labelEn": "TV",
+      "layer": "furniture",
+      "summary": "Mueble y pantalla. Foco visual opuesto al sofá.",
+      "nodes": ["TV_set_"],
+      "anchor": [196, 32, -249]
+    },
+    {
+      "id": "cortinas",
+      "diagramIndex": 10,
+      "label": "Cortinas",
+      "labelEn": "Curtains",
+      "layer": "finish",
+      "summary": "Textil delante de las ventanas. Controla luz y privacidad.",
+      "nodes": ["Curtain_", "curtain_"],
+      "anchor": [128, 50, -176]
+    },
+    {
+      "id": "plantas",
+      "diagramIndex": 11,
+      "label": "Plantas",
+      "labelEn": "Plants",
+      "layer": "landscape",
+      "summary": "Vegetación de interior: helecho, monstera, palma y flores.",
+      "nodes": ["Fern_", "Monstera_", "Palm_", "palm_", "Flowers_"],
+      "anchor": [443, 38, -111]
+    },
+    {
+      "id": "iluminacion",
+      "diagramIndex": 12,
+      "label": "Iluminación",
+      "labelEn": "Lighting",
+      "layer": "services",
+      "summary": "Luminarias de techo o suspensión (Linearsystem, Sfera).",
+      "nodes": ["Linearsystem_", "quattro_"],
+      "anchor": [388, 94, -176]
+    }
+  ]
+}

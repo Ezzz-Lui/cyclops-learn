@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { getForm, pickActivity } from "@/convex/forms/registry"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
+import { findPartById, findPartByNode, getPartCatalog } from "@/lib/part-catalog"
 
 type CanvasWorkspaceProps = {
   projectSlug: string
@@ -35,6 +36,9 @@ export function CanvasWorkspace({
   const [draft, setDraft] = useState("")
   const [sending, setSending] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [pickedPartId, setPickedPartId] = useState<string | null>(null)
+  const [showObjectLabel, setShowObjectLabel] = useState(false)
+  const [focusNonce, setFocusNonce] = useState(0)
   const pendingSelection = useRef<Promise<unknown>>(Promise.resolve())
 
   const session = useQuery(
@@ -106,6 +110,25 @@ export function CanvasWorkspace({
     await task
   }
 
+  function handleIdentify(partId: string | null, gltfNodeName: string | null) {
+    setPickedPartId(partId)
+    setShowObjectLabel(false)
+    const part = partId ? findPartById(modelFile, partId) : null
+    void handleSelectNode(part?.nodes[0] ?? gltfNodeName)
+  }
+
+  function handlePickFromList(partId: string) {
+    const already = pickedPartId === partId && showObjectLabel
+    const nextId = already ? null : partId
+    setPickedPartId(nextId)
+    setShowObjectLabel(Boolean(nextId))
+    const part = nextId ? findPartById(modelFile, nextId) : null
+    if (nextId) {
+      setFocusNonce((value) => value + 1)
+    }
+    void handleSelectNode(part?.nodes[0] ?? null)
+  }
+
   async function handleSend() {
     if (!sessionId || !draft.trim() || sending) {
       return
@@ -125,7 +148,12 @@ export function CanvasWorkspace({
     }
   }
 
+  const catalog = getPartCatalog(modelFile)
   const activePart = session?.activePart ?? null
+  const catalogPart =
+    (pickedPartId ? findPartById(modelFile, pickedPartId) : null) ??
+    (activePart ? findPartByNode(modelFile, activePart.gltfNodeName) : null)
+  const activeLabel = catalogPart?.label ?? activePart?.label ?? null
   const form = session
     ? getForm(session.project.slug, session.useCase)
     : null
@@ -134,11 +162,36 @@ export function CanvasWorkspace({
   return (
     <div className="grid min-h-0 flex-1 grid-rows-[minmax(0,10rem)_minmax(0,1fr)_minmax(14rem,16rem)] gap-4 lg:grid-cols-[14rem_minmax(0,1fr)_20rem] lg:grid-rows-none">
       <PlaceholderFrame
-        label="Active part"
+        label="Parts"
         className="flex min-h-0 flex-col overflow-hidden"
       >
         <div className="min-h-0 min-w-0 flex-1 overflow-y-auto">
-          {activePart ? (
+          {catalog ? (
+            <ol className="space-y-1 text-sm">
+              {catalog.parts.map((part) => {
+                const selected = catalogPart?.id === part.id
+                return (
+                  <li key={part.id}>
+                    <button
+                      type="button"
+                      onClick={() => handlePickFromList(part.id)}
+                      className={
+                        selected
+                          ? "w-full rounded-lg bg-primary/15 px-2 py-1.5 text-left"
+                          : "w-full rounded-lg px-2 py-1.5 text-left hover:bg-muted/60"
+                      }
+                    >
+                      <p className="font-medium">
+                        {part.diagramIndex != null ? `${part.diagramIndex}. ` : ""}
+                        {part.label}
+                      </p>
+                      <p className="text-xs text-muted-foreground">{part.summary}</p>
+                    </button>
+                  </li>
+                )
+              })}
+            </ol>
+          ) : activePart ? (
             <div className="space-y-2 text-sm">
               <p className="font-medium">{activePart.label}</p>
               <p className="text-xs text-muted-foreground">
@@ -148,8 +201,7 @@ export function CanvasWorkspace({
             </div>
           ) : (
             <p className="text-sm text-muted-foreground">
-              Click a mesh on the engine. That selection is what the agent can
-              talk about.
+              Click a mesh. That selection is what the agent can talk about.
             </p>
           )}
           {tryThis ? (
@@ -174,11 +226,13 @@ export function CanvasWorkspace({
         <ModelViewer
           src={modelSrc}
           modelName={session?.project.title ?? modelFile}
-          selectedLabel={activePart?.label}
+          selectedPartId={pickedPartId ?? catalogPart?.id ?? null}
+          selectedLabel={activeLabel}
+          parts={catalog?.parts ?? []}
+          showObjectLabel
+          focusNonce={focusNonce}
           className="min-h-0 flex-1"
-          onSelectNode={(node) => {
-            void handleSelectNode(node)
-          }}
+          onIdentify={handleIdentify}
         />
       </PlaceholderFrame>
 

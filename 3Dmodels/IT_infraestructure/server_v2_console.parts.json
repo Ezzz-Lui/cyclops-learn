@@ -1,0 +1,70 @@
+{
+  "slug": "server",
+  "modelFilename": "server_v2_console.glb",
+  "domain": "computing",
+  "title": "Rack de servidores",
+  "source": "Server V2 + console",
+  "overview": "Rack con UPS arriba, servidores 1U, consola KVM extraíble y almacenamiento abajo. El GLB no nombra meshes; las zonas siguen la foto del canvas.",
+  "parts": [
+    {
+      "id": "rack",
+      "diagramIndex": 1,
+      "label": "Rack",
+      "labelEn": "Server rack",
+      "layer": "chassis",
+      "summary": "Bastidor de 19 pulgadas. Sostiene UPS, servidores, consola y almacenamiento en U.",
+      "nodes": [],
+      "anchorNorm": [0.18, 0.5, 0.5]
+    },
+    {
+      "id": "ups",
+      "diagramIndex": 2,
+      "label": "UPS",
+      "labelEn": "UPS",
+      "layer": "power",
+      "summary": "Sistema de alimentación ininterrumpida en la parte alta del rack. Mantiene el equipo si corta la luz.",
+      "nodes": [],
+      "anchorNorm": [0.55, 0.88, 0.42]
+    },
+    {
+      "id": "servidores",
+      "diagramIndex": 3,
+      "label": "Servidores",
+      "labelEn": "Servers",
+      "layer": "compute",
+      "summary": "Unidades 1U/2U apiladas, con LEDs de estado. Ahí corre el cómputo.",
+      "nodes": [],
+      "anchorNorm": [0.55, 0.7, 0.42]
+    },
+    {
+      "id": "consola",
+      "diagramIndex": 4,
+      "label": "Consola KVM",
+      "labelEn": "KVM console",
+      "layer": "console",
+      "summary": "Bandeja extraíble con pantalla. Sirve para administrar el rack en sitio.",
+      "nodes": [],
+      "anchorNorm": [0.72, 0.48, 0.55]
+    },
+    {
+      "id": "teclado",
+      "diagramIndex": 5,
+      "label": "Teclado de consola",
+      "labelEn": "Console keyboard",
+      "layer": "console",
+      "summary": "Teclado de la bandeja KVM, bajo la pantalla.",
+      "nodes": [],
+      "anchorNorm": [0.62, 0.36, 0.58]
+    },
+    {
+      "id": "almacenamiento",
+      "diagramIndex": 6,
+      "label": "Almacenamiento",
+      "labelEn": "Storage array",
+      "layer": "storage",
+      "summary": "Unidad baja del rack: bahías, rejillas de aire y puertos de discos o blade.",
+      "nodes": [],
+      "anchorNorm": [0.55, 0.14, 0.42]
+    }
+  ]
+}
