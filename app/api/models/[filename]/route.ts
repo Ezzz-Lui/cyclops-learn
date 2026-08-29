@@ -1,11 +1,8 @@
 import { createReadStream } from "node:fs"
 import { stat } from "node:fs/promises"
-import path from "node:path"
 import { Readable } from "node:stream"
 
-import { getModelsDirectory } from "@/lib/list-models"
-
-const MODEL_FILENAME = /^[\w.\-]+\.(glb|gltf)$/i
+import { resolveModelAbsolutePath } from "@/lib/list-models"
 
 function contentTypeFor(filename: string) {
   return filename.toLowerCase().endsWith(".gltf")
@@ -18,16 +15,10 @@ export async function GET(
   { params }: { params: Promise<{ filename: string }> }
 ) {
   const { filename } = await params
+  const filePath = await resolveModelAbsolutePath(filename)
 
-  if (!MODEL_FILENAME.test(filename)) {
-    return new Response("Invalid model filename", { status: 400 })
-  }
-
-  const modelsDir = path.resolve(getModelsDirectory())
-  const filePath = path.resolve(modelsDir, filename)
-
-  if (!filePath.startsWith(modelsDir + path.sep)) {
-    return new Response("Invalid model filename", { status: 400 })
+  if (!filePath) {
+    return new Response("Model not found", { status: 404 })
   }
 
   try {
