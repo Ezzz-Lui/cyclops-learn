@@ -2,7 +2,7 @@
 
 import { useAuth } from "@clerk/nextjs"
 import { useAction, useConvexAuth, useMutation, useQuery } from "convex/react"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 import { ModelViewer } from "@/components/canvas/model-viewer"
 import { PlaceholderFrame } from "@/components/placeholders/placeholder-frame"
@@ -33,6 +33,7 @@ export function CanvasWorkspace({
   const [draft, setDraft] = useState("")
   const [sending, setSending] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const pendingSelection = useRef<Promise<unknown>>(Promise.resolve())
 
   const session = useQuery(
     api.sessions.get,
@@ -71,7 +72,9 @@ export function CanvasWorkspace({
     if (!sessionId) {
       return
     }
-    await setSelection({ sessionId, gltfNodeName })
+    const task = setSelection({ sessionId, gltfNodeName })
+    pendingSelection.current = task
+    await task
   }
 
   async function handleSend() {
@@ -83,6 +86,7 @@ export function CanvasWorkspace({
     setSending(true)
     setError(null)
     try {
+      await pendingSelection.current
       await respond({ sessionId, text })
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Agent failed")

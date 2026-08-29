@@ -4,10 +4,36 @@ import type { Id } from "./_generated/dataModel"
 import type { MutationCtx } from "./_generated/server"
 import { internalMutation } from "./_generated/server"
 import {
+  CURATED_PARTS,
   MOTO_ENGINE_OVERVIEW,
   MOTO_ENGINE_SLUG,
   motoEngineParts,
 } from "./lib/motoEngineSeed"
+
+async function applyCuratedOverrides(
+  ctx: MutationCtx,
+  projectId: Id<"projects">
+) {
+  for (const [gltfNodeName, curated] of Object.entries(CURATED_PARTS)) {
+    const part = await ctx.db
+      .query("parts")
+      .withIndex("by_project_and_node", (q) =>
+        q.eq("projectId", projectId).eq("gltfNodeName", gltfNodeName)
+      )
+      .unique()
+
+    if (!part) {
+      continue
+    }
+
+    await ctx.db.patch(part._id, {
+      label: curated.label,
+      layer: curated.layer,
+      summary: curated.summary,
+      teachable: true,
+    })
+  }
+}
 
 export async function ensureMotoEngineCatalog(
   ctx: MutationCtx
@@ -18,6 +44,7 @@ export async function ensureMotoEngineCatalog(
     .unique()
 
   if (existing) {
+    await applyCuratedOverrides(ctx, existing._id)
     return existing._id
   }
 

@@ -4,6 +4,7 @@ import { v } from "convex/values"
 
 import { internal } from "./_generated/api"
 import { action } from "./_generated/server"
+import { ICE_SYSTEMS } from "./lib/motoEngineSeed"
 
 type Snapshot = {
   userId: string
@@ -21,24 +22,54 @@ type Snapshot = {
   messages: Array<{ role: "user" | "assistant"; text: string }>
 }
 
+function systemPrimer() {
+  return ICE_SYSTEMS.map((system) => `- ${system.name}: ${system.blurb}`).join(
+    "\n"
+  )
+}
+
 function buildSystemPrompt(snapshot: Snapshot) {
-  const partBlock = snapshot.activePart
-    ? `Active part: ${snapshot.activePart.label} (node ${snapshot.activePart.gltfNodeName}).
-Teachable: ${snapshot.activePart.teachable ? "yes" : "no"}.
-Part notes: ${snapshot.activePart.summary}`
-    : "Active part: none. Ask the student to click a mesh on the 3D canvas before explaining a specific part."
+  if (!snapshot.activePart) {
+    return `You are Cyclops, a lab instructor for ${snapshot.projectTitle}.
+Mode: ${snapshot.useCase}.
+No mesh is selected on the canvas.
+
+Rules:
+- Ask the student to click a mesh. Do not invent a specific part.
+- You cannot see the 3D pixels.`
+  }
+
+  const part = snapshot.activePart
+  const curatedLine = part.teachable
+    ? `This mesh is curated. Teach from the part notes.`
+    : `This mesh is unlabeled (Sketchfab name only). That still counts as a selection. Acknowledge the node, say it is not curated, then teach from ICE systems. Never ask them to click again.`
 
   return `You are Cyclops, a lab instructor for ${snapshot.projectTitle}.
 Mode: ${snapshot.useCase}.
 Object notes: ${snapshot.projectOverview}
-${partBlock}
+
+AUTHORITATIVE CANVAS SELECTION:
+- Label: ${part.label}
+- Node: ${part.gltfNodeName}
+- ${curatedLine}
+- Notes: ${part.summary}
+
+ICE systems (use these when the mesh is unlabeled):
+${systemPrimer()}
 
 Rules:
-- Talk about the selected mesh and the motorcycle ICE, not generic engines.
-- If no part is selected, do not invent a part. Send them back to the canvas.
-- If the part is not curated, say so and teach nearby ICE systems (cooling, cylinder, intake, exhaust).
-- In explore mode, explain function and location. Keep it short.
-- Never claim you can see the 3D pixels. You only know the selected node and catalog text.`
+- The student already selected the mesh above. Do not say nothing is selected.
+- Do not invent a specific name for an unlabeled Object_N mesh.
+- Keep it short. You cannot see the 3D pixels.`
+}
+
+function bindUserText(snapshot: Snapshot, text: string) {
+  if (!snapshot.activePart) {
+    return `[Canvas: no mesh selected]\n${text}`
+  }
+  const part = snapshot.activePart
+  const tag = part.teachable ? "curated" : "unlabeled"
+  return `[Canvas selection: ${part.label} / ${part.gltfNodeName} / ${tag}]\n${text}`
 }
 
 function fallbackReply(snapshot: Snapshot, text: string) {
@@ -121,7 +152,13 @@ export const respond = action({
     })
 
     const system = buildSystemPrompt(snapshot)
-    const history = [...snapshot.messages, { role: "user" as const, text: trimmed }]
+    const prior = snapshot.activePart
+      ? snapshot.messages.slice(-6)
+      : snapshot.messages
+    const history = [
+      ...prior,
+      { role: "user" as const, text: bindUserText(snapshot, trimmed) },
+    ]
     const modelReply = await callOpenAi(system, history)
     const reply = modelReply ?? fallbackReply(snapshot, trimmed)
 
