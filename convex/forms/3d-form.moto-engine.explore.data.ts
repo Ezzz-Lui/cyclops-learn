@@ -7,7 +7,7 @@ const motoEngineExplore: Form3DData = {
   title: "Motorcycle ICE",
   modelFilename: "internal_combustion_engine_moto.glb",
   overview:
-    "Motorcycle internal combustion engine (ICE). Air-cooled single with crankcase, cylinder and piston, head and valves, cooling fins, intake/carburetor, exhaust, ignition, and fasteners. Sketchfab meshes stay Object_N until a curator maps them.",
+    "Motorcycle internal combustion engine (ICE). Named parts live in internal_combustion_engine_moto.parts.json: bloque, pistón, cigüeñal, biela, culata. Sketchfab meshes stay Object_N until a node is mapped in that file.",
   unlabeledSummary:
     "Unlabeled Sketchfab mesh. The student did select it. Teach from ICE systems; do not ask them to click again.",
   meshIndex: {
@@ -16,6 +16,34 @@ const motoEngineExplore: Form3DData = {
     objectTo: 136,
   },
   systems: [
+    {
+      id: "block",
+      name: "Bloque del motor",
+      blurb:
+        "Fundición principal. Aloja los cilindros y da soporte al cigüeñal y al resto del motor.",
+    },
+    {
+      id: "piston",
+      name: "Pistón",
+      blurb:
+        "Se mueve hacia arriba y hacia abajo en el orificio del cilindro. La combustión empuja el pistón.",
+    },
+    {
+      id: "crank",
+      name: "Cigüeñal",
+      blurb:
+        "Convierte el movimiento ascendente y descendente de los pistones en rotación.",
+    },
+    {
+      id: "rod",
+      name: "Biela",
+      blurb: "Conecta el pistón al cigüeñal y transmite la fuerza lineal a la muñequilla.",
+    },
+    {
+      id: "head",
+      name: "Culata",
+      blurb: "Cierra la cámara de combustión. Aloja válvulas y el tren de admisión/escape.",
+    },
     {
       id: "crankcase",
       name: "Crankcase",
@@ -27,12 +55,6 @@ const motoEngineExplore: Form3DData = {
       name: "Cylinder and piston",
       blurb:
         "The piston travels in the bore. Combustion pressure here becomes rotation at the crank.",
-    },
-    {
-      id: "head",
-      name: "Cylinder head and valves",
-      blurb:
-        "Closes the combustion chamber. Intake and exhaust valves time the gas exchange.",
     },
     {
       id: "cooling",

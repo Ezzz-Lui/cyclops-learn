@@ -5,7 +5,7 @@ import type { MutationCtx, QueryCtx } from "./_generated/server"
 import { mutation, query } from "./_generated/server"
 import { getCurrentUser, upsertCurrentUser } from "./lib/auth"
 import { partReturn, sessionReturn } from "./lib/validators"
-import { ensureMotoEngineCatalog } from "./seed"
+import { ensureFormCatalog, ensureMotoEngineCatalog } from "./seed"
 
 async function loadSessionView(
   ctx: QueryCtx | MutationCtx,
@@ -49,7 +49,8 @@ export const getOrCreate = mutation({
   returns: v.id("sessions"),
   handler: async (ctx, args) => {
     const user = await upsertCurrentUser(ctx)
-    const fallbackProjectId = await ensureMotoEngineCatalog(ctx)
+    const requestedId = await ensureFormCatalog(ctx, args.projectSlug)
+    const fallbackProjectId = requestedId ?? (await ensureMotoEngineCatalog(ctx))
 
     const requested = await ctx.db
       .query("projects")

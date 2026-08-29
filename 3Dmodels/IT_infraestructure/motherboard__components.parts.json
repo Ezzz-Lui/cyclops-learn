@@ -1,0 +1,80 @@
+{
+  "slug": "motherboard",
+  "modelFilename": "motherboard__components.glb",
+  "domain": "computing",
+  "title": "Placa base",
+  "source": "Motherboard components",
+  "overview": "Placa base ATX con CPU, RAM, M.2, pila CMOS y panel de puertos. Varios grupos del GLB sí tienen nombre (CPU, RAM, M2, Battery).",
+  "parts": [
+    {
+      "id": "placa-base",
+      "diagramIndex": 1,
+      "label": "Placa base",
+      "labelEn": "Motherboard",
+      "layer": "board",
+      "summary": "PCB principal. Distribuye energía y datos entre CPU, memoria, almacenamiento y puertos.",
+      "nodes": ["MotherBoard"],
+      "anchorNorm": [0.5, 0.55, 0.55]
+    },
+    {
+      "id": "cpu",
+      "diagramIndex": 2,
+      "label": "Socket CPU",
+      "labelEn": "CPU socket",
+      "layer": "cpu",
+      "summary": "Zócalo del procesador, al centro-arriba de la placa. Aquí asienta la CPU.",
+      "nodes": ["CPU"],
+      "anchorNorm": [0.4, 0.55, 0.32]
+    },
+    {
+      "id": "ram",
+      "diagramIndex": 3,
+      "label": "Memoria RAM",
+      "labelEn": "RAM",
+      "layer": "memory",
+      "summary": "Los cuatro módulos DIMM, a la derecha del socket. En este modelo van iluminados.",
+      "nodes": ["RAM", "RAM1", "RAM2", "RAM3"],
+      "anchorNorm": [0.78, 0.7, 0.28]
+    },
+    {
+      "id": "m2",
+      "diagramIndex": 4,
+      "label": "SSD M.2",
+      "labelEn": "M.2 SSD",
+      "layer": "storage",
+      "summary": "Ranura M.2 bajo el socket, a menudo con disipador.",
+      "nodes": ["M2"],
+      "anchorNorm": [0.45, 0.5, 0.48]
+    },
+    {
+      "id": "pila-cmos",
+      "diagramIndex": 5,
+      "label": "Pila CMOS",
+      "labelEn": "CMOS battery",
+      "layer": "power",
+      "summary": "Batería de botón que mantiene el reloj y la configuración del firmware (BIOS/UEFI).",
+      "nodes": ["Battery"],
+      "anchorNorm": [0.82, 0.5, 0.82]
+    },
+    {
+      "id": "panel-io",
+      "diagramIndex": 6,
+      "label": "Panel de puertos I/O",
+      "labelEn": "I/O panel",
+      "layer": "io",
+      "summary": "Cubierta izquierda: USB, vídeo, audio y antenas hacia el exterior del gabinete.",
+      "nodes": [],
+      "anchorNorm": [0.1, 0.65, 0.32]
+    },
+    {
+      "id": "chipset",
+      "diagramIndex": 7,
+      "label": "Chipset",
+      "labelEn": "Chipset",
+      "layer": "board",
+      "summary": "Disipador del chipset (PCH), abajo a la derecha. Habla con puertos y ranuras.",
+      "nodes": [],
+      "anchorNorm": [0.68, 0.55, 0.78]
+    }
+  ]
+}

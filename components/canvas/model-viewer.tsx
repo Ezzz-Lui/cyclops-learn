@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic"
 
 import { Spinner } from "@/components/ui/spinner"
+import type { PartCatalogEntry } from "@/lib/part-catalog"
 import { cn } from "@/lib/utils"
 
 const ModelViewerCanvas = dynamic(
@@ -24,25 +25,37 @@ const ModelViewerCanvas = dynamic(
 type ModelViewerProps = {
   src: string
   modelName: string
+  selectedPartId?: string | null
   selectedLabel?: string | null
+  parts?: PartCatalogEntry[]
+  showObjectLabel?: boolean
+  focusNonce?: number
   className?: string
-  onSelectNode?: (gltfNodeName: string | null) => void
+  onIdentify?: (partId: string | null, gltfNodeName: string | null) => void
 }
 
 export function ModelViewer({
   src,
   modelName,
+  selectedPartId,
   selectedLabel,
+  parts,
+  showObjectLabel,
+  focusNonce,
   className,
-  onSelectNode,
+  onIdentify,
 }: ModelViewerProps) {
   return (
     <ModelViewerCanvas
       src={src}
       modelName={modelName}
+      selectedPartId={selectedPartId}
       selectedLabel={selectedLabel}
+      parts={parts}
+      showObjectLabel={showObjectLabel}
+      focusNonce={focusNonce}
       className={cn("h-full min-h-72", className)}
-      onSelectNode={onSelectNode}
+      onIdentify={onIdentify}
     />
   )
 }

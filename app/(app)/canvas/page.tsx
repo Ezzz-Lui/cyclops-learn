@@ -17,11 +17,26 @@ export default function CanvasIndexPage() {
       </p>
       <PlaceholderFrame label="No project selected">
         <div className="flex flex-wrap gap-2">
+          <Link href="/canvas/living-room" className={buttonVariants()}>
+            Sala
+          </Link>
           <Link
-            href="/canvas/moto-engine"
-            className={buttonVariants()}
+            href="/canvas/bamboo"
+            className={buttonVariants({ variant: "outline" })}
           >
-            Motorcycle ICE
+            Bambú
+          </Link>
+          <Link
+            href="/canvas/motherboard"
+            className={buttonVariants({ variant: "outline" })}
+          >
+            Placa base
+          </Link>
+          <Link
+            href="/canvas/server"
+            className={buttonVariants({ variant: "outline" })}
+          >
+            Servidor
           </Link>
           <Link
             href="/home"

@@ -1,0 +1,110 @@
+{
+  "slug": "bamboo",
+  "modelFilename": "bamboo_structural_system.glb",
+  "domain": "architecture",
+  "title": "Estructura de bambú",
+  "source": "Bamboo structural system (Revit export)",
+  "overview": "Pabellón de bambú: columnas redondas, tubos HSS, pisos, muros de cob y fachada acristalada. Los grupos del GLB siguen nombres de familia Revit.",
+  "parts": [
+    {
+      "id": "columnas-principales",
+      "diagramIndex": 1,
+      "label": "Columnas principales",
+      "labelEn": "Primary columns",
+      "layer": "structure",
+      "summary": "Pilares redondos Ø102/130. Ejes verticales que bajan carga a cimentación.",
+      "nodes": ["Round-Anglel-Column102"],
+      "anchorNorm": [0.22, 0.45, 0.35]
+    },
+    {
+      "id": "columnas-menores",
+      "diagramIndex": 2,
+      "label": "Columnas menores",
+      "labelEn": "Secondary columns",
+      "layer": "structure",
+      "summary": "Pilares 80×80. Refuerzan vanos y apoyan entrepisos o barandillas.",
+      "nodes": ["Round-Anglel-Column 80"],
+      "anchorNorm": [0.45, 0.38, 0.55]
+    },
+    {
+      "id": "tubos-hss",
+      "diagramIndex": 3,
+      "label": "Tubos HSS",
+      "labelEn": "HSS tubing",
+      "layer": "structure",
+      "summary": "Tubo estructural redondo Ø130. Vigas y riostras que atan las columnas.",
+      "nodes": ["HSS-Round Structural Tubing"],
+      "anchorNorm": [0.5, 0.58, 0.4]
+    },
+    {
+      "id": "pisos",
+      "diagramIndex": 4,
+      "label": "Pisos",
+      "labelEn": "Floors",
+      "layer": "structure",
+      "summary": "Losas y entrepisos (Floor 10/20, genéricas). Superficie de uso sobre la estructura.",
+      "nodes": ["Floor 20", "Floor 10", "Floor Generic", "Floor 150", "Floor Brick"],
+      "anchorNorm": [0.5, 0.22, 0.5]
+    },
+    {
+      "id": "muros-cob",
+      "diagramIndex": 5,
+      "label": "Muros de cob",
+      "labelEn": "Cob walls",
+      "layer": "envelope",
+      "summary": "Muros de tierra/cob. Cierran el recinto y aportan masa térmica.",
+      "nodes": ["Basic Wall Cob"],
+      "anchorNorm": [0.15, 0.35, 0.6]
+    },
+    {
+      "id": "muros-base",
+      "diagramIndex": 6,
+      "label": "Muros base",
+      "labelEn": "Base walls",
+      "layer": "envelope",
+      "summary": "Muro base y cámara. Zócalo o cerramiento bajo las columnas.",
+      "nodes": ["Basic Wall Base"],
+      "anchorNorm": [0.35, 0.12, 0.3]
+    },
+    {
+      "id": "barandillas",
+      "diagramIndex": 7,
+      "label": "Barandillas",
+      "labelEn": "Railings",
+      "layer": "protection",
+      "summary": "Barandales en bordes de piso o escalera. Protección contra caída.",
+      "nodes": ["Railings"],
+      "anchorNorm": [0.68, 0.42, 0.28]
+    },
+    {
+      "id": "fachada",
+      "diagramIndex": 8,
+      "label": "Fachada acristalada",
+      "labelEn": "Glazed facade",
+      "layer": "envelope",
+      "summary": "Paneles de vidrio (System Panel Glazed). Cerramiento transparente.",
+      "nodes": ["System Panel Glazed"],
+      "anchorNorm": [0.82, 0.48, 0.45]
+    },
+    {
+      "id": "montantes",
+      "diagramIndex": 9,
+      "label": "Montantes",
+      "labelEn": "Mullions",
+      "layer": "envelope",
+      "summary": "Montantes 64×128 del muro cortina. Sostienen y dividen el vidrio.",
+      "nodes": ["Rectangular Mullion"],
+      "anchorNorm": [0.8, 0.5, 0.52]
+    },
+    {
+      "id": "columnas-arbol",
+      "diagramIndex": 10,
+      "label": "Columnas árbol",
+      "labelEn": "Tree columns",
+      "layer": "structure",
+      "summary": "Columnas ramificadas (Round Column Tree). Apoyos con brazos que abren el vano.",
+      "nodes": ["Round Column Tree"],
+      "anchorNorm": [0.4, 0.5, 0.72]
+    }
+  ]
+}

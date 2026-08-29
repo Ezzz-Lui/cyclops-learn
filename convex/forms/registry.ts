@@ -1,8 +1,24 @@
+import bambooExplore from "./3d-form.bamboo.explore.data"
+import livingRoomExplore from "./3d-form.living-room.explore.data"
+import motherboardExplore from "./3d-form.motherboard.explore.data"
 import motoEngineExplore from "./3d-form.moto-engine.explore.data"
+import serverExplore from "./3d-form.server.explore.data"
+import transmissionExplore from "./3d-form.transmission.explore.data"
 import type { Form3DData, FormActivity, FormPart, FormUseCase } from "./types"
 import { expandMeshIndex, humanizeNode } from "./types"
 
-const FORMS: Form3DData[] = [motoEngineExplore]
+const FORMS: Form3DData[] = [
+  motoEngineExplore,
+  transmissionExplore,
+  motherboardExplore,
+  serverExplore,
+  livingRoomExplore,
+  bambooExplore,
+]
+
+export function listForms() {
+  return FORMS
+}
 
 export function getForm(slug: string, useCase: FormUseCase) {
   return FORMS.find((form) => form.slug === slug && form.useCase === useCase) ?? null

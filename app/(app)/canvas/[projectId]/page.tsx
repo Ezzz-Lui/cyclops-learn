@@ -25,7 +25,7 @@ export default async function CanvasPage({
         <div>
           <h1 className="font-heading text-xl font-medium">Canvas</h1>
           <p className="text-sm text-muted-foreground">
-            Project <code>{projectId}</code> · explore the ICE and ask the agent
+            Project <code>{projectId}</code> · labeled parts, viewer, chat
           </p>
         </div>
         <Link href="/home" className={buttonVariants({ variant: "outline", size: "sm" })}>
