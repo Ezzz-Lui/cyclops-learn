@@ -14,11 +14,11 @@ export function PlaceholderFrame({
   return (
     <section
       className={cn(
-        "rounded-2xl border border-dashed border-border bg-muted/30 p-4",
+        "min-w-0 overflow-hidden rounded-2xl border border-dashed border-border bg-muted/30 p-4",
         className
       )}
     >
-      <p className="mb-3 text-xs font-medium tracking-wide text-muted-foreground uppercase">
+      <p className="mb-3 shrink-0 text-xs font-medium tracking-wide text-muted-foreground uppercase">
         {label}
       </p>
       {children}

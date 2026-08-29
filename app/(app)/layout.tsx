@@ -11,8 +11,8 @@ export default async function AppLayout({
   await auth.protect()
 
   return (
-    <div className="flex min-h-svh flex-col">
-      <header className="flex items-center justify-between border-b px-6 py-3">
+    <div className="flex h-svh flex-col overflow-hidden">
+      <header className="flex shrink-0 items-center justify-between border-b px-6 py-3">
         <div className="flex items-center gap-4">
           <Link href="/home" className="text-sm font-medium">
             Cyclops
@@ -28,7 +28,7 @@ export default async function AppLayout({
         </div>
         <AuthControls />
       </header>
-      {children}
+      <div className="min-h-0 flex-1 overflow-y-auto">{children}</div>
     </div>
   )
 }
