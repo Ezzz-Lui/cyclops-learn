@@ -15,6 +15,7 @@ import type * as forms_types from "../forms/types.js";
 import type * as lib_auth from "../lib/auth.js";
 import type * as lib_motoEngineSeed from "../lib/motoEngineSeed.js";
 import type * as lib_validators from "../lib/validators.js";
+import type * as practice from "../practice.js";
 import type * as seed from "../seed.js";
 import type * as sessions from "../sessions.js";
 
@@ -32,6 +33,7 @@ declare const fullApi: ApiFromModules<{
   "lib/auth": typeof lib_auth;
   "lib/motoEngineSeed": typeof lib_motoEngineSeed;
   "lib/validators": typeof lib_validators;
+  practice: typeof practice;
   seed: typeof seed;
   sessions: typeof sessions;
 }>;

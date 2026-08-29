@@ -31,6 +31,8 @@ type ModelViewerCanvasProps = {
   parts?: PartCatalogEntry[]
   showObjectLabel?: boolean
   focusNonce?: number
+  /** null/undefined shows every marker; an array shows only those part ids. */
+  markerPartIds?: string[] | null
   className?: string
   onIdentify?: (partId: string | null, gltfNodeName: string | null) => void
 }
@@ -95,6 +97,7 @@ function LoadedModel({
   selectedPartId,
   showObjectLabel,
   focusNonce,
+  markerPartIds,
   onIdentify,
 }: {
   src: string
@@ -102,6 +105,7 @@ function LoadedModel({
   selectedPartId?: string | null
   showObjectLabel: boolean
   focusNonce: number
+  markerPartIds?: string[] | null
   onIdentify: (partId: string | null, gltfNodeName: string | null) => void
 }) {
   const { scene } = useGLTF(src, true, true)
@@ -152,6 +156,7 @@ function LoadedModel({
         parts={parts}
         box={modelBox}
         selectedPartId={selectedPartId ?? null}
+        markerPartIds={markerPartIds ?? null}
       />
       <FocusOnPart
         parts={parts}
@@ -168,14 +173,17 @@ function PartMarkers({
   parts,
   box,
   selectedPartId,
+  markerPartIds,
 }: {
   parts: PartCatalogEntry[]
   box: THREE.Box3
   selectedPartId: string | null
+  markerPartIds: string[] | null
 }) {
   return (
     <>
       {parts.map((part) => {
+        if (markerPartIds && !markerPartIds.includes(part.id)) return null
         const position = worldAnchor(part, box)
         if (!position) return null
         const selected = part.id === selectedPartId
@@ -304,6 +312,7 @@ export function ModelViewerCanvas({
   parts = [],
   showObjectLabel = false,
   focusNonce = 0,
+  markerPartIds,
   className,
   onIdentify,
 }: ModelViewerCanvasProps) {
@@ -347,6 +356,7 @@ export function ModelViewerCanvas({
                 selectedPartId={selectedPartId}
                 showObjectLabel={showObjectLabel}
                 focusNonce={focusNonce}
+                markerPartIds={markerPartIds}
                 onIdentify={(partId, nodeName) => onIdentifyRef.current?.(partId, nodeName)}
               />
               <FitReporter fitRef={fitRef} />

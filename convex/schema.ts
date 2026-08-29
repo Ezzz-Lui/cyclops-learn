@@ -58,4 +58,16 @@ export default defineSchema({
     partId: v.optional(v.id("parts")),
     createdAt: v.number(),
   }).index("by_session", ["sessionId"]),
+
+  // One row per practice target completed. partId is the catalog part id
+  // (string from *.parts.json), not a Convex parts row.
+  practiceAttempts: defineTable({
+    userId: v.id("users"),
+    projectSlug: v.string(),
+    partId: v.string(),
+    correct: v.boolean(),
+    clicks: v.number(),
+    hintsUsed: v.number(),
+    createdAt: v.number(),
+  }).index("by_user_and_project", ["userId", "projectSlug"]),
 })

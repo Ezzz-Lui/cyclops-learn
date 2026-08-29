@@ -2,9 +2,10 @@
 
 import { useAuth } from "@clerk/nextjs"
 import { useAction, useConvexAuth, useMutation, useQuery } from "convex/react"
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 
 import { ModelViewer } from "@/components/canvas/model-viewer"
+import { PracticePanel, usePractice } from "@/components/canvas/practice-panel"
 import { PlaceholderFrame } from "@/components/placeholders/placeholder-frame"
 import { Button } from "@/components/ui/button"
 import { Message, MessageContent, MessageHeader } from "@/components/ui/message"
@@ -39,7 +40,25 @@ export function CanvasWorkspace({
   const [pickedPartId, setPickedPartId] = useState<string | null>(null)
   const [showObjectLabel, setShowObjectLabel] = useState(false)
   const [focusNonce, setFocusNonce] = useState(0)
+  const [revealedPartId, setRevealedPartId] = useState<string | null>(null)
   const pendingSelection = useRef<Promise<unknown>>(Promise.resolve())
+
+  const catalog = getPartCatalog(modelFile)
+
+  const handleReveal = useCallback((partId: string | null) => {
+    setRevealedPartId(partId)
+    if (partId) {
+      setFocusNonce((value) => value + 1)
+    }
+  }, [])
+
+  const practice = usePractice({
+    projectSlug,
+    parts: catalog?.parts ?? [],
+    onReveal: handleReveal,
+  })
+  const practiceActive = practice.active
+  const practiceStop = practice.stop
 
   const session = useQuery(
     api.sessions.get,
@@ -111,9 +130,14 @@ export function CanvasWorkspace({
   }
 
   function handleIdentify(partId: string | null, gltfNodeName: string | null) {
+    const part = partId ? findPartById(modelFile, partId) : null
+    if (practiceActive) {
+      practice.pick(partId)
+      void handleSelectNode(part?.nodes[0] ?? gltfNodeName)
+      return
+    }
     setPickedPartId(partId)
     setShowObjectLabel(false)
-    const part = partId ? findPartById(modelFile, partId) : null
     void handleSelectNode(part?.nodes[0] ?? gltfNodeName)
   }
 
@@ -148,7 +172,6 @@ export function CanvasWorkspace({
     }
   }
 
-  const catalog = getPartCatalog(modelFile)
   const activePart = session?.activePart ?? null
   const catalogPart =
     (pickedPartId ? findPartById(modelFile, pickedPartId) : null) ??
@@ -162,9 +185,24 @@ export function CanvasWorkspace({
   return (
     <div className="grid min-h-0 flex-1 grid-rows-[minmax(0,10rem)_minmax(0,1fr)_minmax(14rem,16rem)] gap-4 lg:grid-cols-[14rem_minmax(0,1fr)_20rem] lg:grid-rows-none">
       <PlaceholderFrame
-        label="Parts"
+        label={practiceActive ? "Práctica" : "Parts"}
         className="flex min-h-0 flex-col overflow-hidden"
       >
+        {catalog ? (
+          <div className="mb-3 shrink-0">
+            <Button
+              type="button"
+              size="xs"
+              variant={practiceActive ? "outline" : "default"}
+              onClick={() => (practiceActive ? practice.stop() : practice.open())}
+            >
+              {practiceActive ? "Volver a explorar" : "Practicar identificación"}
+            </Button>
+          </div>
+        ) : null}
+        {practiceActive && catalog ? (
+          <PracticePanel practice={practice} parts={catalog.parts} />
+        ) : (
         <div className="min-h-0 min-w-0 flex-1 overflow-y-auto">
           {catalog ? (
             <ol className="space-y-1 text-sm">
@@ -210,12 +248,13 @@ export function CanvasWorkspace({
             </p>
           ) : null}
         </div>
+        )}
         <div className="mt-4 min-w-0 shrink-0 space-y-1 text-xs text-muted-foreground">
           <p>File</p>
           <p className="truncate font-mono" title={modelFile}>
             {modelFile}
           </p>
-          <p>mode explore</p>
+          <p>mode {practiceActive ? "práctica" : "explore"}</p>
         </div>
       </PlaceholderFrame>
 
@@ -226,11 +265,18 @@ export function CanvasWorkspace({
         <ModelViewer
           src={modelSrc}
           modelName={session?.project.title ?? modelFile}
-          selectedPartId={pickedPartId ?? catalogPart?.id ?? null}
-          selectedLabel={activeLabel}
+          selectedPartId={
+            practiceActive
+              ? revealedPartId
+              : (pickedPartId ?? catalogPart?.id ?? null)
+          }
+          selectedLabel={practiceActive ? null : activeLabel}
           parts={catalog?.parts ?? []}
           showObjectLabel
           focusNonce={focusNonce}
+          markerPartIds={
+            practiceActive ? (revealedPartId ? [revealedPartId] : []) : null
+          }
           className="min-h-0 flex-1"
           onIdentify={handleIdentify}
         />

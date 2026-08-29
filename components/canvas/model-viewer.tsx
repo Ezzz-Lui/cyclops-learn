@@ -30,6 +30,8 @@ type ModelViewerProps = {
   parts?: PartCatalogEntry[]
   showObjectLabel?: boolean
   focusNonce?: number
+  /** null/undefined shows every marker; an array shows only those part ids. */
+  markerPartIds?: string[] | null
   className?: string
   onIdentify?: (partId: string | null, gltfNodeName: string | null) => void
 }
@@ -42,6 +44,7 @@ export function ModelViewer({
   parts,
   showObjectLabel,
   focusNonce,
+  markerPartIds,
   className,
   onIdentify,
 }: ModelViewerProps) {
@@ -54,6 +57,7 @@ export function ModelViewer({
       parts={parts}
       showObjectLabel={showObjectLabel}
       focusNonce={focusNonce}
+      markerPartIds={markerPartIds}
       className={cn("h-full min-h-72", className)}
       onIdentify={onIdentify}
     />
