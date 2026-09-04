@@ -1,0 +1,161 @@
+{
+  "Metadata": {
+    "title": "Cyclops",
+    "description": "Un lab de sistemas para pelar objetos capa por capa y consultar a un agente contextual en el banco."
+  },
+  "Brand": {
+    "name": "Cyclops"
+  },
+  "NotFound": {
+    "title": "No encontramos esa ruta",
+    "body": "Vuelve al lab o elige otro idioma."
+  },
+  "LocaleSwitch": {
+    "label": "Idioma",
+    "es": "Español",
+    "en": "English"
+  },
+  "Nav": {
+    "home": "Inicio",
+    "canvas": "Canvas"
+  },
+  "Auth": {
+    "signIn": "Entrar",
+    "signUp": "Crear cuenta",
+    "signInTitle": "Entrar",
+    "signUpTitle": "Crear cuenta"
+  },
+  "Marketing": {
+    "badge": "Lab de sistemas",
+    "heroTitleBefore": "Entra al",
+    "heroTitleAccent": "lab.",
+    "heroBody": "Pela sistemas complejos capa por capa y consulta a un agente contextual en el banco.",
+    "ctaEnter": "Entrar al lab",
+    "ctaBench": "Ir al banco",
+    "patternKicker": "El patrón",
+    "patternTitle": "Objeto → capas → componentes",
+    "patternSteps": {
+      "object": {
+        "title": "Objeto",
+        "body": "Carga un sistema en el banco."
+      },
+      "layers": {
+        "title": "Capas",
+        "body": "Pela la estructura hasta que aparezcan las piezas que trabajan."
+      },
+      "components": {
+        "title": "Componentes",
+        "body": "Pregunta en contexto sobre la pieza que tienes enfrente."
+      }
+    },
+    "modesKicker": "En el banco",
+    "modesTitle": "Modos de banco",
+    "modes": {
+      "explore": {
+        "title": "Explorar",
+        "body": "Recorre un sistema y mapea cómo encajan las partes."
+      },
+      "faults": {
+        "title": "Banco de fallas",
+        "body": "Formula qué se rompió y pon a prueba la hipótesis."
+      },
+      "diagnosis": {
+        "title": "Diagnóstico guiado",
+        "body": "Sigue una falla con el agente a tu lado."
+      }
+    },
+    "domainsKicker": "El mismo banco",
+    "domainsTitle": "Dominios",
+    "domains": {
+      "computing": {
+        "title": "Computación",
+        "blurb": "Máquinas, placas y el stack que las hace correr."
+      },
+      "architecture": {
+        "title": "Arquitectura",
+        "blurb": "Espacios, estructura y cómo se sostiene un edificio."
+      },
+      "mechanics": {
+        "title": "Mecánica",
+        "blurb": "Conjuntos en movimiento y las fuerzas que reciben."
+      }
+    },
+    "closeKicker": "Listo",
+    "closeTitle": "El banco está abierto.",
+    "closeBody": "Trae un sistema al lab. Pélalo, prueba una hipótesis y diagnostica con el agente en contexto."
+  },
+  "Home": {
+    "title": "Inicio",
+    "subtitle": "Proyectos recientes por dominio, más los recién agregados. Los datos están mockeados.",
+    "recentByTopic": "Proyectos recientes por dominio",
+    "newlyAdded": "Proyectos recién agregados",
+    "openCanvas": "Abrir canvas"
+  },
+  "Topics": {
+    "architecture": "Arquitectura",
+    "mechanics": "Mecánica",
+    "computing": "Computación"
+  },
+  "Canvas": {
+    "title": "Canvas",
+    "indexBody": "Elige un proyecto desde inicio, o abre un placeholder con datos semilla.",
+    "noProject": "Sin proyecto seleccionado",
+    "backHome": "Volver a inicio",
+    "projectMeta": "Proyecto {id} · piezas etiquetadas, visor, chat",
+    "parts": "Piezas",
+    "practice": "Práctica",
+    "viewer": "Visor 3D",
+    "chat": "Chat del agente",
+    "file": "Archivo",
+    "modePractice": "práctica",
+    "modeExplore": "explorar",
+    "startPractice": "Practicar identificación",
+    "backToExplore": "Volver a explorar",
+    "clickMesh": "Haz clic en un mesh. Esa selección es de lo que el agente puede hablar.",
+    "tryThis": "Prueba esto: {prompt}",
+    "node": "Nodo {name}",
+    "connecting": "Conectando al backend del lab…",
+    "signedInNoConvex": "La sesión de Clerk está lista, el token de Convex no. Recarga una vez para que el backend del lab lo tome.",
+    "signInToChat": "Entra para guardar la selección y hablar con el instructor del lab.",
+    "emptyChat": "Pregunta qué hace el mesh seleccionado. Sin un clic, te mando de vuelta al canvas.",
+    "you": "Tú",
+    "agentName": "Cyclops",
+    "placeholder": "Pregunta sobre la pieza seleccionada",
+    "send": "Enviar",
+    "thinking": "Pensando…",
+    "preparingViewer": "Preparando el visor 3D",
+    "sessionError": "No se pudo abrir la sesión",
+    "agentError": "El agente falló",
+    "authHintJwt": "Clerk emitió un JWT de Convex, pero el backend no lo aceptó. Es probable que esta máquina tenga un NEXT_PUBLIC_CONVEX_URL distinto al deployment compartido silent-lobster-652.",
+    "authHintNoToken": "Clerk está autenticado, pero getToken({ template: \"convex\" }) no devolvió nada. Esta app de Clerk necesita un JWT template llamado convex, y .env.local debe usar las mismas keys que la app compartida de Cyclops Learn.",
+    "authHintTemplate": "Clerk está autenticado, pero falló el JWT template convex. Crea un JWT template llamado convex en esta app de Clerk, o copia las keys del .env.local compartido."
+  },
+  "Practice": {
+    "title": "Práctica de identificación",
+    "intro": "Te pido una pieza y la buscas haciendo clic en el modelo. Sin etiquetas a la vista: si fallas, te doy pistas; cada intento cuenta para tu historial.",
+    "historyHint": "Empezamos por las piezas que te costaron en rondas anteriores.",
+    "start": "Empezar ({count} piezas)",
+    "cancel": "Cancelar",
+    "pieceOf": "Pieza {current} de {total}",
+    "locate": "Localiza en el modelo",
+    "hint": "Pista",
+    "hintRevealed": "Su etiqueta está visible en el modelo.",
+    "rotateHint": "Gira el modelo y haz clic donde creas que está.",
+    "summary": "Ver resumen",
+    "next": "Siguiente",
+    "giveUp": "No la encuentro",
+    "exit": "Salir",
+    "result": "Resultado: {solved} de {total}",
+    "firstTry": "a la primera",
+    "attempts": "{count} intentos",
+    "withHelp": "con ayuda",
+    "retryFailed": "Repetir falladas ({count})",
+    "anotherRound": "Otra ronda",
+    "correctFirst": "Correcto a la primera. {summary}",
+    "correct": "Correcto. {summary}",
+    "correctWithLabel": "La encontraste con la etiqueta visible. {summary}",
+    "wrongPart": "Eso es {clicked}, no {target}.",
+    "wrongEmpty": "Ahí no hay nada catalogado. Busca {target}.",
+    "gaveUp": "Era aquí (etiqueta en el modelo). {summary}"
+  }
+}

@@ -14,7 +14,12 @@
       "layer": "block",
       "summary": "Fundición principal del motor. Aloja los cilindros y da soporte estructural al cigüeñal y a los demás conjuntos.",
       "nodes": [],
-      "anchorNorm": [0.62, 0.4, 0.38]
+      "anchorNorm": [
+        0.62,
+        0.4,
+        0.38
+      ],
+      "summaryEn": "Main engine casting. Houses the cylinders and structurally supports the crankshaft and other assemblies."
     },
     {
       "id": "piston",
@@ -24,7 +29,12 @@
       "layer": "cylinder",
       "summary": "Se mueve hacia arriba y hacia abajo en el orificio del cilindro. La presión de combustión empuja el pistón y arranca el ciclo de potencia.",
       "nodes": [],
-      "anchorNorm": [0.34, 0.66, 0.62]
+      "anchorNorm": [
+        0.34,
+        0.66,
+        0.62
+      ],
+      "summaryEn": "Moves up and down in the cylinder bore. Combustion pressure pushes the piston and starts the power stroke."
     },
     {
       "id": "ciguenal",
@@ -34,7 +44,12 @@
       "layer": "crank",
       "summary": "Convierte el movimiento ascendente y descendente de los pistones en movimiento de rotación.",
       "nodes": [],
-      "anchorNorm": [0.5, 0.14, 0.52]
+      "anchorNorm": [
+        0.5,
+        0.14,
+        0.52
+      ],
+      "summaryEn": "Turns the pistons' up-and-down motion into rotation."
     },
     {
       "id": "biela",
@@ -44,7 +59,12 @@
       "layer": "crank",
       "summary": "Conecta el pistón al cigüeñal. Transmite la fuerza lineal del pistón a la muñequilla del cigüeñal.",
       "nodes": [],
-      "anchorNorm": [0.36, 0.46, 0.58]
+      "anchorNorm": [
+        0.36,
+        0.46,
+        0.58
+      ],
+      "summaryEn": "Connects the piston to the crankshaft. Sends the piston's linear force to the crank pin."
     },
     {
       "id": "culata",
@@ -54,7 +74,14 @@
       "layer": "head",
       "summary": "Cierra la cámara de combustión arriba del cilindro. Ahí van válvulas, muelles y, en muchos motores, el árbol de levas.",
       "nodes": [],
-      "anchorNorm": [0.4, 0.86, 0.34]
+      "anchorNorm": [
+        0.4,
+        0.86,
+        0.34
+      ],
+      "summaryEn": "Closes the combustion chamber above the cylinder. Valves, springs, and often the camshaft live here."
     }
-  ]
+  ],
+  "titleEn": "Internal combustion engine",
+  "overviewEn": "Main parts of an internal combustion engine. The Sketchfab GLB does not name meshes; this catalog is the reference for identifying them."
 }

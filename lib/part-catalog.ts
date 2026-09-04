@@ -10,8 +10,11 @@ export type PartCatalogEntry = {
   diagramIndex?: number
   label: string
   labelEn: string
+  labelZh?: string
   layer: string
   summary: string
+  summaryEn?: string
+  summaryZh?: string
   nodes: string[]
   anchor?: number[]
   anchorNorm?: number[]
@@ -22,8 +25,12 @@ export type PartCatalog = {
   modelFilename: string
   domain: string
   title: string
+  titleEn?: string
+  titleZh?: string
   source: string
   overview: string
+  overviewEn?: string
+  overviewZh?: string
   parts: PartCatalogEntry[]
 }
 

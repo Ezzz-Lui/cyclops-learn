@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
+    "@clerk/localizations": "^4.16.0",
     "@clerk/nextjs": "^7.8.3",
     "@clerk/ui": "^1.31.0",
     "@hugeicons/core-free-icons": "^4.3.0",
@@ -28,6 +29,7 @@
     "embla-carousel-react": "^8.6.0",
     "input-otp": "^1.5.0",
     "next": "16.2.6",
+    "next-intl": "^4.14.2",
     "next-themes": "^0.4.6",
     "react": "19.2.4",
     "react-day-picker": "^10.0.1",

@@ -13,8 +13,15 @@
       "labelEn": "Motherboard",
       "layer": "board",
       "summary": "PCB principal. Distribuye energía y datos entre CPU, memoria, almacenamiento y puertos.",
-      "nodes": ["MotherBoard"],
-      "anchorNorm": [0.5, 0.55, 0.55]
+      "nodes": [
+        "MotherBoard"
+      ],
+      "anchorNorm": [
+        0.5,
+        0.55,
+        0.55
+      ],
+      "summaryEn": "Main PCB. Distributes power and data between CPU, memory, storage, and ports."
     },
     {
       "id": "cpu",
@@ -23,8 +30,15 @@
       "labelEn": "CPU socket",
       "layer": "cpu",
       "summary": "Zócalo del procesador, al centro-arriba de la placa. Aquí asienta la CPU.",
-      "nodes": ["CPU"],
-      "anchorNorm": [0.4, 0.55, 0.32]
+      "nodes": [
+        "CPU"
+      ],
+      "anchorNorm": [
+        0.4,
+        0.55,
+        0.32
+      ],
+      "summaryEn": "Processor socket, upper-center of the board. The CPU seats here."
     },
     {
       "id": "ram",
@@ -33,8 +47,18 @@
       "labelEn": "RAM",
       "layer": "memory",
       "summary": "Los cuatro módulos DIMM, a la derecha del socket. En este modelo van iluminados.",
-      "nodes": ["RAM", "RAM1", "RAM2", "RAM3"],
-      "anchorNorm": [0.78, 0.7, 0.28]
+      "nodes": [
+        "RAM",
+        "RAM1",
+        "RAM2",
+        "RAM3"
+      ],
+      "anchorNorm": [
+        0.78,
+        0.7,
+        0.28
+      ],
+      "summaryEn": "The four DIMM modules, to the right of the socket. They are lit on this model."
     },
     {
       "id": "m2",
@@ -43,8 +67,15 @@
       "labelEn": "M.2 SSD",
       "layer": "storage",
       "summary": "Ranura M.2 bajo el socket, a menudo con disipador.",
-      "nodes": ["M2"],
-      "anchorNorm": [0.45, 0.5, 0.48]
+      "nodes": [
+        "M2"
+      ],
+      "anchorNorm": [
+        0.45,
+        0.5,
+        0.48
+      ],
+      "summaryEn": "M.2 slot under the socket, often with a heatsink."
     },
     {
       "id": "pila-cmos",
@@ -53,8 +84,15 @@
       "labelEn": "CMOS battery",
       "layer": "power",
       "summary": "Batería de botón que mantiene el reloj y la configuración del firmware (BIOS/UEFI).",
-      "nodes": ["Battery"],
-      "anchorNorm": [0.82, 0.5, 0.82]
+      "nodes": [
+        "Battery"
+      ],
+      "anchorNorm": [
+        0.82,
+        0.5,
+        0.82
+      ],
+      "summaryEn": "Coin cell that keeps the clock and firmware settings (BIOS/UEFI)."
     },
     {
       "id": "panel-io",
@@ -64,7 +102,12 @@
       "layer": "io",
       "summary": "Cubierta izquierda: USB, vídeo, audio y antenas hacia el exterior del gabinete.",
       "nodes": [],
-      "anchorNorm": [0.1, 0.65, 0.32]
+      "anchorNorm": [
+        0.1,
+        0.65,
+        0.32
+      ],
+      "summaryEn": "Left cover: USB, video, audio, and antennas facing out of the case."
     },
     {
       "id": "chipset",
@@ -74,7 +117,14 @@
       "layer": "board",
       "summary": "Disipador del chipset (PCH), abajo a la derecha. Habla con puertos y ranuras.",
       "nodes": [],
-      "anchorNorm": [0.68, 0.55, 0.78]
+      "anchorNorm": [
+        0.68,
+        0.55,
+        0.78
+      ],
+      "summaryEn": "Chipset (PCH) heatsink, lower right. Talks to ports and slots."
     }
-  ]
+  ],
+  "titleEn": "Motherboard",
+  "overviewEn": "ATX motherboard with CPU, RAM, M.2, CMOS battery, and I/O panel. Several GLB groups are named (CPU, RAM, M2, Battery)."
 }

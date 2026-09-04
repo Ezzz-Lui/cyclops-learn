@@ -1,4 +1,4 @@
-import type { Metadata } from "next"
+import { getTranslations } from "next-intl/server"
 
 import { BenchModesSection } from "@/components/marketing/bench-modes"
 import { CloseSection } from "@/components/marketing/close"
@@ -6,10 +6,12 @@ import { DomainsSection } from "@/components/marketing/domains"
 import { HeroSection } from "@/components/marketing/hero"
 import { PatternSection } from "@/components/marketing/pattern"
 
-export const metadata: Metadata = {
-  title: "Cyclops",
-  description:
-    "A systems lab for peeling objects layer by layer and asking a contextual agent on the bench.",
+export async function generateMetadata() {
+  const t = await getTranslations("Metadata")
+  return {
+    title: t("title"),
+    description: t("description"),
+  }
 }
 
 export default function LandingPage() {

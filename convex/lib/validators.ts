@@ -6,6 +6,8 @@ import {
   useCaseValidator,
 } from "../schema"
 
+export const localeValidator = v.union(v.literal("es"), v.literal("en"))
+
 export const partReturn = v.object({
   _id: v.id("parts"),
   gltfNodeName: v.string(),

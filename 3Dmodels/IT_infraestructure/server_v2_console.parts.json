@@ -14,7 +14,12 @@
       "layer": "chassis",
       "summary": "Bastidor de 19 pulgadas. Sostiene UPS, servidores, consola y almacenamiento en U.",
       "nodes": [],
-      "anchorNorm": [0.18, 0.5, 0.5]
+      "anchorNorm": [
+        0.18,
+        0.5,
+        0.5
+      ],
+      "summaryEn": "19-inch rack. Holds UPS, servers, console, and storage in U units."
     },
     {
       "id": "ups",
@@ -24,7 +29,12 @@
       "layer": "power",
       "summary": "Sistema de alimentación ininterrumpida en la parte alta del rack. Mantiene el equipo si corta la luz.",
       "nodes": [],
-      "anchorNorm": [0.55, 0.88, 0.42]
+      "anchorNorm": [
+        0.55,
+        0.88,
+        0.42
+      ],
+      "summaryEn": "Uninterruptible power supply at the top of the rack. Keeps gear up if power drops."
     },
     {
       "id": "servidores",
@@ -34,7 +44,12 @@
       "layer": "compute",
       "summary": "Unidades 1U/2U apiladas, con LEDs de estado. Ahí corre el cómputo.",
       "nodes": [],
-      "anchorNorm": [0.55, 0.7, 0.42]
+      "anchorNorm": [
+        0.55,
+        0.7,
+        0.42
+      ],
+      "summaryEn": "Stacked 1U/2U units with status LEDs. That is where compute runs."
     },
     {
       "id": "consola",
@@ -44,7 +59,12 @@
       "layer": "console",
       "summary": "Bandeja extraíble con pantalla. Sirve para administrar el rack en sitio.",
       "nodes": [],
-      "anchorNorm": [0.72, 0.48, 0.55]
+      "anchorNorm": [
+        0.72,
+        0.48,
+        0.55
+      ],
+      "summaryEn": "Pull-out tray with a display. Used to administer the rack on site."
     },
     {
       "id": "teclado",
@@ -54,7 +74,12 @@
       "layer": "console",
       "summary": "Teclado de la bandeja KVM, bajo la pantalla.",
       "nodes": [],
-      "anchorNorm": [0.62, 0.36, 0.58]
+      "anchorNorm": [
+        0.62,
+        0.36,
+        0.58
+      ],
+      "summaryEn": "KVM tray keyboard, under the display."
     },
     {
       "id": "almacenamiento",
@@ -64,7 +89,14 @@
       "layer": "storage",
       "summary": "Unidad baja del rack: bahías, rejillas de aire y puertos de discos o blade.",
       "nodes": [],
-      "anchorNorm": [0.55, 0.14, 0.42]
+      "anchorNorm": [
+        0.55,
+        0.14,
+        0.42
+      ],
+      "summaryEn": "Lower rack unit: bays, air grilles, and disk or blade ports."
     }
-  ]
+  ],
+  "titleEn": "Server rack",
+  "overviewEn": "Rack with UPS on top, 1U servers, a pull-out KVM console, and storage at the bottom. The GLB does not name meshes; zones follow the canvas photo."
 }

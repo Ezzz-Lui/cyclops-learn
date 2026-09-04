@@ -13,8 +13,15 @@
       "labelEn": "Walls",
       "layer": "envelope",
       "summary": "Muros de carga o tabiques que cierran la sala y reciben ventanas y puertas.",
-      "nodes": ["Wall_"],
-      "anchor": [468, 50, -180]
+      "nodes": [
+        "Wall_"
+      ],
+      "anchor": [
+        468,
+        50,
+        -180
+      ],
+      "summaryEn": "Load-bearing walls or partitions that enclose the living room and take windows and doors."
     },
     {
       "id": "losa",
@@ -23,8 +30,15 @@
       "labelEn": "Slab",
       "layer": "structure",
       "summary": "Losa estructural bajo el piso. Transmite cargas a muros o pilares.",
-      "nodes": ["Slab_"],
-      "anchor": [330, 2, -230]
+      "nodes": [
+        "Slab_"
+      ],
+      "anchor": [
+        330,
+        2,
+        -230
+      ],
+      "summaryEn": "Structural slab under the floor. Transfers loads to walls or columns."
     },
     {
       "id": "alfombra",
@@ -33,8 +47,16 @@
       "labelEn": "Carpet",
       "layer": "finish",
       "summary": "Alfombra del estar, sobre el piso, delante del sofá.",
-      "nodes": ["Carpet_", "Surface_"],
-      "anchor": [209, 3, -178]
+      "nodes": [
+        "Carpet_",
+        "Surface_"
+      ],
+      "anchor": [
+        209,
+        3,
+        -178
+      ],
+      "summaryEn": "Living-room carpet on the floor, in front of the sofa."
     },
     {
       "id": "ventanas",
@@ -43,8 +65,16 @@
       "labelEn": "Windows",
       "layer": "openings",
       "summary": "Huecos y carpintería de ventana. Luz y ventilación hacia el exterior.",
-      "nodes": ["Window_", "Series_SC7650"],
-      "anchor": [210, 48, -85]
+      "nodes": [
+        "Window_",
+        "Series_SC7650"
+      ],
+      "anchor": [
+        210,
+        48,
+        -85
+      ],
+      "summaryEn": "Window openings and frames. Light and ventilation to the outside."
     },
     {
       "id": "puertas",
@@ -53,8 +83,16 @@
       "labelEn": "Doors",
       "layer": "openings",
       "summary": "Huecos y hojas de puerta. Circulación entre estancias.",
-      "nodes": ["Door_", "door"],
-      "anchor": [323, 42, -255]
+      "nodes": [
+        "Door_",
+        "door"
+      ],
+      "anchor": [
+        323,
+        42,
+        -255
+      ],
+      "summaryEn": "Door openings and leaves. Circulation between rooms."
     },
     {
       "id": "sofa",
@@ -63,8 +101,15 @@
       "labelEn": "Sofa",
       "layer": "furniture",
       "summary": "Sofá de tres plazas. Define el estar frente a la televisión.",
-      "nodes": ["Sofa3x_"],
-      "anchor": [259, 20, -179]
+      "nodes": [
+        "Sofa3x_"
+      ],
+      "anchor": [
+        259,
+        20,
+        -179
+      ],
+      "summaryEn": "Three-seat sofa. Defines the sitting area facing the TV."
     },
     {
       "id": "mesa",
@@ -73,8 +118,16 @@
       "labelEn": "Table",
       "layer": "furniture",
       "summary": "Mesa de centro o comedor. Superficie de apoyo en la sala.",
-      "nodes": ["Furniture_", "G_4041"],
-      "anchor": [387, 18, -174]
+      "nodes": [
+        "Furniture_",
+        "G_4041"
+      ],
+      "anchor": [
+        387,
+        18,
+        -174
+      ],
+      "summaryEn": "Coffee or dining table. A work surface in the living room."
     },
     {
       "id": "sillas",
@@ -83,8 +136,16 @@
       "labelEn": "Chairs",
       "layer": "furniture",
       "summary": "Asientos sueltos (Driade) junto a la mesa o el estar.",
-      "nodes": ["Driade_", "Stool_"],
-      "anchor": [336, 18, -174]
+      "nodes": [
+        "Driade_",
+        "Stool_"
+      ],
+      "anchor": [
+        336,
+        18,
+        -174
+      ],
+      "summaryEn": "Loose seats (Driade) by the table or sitting area."
     },
     {
       "id": "television",
@@ -93,8 +154,15 @@
       "labelEn": "TV",
       "layer": "furniture",
       "summary": "Mueble y pantalla. Foco visual opuesto al sofá.",
-      "nodes": ["TV_set_"],
-      "anchor": [196, 32, -249]
+      "nodes": [
+        "TV_set_"
+      ],
+      "anchor": [
+        196,
+        32,
+        -249
+      ],
+      "summaryEn": "Cabinet and screen. Visual focus opposite the sofa."
     },
     {
       "id": "cortinas",
@@ -103,8 +171,16 @@
       "labelEn": "Curtains",
       "layer": "finish",
       "summary": "Textil delante de las ventanas. Controla luz y privacidad.",
-      "nodes": ["Curtain_", "curtain_"],
-      "anchor": [128, 50, -176]
+      "nodes": [
+        "Curtain_",
+        "curtain_"
+      ],
+      "anchor": [
+        128,
+        50,
+        -176
+      ],
+      "summaryEn": "Textile in front of the windows. Controls light and privacy."
     },
     {
       "id": "plantas",
@@ -113,8 +189,19 @@
       "labelEn": "Plants",
       "layer": "landscape",
       "summary": "Vegetación de interior: helecho, monstera, palma y flores.",
-      "nodes": ["Fern_", "Monstera_", "Palm_", "palm_", "Flowers_"],
-      "anchor": [443, 38, -111]
+      "nodes": [
+        "Fern_",
+        "Monstera_",
+        "Palm_",
+        "palm_",
+        "Flowers_"
+      ],
+      "anchor": [
+        443,
+        38,
+        -111
+      ],
+      "summaryEn": "Indoor plants: fern, monstera, palm, and flowers."
     },
     {
       "id": "iluminacion",
@@ -123,8 +210,18 @@
       "labelEn": "Lighting",
       "layer": "services",
       "summary": "Luminarias de techo o suspensión (Linearsystem, Sfera).",
-      "nodes": ["Linearsystem_", "quattro_"],
-      "anchor": [388, 94, -176]
+      "nodes": [
+        "Linearsystem_",
+        "quattro_"
+      ],
+      "anchor": [
+        388,
+        94,
+        -176
+      ],
+      "summaryEn": "Ceiling or pendant lights (Linearsystem, Sfera)."
     }
-  ]
+  ],
+  "titleEn": "Living room",
+  "overviewEn": "Living room with walls, slab, windows, doors, and furniture. GLB groups are named (Wall_, Sofa3x_, Window_). Anchors are tuned from canvas photos."
 }
