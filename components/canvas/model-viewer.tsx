@@ -1,10 +1,21 @@
 "use client"
 
 import dynamic from "next/dynamic"
+import { useTranslations } from "next-intl"
 
 import { Spinner } from "@/components/ui/spinner"
 import type { PartCatalogEntry } from "@/lib/part-catalog"
 import { cn } from "@/lib/utils"
+
+function ViewerLoading() {
+  const t = useTranslations("Canvas")
+  return (
+    <div className="flex min-h-72 items-center justify-center gap-2 rounded-xl bg-zinc-950 text-sm text-zinc-400">
+      <Spinner className="size-4 text-primary" />
+      {t("preparingViewer")}
+    </div>
+  )
+}
 
 const ModelViewerCanvas = dynamic(
   () =>
@@ -13,12 +24,7 @@ const ModelViewerCanvas = dynamic(
     ),
   {
     ssr: false,
-    loading: () => (
-      <div className="flex min-h-72 items-center justify-center gap-2 rounded-xl bg-zinc-950 text-sm text-zinc-400">
-        <Spinner className="size-4 text-primary" />
-        Preparing 3D viewer
-      </div>
-    ),
+    loading: () => <ViewerLoading />,
   }
 )
 

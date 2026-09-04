@@ -5,7 +5,10 @@ import { v } from "convex/values"
 import { internal } from "./_generated/api"
 import { action } from "./_generated/server"
 import { getForm, pickActivity } from "./forms/registry"
+import { localeValidator } from "./lib/validators"
 import type { FormUseCase } from "./forms/types"
+
+type AppLocale = "es" | "en" | "zh"
 
 type Snapshot = {
   userId: string
@@ -39,7 +42,17 @@ function nextMove(snapshot: Snapshot) {
   return pickActivity(form, snapshot.activePart)
 }
 
-function buildSystemPrompt(snapshot: Snapshot) {
+function languageRule(locale: AppLocale) {
+  if (locale === "en") {
+    return "Reply in English. Keep a lab-instructor tone. Translate part names for the student."
+  }
+  if (locale === "zh") {
+    return "用简体中文回答。保持实验室导师的语气。把零件名称翻译成学生界面上的中文。"
+  }
+  return "Responde en español latinoamericano, de tú. Mantén tono de instructor de lab. Usa los nombres de pieza que ve el estudiante."
+}
+
+function buildSystemPrompt(snapshot: Snapshot, locale: AppLocale) {
   const activity = nextMove(snapshot)
   const activityBlock = activity
     ? `Learning-by-doing (propose at most one, as a concrete canvas action):\n- ${activity.prompt}`
@@ -49,6 +62,7 @@ function buildSystemPrompt(snapshot: Snapshot) {
     return `You are Cyclops, a lab instructor for ${snapshot.projectTitle}.
 Mode: ${snapshot.useCase}.
 No mesh is selected on the canvas.
+${languageRule(locale)}
 
 Rules:
 - Ask the student to click a mesh. Do not invent a specific part.
@@ -64,6 +78,7 @@ ${activityBlock}`
   return `You are Cyclops, a lab instructor for ${snapshot.projectTitle}.
 Mode: ${snapshot.useCase}.
 Object notes: ${snapshot.projectOverview}
+${languageRule(locale)}
 
 AUTHORITATIVE CANVAS SELECTION:
 - Label: ${part.label}
@@ -93,16 +108,36 @@ function bindUserText(snapshot: Snapshot, text: string) {
   return `[Canvas selection: ${part.label} / ${part.gltfNodeName} / ${tag}]\n${text}`
 }
 
-function fallbackReply(snapshot: Snapshot, text: string) {
+function fallbackReply(snapshot: Snapshot, text: string, locale: AppLocale) {
+  if (locale === "zh") {
+    if (!snapshot.activePart) {
+      return "先在模型上点选一个网格。我只根据你在画布上点到的零件来回答。"
+    }
+    if (!snapshot.activePart.teachable) {
+      return `${snapshot.activePart.label} 是未编目网格（${snapshot.activePart.gltfNodeName}）。${snapshot.projectOverview} 可以问某个系统，或再点另一个零件。`
+    }
+    return `${snapshot.activePart.label}：${snapshot.activePart.summary} 你问的是：“${text}”`
+  }
+
+  if (locale === "en") {
+    if (!snapshot.activePart) {
+      return "Select a mesh on the model first. I only answer from the part you click on the canvas."
+    }
+    if (!snapshot.activePart.teachable) {
+      return `${snapshot.activePart.label} is an unlabeled mesh (${snapshot.activePart.gltfNodeName}). ${snapshot.projectOverview} Ask about a system or click another part.`
+    }
+    return `${snapshot.activePart.label}: ${snapshot.activePart.summary} You asked: "${text}"`
+  }
+
   if (!snapshot.activePart) {
-    return "Select a mesh on the engine first. I only answer from the part you click on the canvas."
+    return "Selecciona un mesh en el modelo primero. Solo respondo desde la pieza que haces clic en el canvas."
   }
 
   if (!snapshot.activePart.teachable) {
-    return `${snapshot.activePart.label} is an unlabeled mesh (${snapshot.activePart.gltfNodeName}) in this ICE. ${snapshot.projectOverview} Ask about a system — cooling, cylinder, intake, exhaust — or click another part.`
+    return `${snapshot.activePart.label} es un mesh sin curar (${snapshot.activePart.gltfNodeName}). ${snapshot.projectOverview} Pregunta por un sistema o haz clic en otra pieza.`
   }
 
-  return `${snapshot.activePart.label}: ${snapshot.activePart.summary} You asked: "${text}"`
+  return `${snapshot.activePart.label}: ${snapshot.activePart.summary} Preguntaste: "${text}"`
 }
 
 async function callOpenAi(system: string, messages: Snapshot["messages"]) {
@@ -145,6 +180,7 @@ export const respond = action({
   args: {
     sessionId: v.id("sessions"),
     text: v.string(),
+    locale: v.optional(localeValidator),
   },
   returns: v.null(),
   handler: async (ctx, args) => {
@@ -158,6 +194,7 @@ export const respond = action({
       throw new Error("Message cannot be empty")
     }
 
+    const locale = args.locale ?? "es"
     const snapshot = (await ctx.runQuery(internal.chat.getSnapshot, {
       sessionId: args.sessionId,
     })) as Snapshot
@@ -172,7 +209,7 @@ export const respond = action({
       text: trimmed,
     })
 
-    const system = buildSystemPrompt(snapshot)
+    const system = buildSystemPrompt(snapshot, locale)
     const prior = snapshot.activePart
       ? snapshot.messages.slice(-6)
       : snapshot.messages
@@ -181,7 +218,7 @@ export const respond = action({
       { role: "user" as const, text: bindUserText(snapshot, trimmed) },
     ]
     const modelReply = await callOpenAi(system, history)
-    const reply = modelReply ?? fallbackReply(snapshot, trimmed)
+    const reply = modelReply ?? fallbackReply(snapshot, trimmed, locale)
 
     await ctx.runMutation(internal.chat.appendMessage, {
       sessionId: args.sessionId,

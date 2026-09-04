@@ -5,6 +5,11 @@
   "title": "Caja de cambios",
   "source": "CAJA DE CAMBIOS DESCRIPCION",
   "overview": "Caja de cambios manual. El GLB no nombra los meshes; este catálogo identifica las 9 piezas del diagrama. Los anclajes 3D son aproximados según el eje de las flechas.",
+  "picking": {
+    "clickMaxDelta": 4,
+    "anchorMaxDistance": 0.035,
+    "anchorAmbiguityMargin": 0.012
+  },
   "parts": [
     {
       "id": "contra-flecha",
@@ -14,7 +19,14 @@
       "layer": "shafts",
       "summary": "Eje inferior paralelo a la flecha de salida. Lleva los engranes que engranan con los de la flecha principal.",
       "nodes": [],
-      "anchor": [-0.09, -0.12, 0.05]
+      "anchor": [
+        -0.09,
+        -0.12,
+        0.05
+      ],
+      "summaryEn": "Lower shaft parallel to the output shaft. Carries gears that mesh with the main shaft.",
+      "labelZh": "中间轴",
+      "summaryZh": "与输出轴平行的下轴。带着与主轴啮合的齿轮。"
     },
     {
       "id": "flecha-de-mando",
@@ -24,7 +36,14 @@
       "layer": "shafts",
       "summary": "Eje estriado de entrada, al lado del motor/embrague. Recibe el giro y lo entrega a la caja.",
       "nodes": [],
-      "anchor": [-0.18, 0.01, 0.06]
+      "anchor": [
+        -0.18,
+        0.01,
+        0.06
+      ],
+      "summaryEn": "Splined input shaft, on the engine/clutch side. Takes rotation and feeds the box.",
+      "labelZh": "输入轴",
+      "summaryZh": "花键输入轴，在发动机/离合器一侧。接收转速并送入变速箱。"
     },
     {
       "id": "caja-de-la-transmision",
@@ -34,7 +53,14 @@
       "layer": "housing",
       "summary": "Carcasa exterior que contiene engranes, flechas y aceite. Es el cuerpo estructural de la caja.",
       "nodes": [],
-      "anchor": [-0.16, -0.05, 0.08]
+      "anchor": [
+        -0.16,
+        -0.05,
+        0.08
+      ],
+      "summaryEn": "Outer housing that holds gears, shafts, and oil. Structural body of the gearbox.",
+      "labelZh": "变速箱壳体",
+      "summaryZh": "容纳齿轮、轴和润滑油的外壳。变速箱的结构本体。"
     },
     {
       "id": "flecha-de-salida",
@@ -44,7 +70,14 @@
       "layer": "shafts",
       "summary": "Eje estriado de salida. Envía el par ya reducido al resto de la transmisión.",
       "nodes": [],
-      "anchor": [0.03, 0.01, 0.05]
+      "anchor": [
+        0.03,
+        0.01,
+        0.05
+      ],
+      "summaryEn": "Splined output shaft. Sends already-reduced torque to the rest of the driveline.",
+      "labelZh": "输出轴",
+      "summaryZh": "花键输出轴。把已减速的转矩送到传动系其余部分。"
     },
     {
       "id": "palanca",
@@ -54,7 +87,14 @@
       "layer": "shift",
       "summary": "Palanca o varilla superior con la que el conductor selecciona la marcha.",
       "nodes": [],
-      "anchor": [-0.08, 0.12, 0.05]
+      "anchor": [
+        -0.08,
+        0.12,
+        0.05
+      ],
+      "summaryEn": "Upper lever or rod the driver uses to pick a gear.",
+      "labelZh": "换挡杆",
+      "summaryZh": "驾驶员用来选挡的上杆。"
     },
     {
       "id": "varillaje",
@@ -64,7 +104,14 @@
       "layer": "shift",
       "summary": "Varillas y horquillas internas bajo la palanca. Mueven los collares sincronizadores.",
       "nodes": [],
-      "anchor": [-0.09, 0.07, 0.06]
+      "anchor": [
+        -0.09,
+        0.07,
+        0.06
+      ],
+      "summaryEn": "Internal rods and forks under the lever. They move the synchronizer sleeves.",
+      "labelZh": "换挡连杆",
+      "summaryZh": "拨杆下方的内部拨叉。推动同步器齿套。"
     },
     {
       "id": "collar-sincronizador-delantero",
@@ -74,7 +121,14 @@
       "layer": "synchronizers",
       "summary": "Conjunto sincronizador en la flecha principal, del lado de la entrada. Iguala velocidades antes de engranar.",
       "nodes": [],
-      "anchor": [-0.14, 0.02, 0.05]
+      "anchor": [
+        -0.14,
+        0.02,
+        0.05
+      ],
+      "summaryEn": "Synchronizer on the main shaft, input side. Matches speeds before meshing.",
+      "labelZh": "前同步器齿套",
+      "summaryZh": "主轴上靠输入侧的同步器。啮合前先匹配转速。"
     },
     {
       "id": "engrane-de-reversa",
@@ -84,7 +138,14 @@
       "layer": "gears",
       "summary": "Engrane del extremo de salida. Invierte el sentido de giro para la marcha atrás.",
       "nodes": [],
-      "anchor": [0.01, -0.11, 0.05]
+      "anchor": [
+        0.01,
+        -0.11,
+        0.05
+      ],
+      "summaryEn": "Gear at the output end. Reverses rotation for reverse.",
+      "labelZh": "倒挡齿轮",
+      "summaryZh": "输出端齿轮。反向旋转以得到倒挡。"
     },
     {
       "id": "collar-sincronizador-posterior",
@@ -94,7 +155,18 @@
       "layer": "synchronizers",
       "summary": "Segundo sincronizador en la flecha principal, más cerca de la salida.",
       "nodes": [],
-      "anchor": [-0.03, 0.02, 0.05]
+      "anchor": [
+        -0.03,
+        0.02,
+        0.05
+      ],
+      "summaryEn": "Second synchronizer on the main shaft, closer to the output.",
+      "labelZh": "后同步器齿套",
+      "summaryZh": "主轴上更靠近输出的第二同步器。"
     }
-  ]
+  ],
+  "titleEn": "Gearbox",
+  "overviewEn": "Manual gearbox. The GLB does not name meshes; this catalog identifies the 9 diagram parts. 3D anchors are approximate along the arrow axis.",
+  "titleZh": "变速箱",
+  "overviewZh": "手动变速箱。GLB 未命名网格；本目录对应图中 9 个零件。三维锚点沿箭头轴近似。"
 }

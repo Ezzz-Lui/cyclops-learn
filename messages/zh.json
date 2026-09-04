@@ -1,0 +1,162 @@
+{
+  "Metadata": {
+    "title": "Cyclops",
+    "description": "一套系统实验室：一层层剥开对象，并在工作台上向情境化智能体提问。"
+  },
+  "Brand": {
+    "name": "Cyclops"
+  },
+  "NotFound": {
+    "title": "找不到这条路径",
+    "body": "回到实验室，或切换语言。"
+  },
+  "LocaleSwitch": {
+    "label": "语言",
+    "es": "Español",
+    "en": "English",
+    "zh": "中文"
+  },
+  "Nav": {
+    "home": "首页",
+    "canvas": "画布"
+  },
+  "Auth": {
+    "signIn": "登录",
+    "signUp": "注册",
+    "signInTitle": "登录",
+    "signUpTitle": "注册"
+  },
+  "Marketing": {
+    "badge": "系统实验室",
+    "heroTitleBefore": "进入",
+    "heroTitleAccent": "实验室。",
+    "heroBody": "一层层剥开复杂系统，然后在工作台上向情境化智能体提问。",
+    "ctaEnter": "进入实验室",
+    "ctaBench": "前往工作台",
+    "patternKicker": "模式",
+    "patternTitle": "对象 → 图层 → 组件",
+    "patternSteps": {
+      "object": {
+        "title": "对象",
+        "body": "把一个系统放到工作台上。"
+      },
+      "layers": {
+        "title": "图层",
+        "body": "剥开结构，直到工作零件露出来。"
+      },
+      "components": {
+        "title": "组件",
+        "body": "就眼前的零件，在情境里提问。"
+      }
+    },
+    "modesKicker": "在工作台上",
+    "modesTitle": "工作台模式",
+    "modes": {
+      "explore": {
+        "title": "探索",
+        "body": "走一遍系统，理清零件如何咬合。"
+      },
+      "faults": {
+        "title": "故障台",
+        "body": "提出哪里坏了，并验证这个判断。"
+      },
+      "diagnosis": {
+        "title": "引导诊断",
+        "body": "在智能体陪同下追踪一次故障。"
+      }
+    },
+    "domainsKicker": "同一张工作台",
+    "domainsTitle": "领域",
+    "domains": {
+      "computing": {
+        "title": "计算",
+        "blurb": "机器、主板，以及驱动它们的技术栈。"
+      },
+      "architecture": {
+        "title": "建筑",
+        "blurb": "空间、结构，以及一座建筑如何站住。"
+      },
+      "mechanics": {
+        "title": "机械",
+        "blurb": "运动总成，以及它们承受的力。"
+      }
+    },
+    "closeKicker": "就绪",
+    "closeTitle": "工作台已开放。",
+    "closeBody": "把一个系统带进实验室。剥开它，验证判断，并在情境中与智能体一起诊断。"
+  },
+  "Home": {
+    "title": "首页",
+    "subtitle": "按领域查看最近项目，以及新加入的项目。数据为模拟数据。",
+    "recentByTopic": "按领域的最近项目",
+    "newlyAdded": "新加入的项目",
+    "openCanvas": "打开画布"
+  },
+  "Topics": {
+    "architecture": "建筑",
+    "mechanics": "机械",
+    "computing": "计算"
+  },
+  "Canvas": {
+    "title": "画布",
+    "indexBody": "从首页选择一个项目，或打开带种子数据的占位项目。",
+    "noProject": "未选择项目",
+    "backHome": "返回首页",
+    "projectMeta": "项目 {id} · 标注零件、查看器、聊天",
+    "parts": "零件",
+    "practice": "练习",
+    "viewer": "3D 查看器",
+    "chat": "智能体聊天",
+    "file": "文件",
+    "modePractice": "练习",
+    "modeExplore": "探索",
+    "startPractice": "练习辨认",
+    "backToExplore": "返回探索",
+    "clickMesh": "点击一个网格。智能体只能谈论你选中的零件。",
+    "tryThis": "试一试：{prompt}",
+    "node": "节点 {name}",
+    "connecting": "正在连接实验室后端…",
+    "signedInNoConvex": "Clerk 会话已就绪，Convex 令牌还没有。刷新一次，让实验室后端接上。",
+    "signInToChat": "登录后才能保存选中项，并与实验室讲师对话。",
+    "emptyChat": "问问选中的网格做什么。没有点击的话，我会把你送回画布。",
+    "you": "你",
+    "agentName": "Cyclops",
+    "placeholder": "询问选中的零件",
+    "send": "发送",
+    "thinking": "思考中…",
+    "preparingViewer": "正在准备 3D 查看器",
+    "sessionError": "无法打开会话",
+    "agentError": "智能体失败",
+    "authHintJwt": "Clerk 签发了 Convex JWT，但后端没有接受。这台机器的 NEXT_PUBLIC_CONVEX_URL 很可能与共享的 silent-lobster-652 部署不一致。",
+    "authHintNoToken": "Clerk 已登录，但 getToken({ template: \"convex\" }) 没有返回内容。此 Clerk 应用需要名为 convex 的 JWT template，且 .env.local 必须使用与共享 Cyclops Learn 应用相同的密钥。",
+    "authHintTemplate": "Clerk 已登录，但 convex JWT template 失败。在此 Clerk 应用中创建名为 convex 的 JWT template，或复制共享的 .env.local 密钥。"
+  },
+  "Practice": {
+    "title": "辨认练习",
+    "intro": "我报一个零件，你在模型上点击找到它。视野里没有标签：点错我会给提示；每次尝试都计入历史。",
+    "historyHint": "我们从你上一轮比较吃力的零件开始。",
+    "start": "开始（{count} 个零件）",
+    "cancel": "取消",
+    "pieceOf": "第 {current} / {total} 个零件",
+    "locate": "在模型上找到它",
+    "hint": "提示",
+    "hintRevealed": "它的标签已显示在模型上。",
+    "rotateHint": "旋转模型，点击你认为它所在的位置。",
+    "summary": "查看总结",
+    "next": "下一个",
+    "giveUp": "找不到",
+    "exit": "退出",
+    "result": "成绩：{solved} / {total}",
+    "firstTry": "一次就对",
+    "attempts": "{count} 次尝试",
+    "withHelp": "靠帮助",
+    "retryFailed": "重做错过的（{count}）",
+    "anotherRound": "再来一轮",
+    "correctFirst": "第一次就正确。{summary}",
+    "correct": "正确。{summary}",
+    "correctWithLabel": "标签可见时你找到了它。{summary}",
+    "wrongPart": "那是{clicked}，不是{target}。",
+    "wrongEmpty": "那里没有编目零件。去找{target}。",
+    "gaveUp": "就是这里（模型上的标签）。{summary}"
+  }
+}
