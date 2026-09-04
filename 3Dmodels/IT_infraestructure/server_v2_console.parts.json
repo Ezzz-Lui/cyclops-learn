@@ -19,7 +19,9 @@
         0.5,
         0.5
       ],
-      "summaryEn": "19-inch rack. Holds UPS, servers, console, and storage in U units."
+      "summaryEn": "19-inch rack. Holds UPS, servers, console, and storage in U units.",
+      "labelZh": "机柜",
+      "summaryZh": "19 英寸机柜。按 U 安装 UPS、服务器、控制台和存储。"
     },
     {
       "id": "ups",
@@ -34,7 +36,9 @@
         0.88,
         0.42
       ],
-      "summaryEn": "Uninterruptible power supply at the top of the rack. Keeps gear up if power drops."
+      "summaryEn": "Uninterruptible power supply at the top of the rack. Keeps gear up if power drops.",
+      "labelZh": "UPS",
+      "summaryZh": "机柜顶部的不间断电源。断电时维持设备运行。"
     },
     {
       "id": "servidores",
@@ -49,7 +53,9 @@
         0.7,
         0.42
       ],
-      "summaryEn": "Stacked 1U/2U units with status LEDs. That is where compute runs."
+      "summaryEn": "Stacked 1U/2U units with status LEDs. That is where compute runs.",
+      "labelZh": "服务器",
+      "summaryZh": "叠放的 1U/2U 设备，带状态灯。计算在这里运行。"
     },
     {
       "id": "consola",
@@ -64,7 +70,9 @@
         0.48,
         0.55
       ],
-      "summaryEn": "Pull-out tray with a display. Used to administer the rack on site."
+      "summaryEn": "Pull-out tray with a display. Used to administer the rack on site.",
+      "labelZh": "KVM 控制台",
+      "summaryZh": "带屏幕的抽出托盘。用于现场管理机柜。"
     },
     {
       "id": "teclado",
@@ -79,7 +87,9 @@
         0.36,
         0.58
       ],
-      "summaryEn": "KVM tray keyboard, under the display."
+      "summaryEn": "KVM tray keyboard, under the display.",
+      "labelZh": "控制台键盘",
+      "summaryZh": "KVM 托盘键盘，在屏幕下方。"
     },
     {
       "id": "almacenamiento",
@@ -94,9 +104,13 @@
         0.14,
         0.42
       ],
-      "summaryEn": "Lower rack unit: bays, air grilles, and disk or blade ports."
+      "summaryEn": "Lower rack unit: bays, air grilles, and disk or blade ports.",
+      "labelZh": "存储阵列",
+      "summaryZh": "机柜下部：硬盘位、通风格栅和磁盘或刀片接口。"
     }
   ],
   "titleEn": "Server rack",
-  "overviewEn": "Rack with UPS on top, 1U servers, a pull-out KVM console, and storage at the bottom. The GLB does not name meshes; zones follow the canvas photo."
+  "overviewEn": "Rack with UPS on top, 1U servers, a pull-out KVM console, and storage at the bottom. The GLB does not name meshes; zones follow the canvas photo.",
+  "titleZh": "服务器机柜",
+  "overviewZh": "顶部 UPS、1U 服务器、抽出式 KVM 控制台、底部存储。GLB 未命名网格；分区按画布照片。"
 }

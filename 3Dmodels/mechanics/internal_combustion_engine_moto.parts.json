@@ -19,7 +19,9 @@
         0.4,
         0.38
       ],
-      "summaryEn": "Main engine casting. Houses the cylinders and structurally supports the crankshaft and other assemblies."
+      "summaryEn": "Main engine casting. Houses the cylinders and structurally supports the crankshaft and other assemblies.",
+      "labelZh": "气缸体",
+      "summaryZh": "发动机主体铸件。容纳气缸，并为曲轴及其他总成提供结构支承。"
     },
     {
       "id": "piston",
@@ -34,7 +36,9 @@
         0.66,
         0.62
       ],
-      "summaryEn": "Moves up and down in the cylinder bore. Combustion pressure pushes the piston and starts the power stroke."
+      "summaryEn": "Moves up and down in the cylinder bore. Combustion pressure pushes the piston and starts the power stroke.",
+      "labelZh": "活塞",
+      "summaryZh": "在气缸孔内上下运动。燃烧压力推动活塞，开始做功冲程。"
     },
     {
       "id": "ciguenal",
@@ -49,7 +53,9 @@
         0.14,
         0.52
       ],
-      "summaryEn": "Turns the pistons' up-and-down motion into rotation."
+      "summaryEn": "Turns the pistons' up-and-down motion into rotation.",
+      "labelZh": "曲轴",
+      "summaryZh": "把活塞的往复运动转换成旋转。"
     },
     {
       "id": "biela",
@@ -64,7 +70,9 @@
         0.46,
         0.58
       ],
-      "summaryEn": "Connects the piston to the crankshaft. Sends the piston's linear force to the crank pin."
+      "summaryEn": "Connects the piston to the crankshaft. Sends the piston's linear force to the crank pin.",
+      "labelZh": "连杆",
+      "summaryZh": "连接活塞与曲轴。把活塞的直线力传到曲柄销。"
     },
     {
       "id": "culata",
@@ -79,9 +87,13 @@
         0.86,
         0.34
       ],
-      "summaryEn": "Closes the combustion chamber above the cylinder. Valves, springs, and often the camshaft live here."
+      "summaryEn": "Closes the combustion chamber above the cylinder. Valves, springs, and often the camshaft live here.",
+      "labelZh": "气缸盖",
+      "summaryZh": "封闭气缸上方的燃烧室。气门、弹簧，以及许多发动机的凸轮轴都在这里。"
     }
   ],
   "titleEn": "Internal combustion engine",
-  "overviewEn": "Main parts of an internal combustion engine. The Sketchfab GLB does not name meshes; this catalog is the reference for identifying them."
+  "overviewEn": "Main parts of an internal combustion engine. The Sketchfab GLB does not name meshes; this catalog is the reference for identifying them.",
+  "titleZh": "内燃机",
+  "overviewZh": "内燃机的主要零件。Sketchfab 的 GLB 未命名网格；本目录是辨认依据。"
 }

@@ -3,7 +3,7 @@ import { shadcn } from "@clerk/ui/themes"
 import { hasLocale } from "next-intl"
 import { NextIntlClientProvider } from "next-intl"
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server"
-import { Figtree, Geist_Mono } from "next/font/google"
+import { Figtree, Geist_Mono, Noto_Sans_SC } from "next/font/google"
 import { notFound } from "next/navigation"
 
 import { ConvexClientProvider } from "@/components/providers/convex-client-provider"
@@ -16,6 +16,12 @@ import { routing } from "@/i18n/routing"
 import { cn } from "@/lib/utils"
 
 const figtree = Figtree({ subsets: ["latin"], variable: "--font-sans" })
+
+const notoSansSC = Noto_Sans_SC({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  variable: "--font-cjk",
+})
 
 const fontMono = Geist_Mono({
   subsets: ["latin"],
@@ -68,10 +74,11 @@ export default async function LocaleLayout({
       lang={htmlLang[locale]}
       suppressHydrationWarning
       className={cn(
-        "antialiased",
+        "antialiased font-sans",
         fontMono.variable,
-        "font-sans",
-        figtree.variable
+        figtree.variable,
+        notoSansSC.variable,
+        locale === "zh" && "[--font-sans:var(--font-cjk)]"
       )}
     >
       <body>

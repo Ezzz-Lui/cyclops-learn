@@ -5,12 +5,18 @@ export function localizedLabel(part: PartCatalogEntry, locale: AppLocale) {
   if (locale === "en") {
     return part.labelEn
   }
+  if (locale === "zh") {
+    return part.labelZh ?? part.labelEn
+  }
   return part.label
 }
 
 export function localizedSummary(part: PartCatalogEntry, locale: AppLocale) {
   if (locale === "en") {
     return part.summaryEn ?? part.summary
+  }
+  if (locale === "zh") {
+    return part.summaryZh ?? part.summary
   }
   return part.summary
 }
@@ -31,9 +37,17 @@ export function localizeCatalog(
   locale: AppLocale
 ): PartCatalog {
   const title =
-    locale === "en" ? (catalog.titleEn ?? catalog.title) : catalog.title
+    locale === "en"
+      ? (catalog.titleEn ?? catalog.title)
+      : locale === "zh"
+        ? (catalog.titleZh ?? catalog.titleEn ?? catalog.title)
+        : catalog.title
   const overview =
-    locale === "en" ? (catalog.overviewEn ?? catalog.overview) : catalog.overview
+    locale === "en"
+      ? (catalog.overviewEn ?? catalog.overview)
+      : locale === "zh"
+        ? (catalog.overviewZh ?? catalog.overview)
+        : catalog.overview
 
   return {
     ...catalog,
@@ -50,8 +64,8 @@ export function getLocalizedCatalog(
   if (!catalog) {
     return null
   }
-  if (locale === "en") {
-    return localizeCatalog(catalog, "en")
+  if (locale === "en" || locale === "zh") {
+    return localizeCatalog(catalog, locale)
   }
   return localizeCatalog(catalog, "es")
 }

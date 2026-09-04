@@ -13,7 +13,8 @@
   "LocaleSwitch": {
     "label": "Language",
     "es": "Español",
-    "en": "English"
+    "en": "English",
+    "zh": "中文"
   },
   "Nav": {
     "home": "Home",

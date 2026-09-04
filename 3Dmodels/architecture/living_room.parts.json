@@ -21,7 +21,9 @@
         50,
         -180
       ],
-      "summaryEn": "Load-bearing walls or partitions that enclose the living room and take windows and doors."
+      "summaryEn": "Load-bearing walls or partitions that enclose the living room and take windows and doors.",
+      "labelZh": "墙体",
+      "summaryZh": "承重墙或隔墙，围合客厅并承接门窗。"
     },
     {
       "id": "losa",
@@ -38,7 +40,9 @@
         2,
         -230
       ],
-      "summaryEn": "Structural slab under the floor. Transfers loads to walls or columns."
+      "summaryEn": "Structural slab under the floor. Transfers loads to walls or columns.",
+      "labelZh": "楼板",
+      "summaryZh": "地板下的结构楼板，把荷载传到墙或柱。"
     },
     {
       "id": "alfombra",
@@ -56,7 +60,9 @@
         3,
         -178
       ],
-      "summaryEn": "Living-room carpet on the floor, in front of the sofa."
+      "summaryEn": "Living-room carpet on the floor, in front of the sofa.",
+      "labelZh": "地毯",
+      "summaryZh": "起居区地毯，铺在沙发前方的地面上。"
     },
     {
       "id": "ventanas",
@@ -74,7 +80,9 @@
         48,
         -85
       ],
-      "summaryEn": "Window openings and frames. Light and ventilation to the outside."
+      "summaryEn": "Window openings and frames. Light and ventilation to the outside.",
+      "labelZh": "窗户",
+      "summaryZh": "窗洞与窗框。向室外采光、通风。"
     },
     {
       "id": "puertas",
@@ -92,7 +100,9 @@
         42,
         -255
       ],
-      "summaryEn": "Door openings and leaves. Circulation between rooms."
+      "summaryEn": "Door openings and leaves. Circulation between rooms.",
+      "labelZh": "门",
+      "summaryZh": "门洞与门扇。房间之间的通行。"
     },
     {
       "id": "sofa",
@@ -109,7 +119,9 @@
         20,
         -179
       ],
-      "summaryEn": "Three-seat sofa. Defines the sitting area facing the TV."
+      "summaryEn": "Three-seat sofa. Defines the sitting area facing the TV.",
+      "labelZh": "沙发",
+      "summaryZh": "三人沙发。对着电视划出起居区。"
     },
     {
       "id": "mesa",
@@ -127,7 +139,9 @@
         18,
         -174
       ],
-      "summaryEn": "Coffee or dining table. A work surface in the living room."
+      "summaryEn": "Coffee or dining table. A work surface in the living room.",
+      "labelZh": "桌子",
+      "summaryZh": "茶几或餐桌。客厅里的承托面。"
     },
     {
       "id": "sillas",
@@ -145,7 +159,9 @@
         18,
         -174
       ],
-      "summaryEn": "Loose seats (Driade) by the table or sitting area."
+      "summaryEn": "Loose seats (Driade) by the table or sitting area.",
+      "labelZh": "椅子",
+      "summaryZh": "桌边或起居区的活动座椅（Driade）。"
     },
     {
       "id": "television",
@@ -162,7 +178,9 @@
         32,
         -249
       ],
-      "summaryEn": "Cabinet and screen. Visual focus opposite the sofa."
+      "summaryEn": "Cabinet and screen. Visual focus opposite the sofa.",
+      "labelZh": "电视",
+      "summaryZh": "柜体和屏幕。沙发对面的视觉焦点。"
     },
     {
       "id": "cortinas",
@@ -180,7 +198,9 @@
         50,
         -176
       ],
-      "summaryEn": "Textile in front of the windows. Controls light and privacy."
+      "summaryEn": "Textile in front of the windows. Controls light and privacy.",
+      "labelZh": "窗帘",
+      "summaryZh": "窗前织物。控制光线和私密性。"
     },
     {
       "id": "plantas",
@@ -201,7 +221,9 @@
         38,
         -111
       ],
-      "summaryEn": "Indoor plants: fern, monstera, palm, and flowers."
+      "summaryEn": "Indoor plants: fern, monstera, palm, and flowers.",
+      "labelZh": "植物",
+      "summaryZh": "室内植物：蕨类、龟背竹、棕榈和花。"
     },
     {
       "id": "iluminacion",
@@ -219,9 +241,13 @@
         94,
         -176
       ],
-      "summaryEn": "Ceiling or pendant lights (Linearsystem, Sfera)."
+      "summaryEn": "Ceiling or pendant lights (Linearsystem, Sfera).",
+      "labelZh": "照明",
+      "summaryZh": "天花或吊灯（Linearsystem、Sfera）。"
     }
   ],
   "titleEn": "Living room",
-  "overviewEn": "Living room with walls, slab, windows, doors, and furniture. GLB groups are named (Wall_, Sofa3x_, Window_). Anchors are tuned from canvas photos."
+  "overviewEn": "Living room with walls, slab, windows, doors, and furniture. GLB groups are named (Wall_, Sofa3x_, Window_). Anchors are tuned from canvas photos.",
+  "titleZh": "客厅",
+  "overviewZh": "带墙体、楼板、窗、门和家具的客厅。GLB 组已命名（Wall_、Sofa3x_、Window_）。锚点按画布照片微调。"
 }

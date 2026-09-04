@@ -8,7 +8,7 @@ import { getForm, pickActivity } from "./forms/registry"
 import { localeValidator } from "./lib/validators"
 import type { FormUseCase } from "./forms/types"
 
-type AppLocale = "es" | "en"
+type AppLocale = "es" | "en" | "zh"
 
 type Snapshot = {
   userId: string
@@ -45,6 +45,9 @@ function nextMove(snapshot: Snapshot) {
 function languageRule(locale: AppLocale) {
   if (locale === "en") {
     return "Reply in English. Keep a lab-instructor tone. Translate part names for the student."
+  }
+  if (locale === "zh") {
+    return "用简体中文回答。保持实验室导师的语气。把零件名称翻译成学生界面上的中文。"
   }
   return "Responde en español latinoamericano, de tú. Mantén tono de instructor de lab. Usa los nombres de pieza que ve el estudiante."
 }
@@ -106,6 +109,16 @@ function bindUserText(snapshot: Snapshot, text: string) {
 }
 
 function fallbackReply(snapshot: Snapshot, text: string, locale: AppLocale) {
+  if (locale === "zh") {
+    if (!snapshot.activePart) {
+      return "先在模型上点选一个网格。我只根据你在画布上点到的零件来回答。"
+    }
+    if (!snapshot.activePart.teachable) {
+      return `${snapshot.activePart.label} 是未编目网格（${snapshot.activePart.gltfNodeName}）。${snapshot.projectOverview} 可以问某个系统，或再点另一个零件。`
+    }
+    return `${snapshot.activePart.label}：${snapshot.activePart.summary} 你问的是：“${text}”`
+  }
+
   if (locale === "en") {
     if (!snapshot.activePart) {
       return "Select a mesh on the model first. I only answer from the part you click on the canvas."

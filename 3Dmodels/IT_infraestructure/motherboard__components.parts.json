@@ -21,7 +21,9 @@
         0.55,
         0.55
       ],
-      "summaryEn": "Main PCB. Distributes power and data between CPU, memory, storage, and ports."
+      "summaryEn": "Main PCB. Distributes power and data between CPU, memory, storage, and ports.",
+      "labelZh": "主板",
+      "summaryZh": "主 PCB。在 CPU、内存、存储和接口之间分配电源与数据。"
     },
     {
       "id": "cpu",
@@ -38,7 +40,9 @@
         0.55,
         0.32
       ],
-      "summaryEn": "Processor socket, upper-center of the board. The CPU seats here."
+      "summaryEn": "Processor socket, upper-center of the board. The CPU seats here.",
+      "labelZh": "CPU 插槽",
+      "summaryZh": "处理器插槽，位于板子中上部。CPU 安装在这里。"
     },
     {
       "id": "ram",
@@ -58,7 +62,9 @@
         0.7,
         0.28
       ],
-      "summaryEn": "The four DIMM modules, to the right of the socket. They are lit on this model."
+      "summaryEn": "The four DIMM modules, to the right of the socket. They are lit on this model.",
+      "labelZh": "内存",
+      "summaryZh": "插槽右侧的四条 DIMM。此模型上是点亮的。"
     },
     {
       "id": "m2",
@@ -75,7 +81,9 @@
         0.5,
         0.48
       ],
-      "summaryEn": "M.2 slot under the socket, often with a heatsink."
+      "summaryEn": "M.2 slot under the socket, often with a heatsink.",
+      "labelZh": "M.2 固态硬盘",
+      "summaryZh": "插槽下方的 M.2 接口，常带散热片。"
     },
     {
       "id": "pila-cmos",
@@ -92,7 +100,9 @@
         0.5,
         0.82
       ],
-      "summaryEn": "Coin cell that keeps the clock and firmware settings (BIOS/UEFI)."
+      "summaryEn": "Coin cell that keeps the clock and firmware settings (BIOS/UEFI).",
+      "labelZh": "CMOS 电池",
+      "summaryZh": "纽扣电池，维持时钟和固件设置（BIOS/UEFI）。"
     },
     {
       "id": "panel-io",
@@ -107,7 +117,9 @@
         0.65,
         0.32
       ],
-      "summaryEn": "Left cover: USB, video, audio, and antennas facing out of the case."
+      "summaryEn": "Left cover: USB, video, audio, and antennas facing out of the case.",
+      "labelZh": "I/O 挡板",
+      "summaryZh": "左侧挡板：USB、视频、音频和天线朝向机箱外侧。"
     },
     {
       "id": "chipset",
@@ -122,9 +134,13 @@
         0.55,
         0.78
       ],
-      "summaryEn": "Chipset (PCH) heatsink, lower right. Talks to ports and slots."
+      "summaryEn": "Chipset (PCH) heatsink, lower right. Talks to ports and slots.",
+      "labelZh": "芯片组",
+      "summaryZh": "芯片组（PCH）散热片，右下方。连接接口和插槽。"
     }
   ],
   "titleEn": "Motherboard",
-  "overviewEn": "ATX motherboard with CPU, RAM, M.2, CMOS battery, and I/O panel. Several GLB groups are named (CPU, RAM, M2, Battery)."
+  "overviewEn": "ATX motherboard with CPU, RAM, M.2, CMOS battery, and I/O panel. Several GLB groups are named (CPU, RAM, M2, Battery).",
+  "titleZh": "主板",
+  "overviewZh": "带 CPU、内存、M.2、CMOS 电池和 I/O 面板的 ATX 主板。部分 GLB 组已命名（CPU、RAM、M2、Battery）。"
 }
