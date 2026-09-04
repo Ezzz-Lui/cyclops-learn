@@ -1,10 +1,11 @@
 "use client"
 
 import { Bounds, ContactShadows, Html, OrbitControls, useBounds, useCursor, useGLTF, useProgress } from "@react-three/drei"
-import { Canvas } from "@react-three/fiber"
+import { Canvas, useFrame, useThree, type ThreeEvent } from "@react-three/fiber"
 import {
   Component,
   Suspense,
+  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -18,8 +19,28 @@ import * as THREE from "three"
 import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
 import {
+  is3dMetricsQueryEnabled,
+  is3dOptimizationEnabled,
+  modelFilenameFromSrc,
+} from "@/lib/3d-optimization"
+import {
+  applyQualityBand,
+  classifyFpsBand,
+  createQualityGovernorState,
+  downloadJson,
+  dprForTier,
+  MetricsSession,
+  QUALITY_WINDOW_MS,
+  type Cyclops3dHarness,
+  type QualityTier,
+} from "@/lib/3d-performance"
+import { resolvePointerPick, type LocalBox } from "@/lib/3d-picking"
+import {
   findBestPartForNodeNames,
+  getPickingConfig,
   type PartCatalogEntry,
+  type PickingConfig,
+  type Vec3Tuple,
 } from "@/lib/part-catalog"
 import { cn } from "@/lib/utils"
 
@@ -49,10 +70,6 @@ function ancestorNames(object: THREE.Object3D) {
   return names
 }
 
-function resolveNodeName(object: THREE.Object3D) {
-  return ancestorNames(object)[0] ?? "Unnamed"
-}
-
 function worldAnchor(part: PartCatalogEntry, box: THREE.Box3) {
   if (part.anchor?.length === 3) {
     return new THREE.Vector3(part.anchor[0], part.anchor[1], part.anchor[2])
@@ -68,7 +85,23 @@ function worldAnchor(part: PartCatalogEntry, box: THREE.Box3) {
   return null
 }
 
-function identifyPart(
+function localBoxFromObject(root: THREE.Object3D): LocalBox {
+  root.updateWorldMatrix(true, true)
+  const worldBox = new THREE.Box3().setFromObject(root)
+  const inverse = new THREE.Matrix4().copy(root.matrixWorld).invert()
+  const local = worldBox.clone().applyMatrix4(inverse)
+  const size = local.getSize(new THREE.Vector3())
+  return {
+    min: [local.min.x, local.min.y, local.min.z],
+    size: [size.x, size.y, size.z],
+  }
+}
+
+function vec3Tuple(vector: THREE.Vector3): Vec3Tuple {
+  return [vector.x, vector.y, vector.z]
+}
+
+function identifyPartLegacy(
   parts: PartCatalogEntry[],
   box: THREE.Box3,
   point: THREE.Vector3,
@@ -91,6 +124,14 @@ function identifyPart(
   return best
 }
 
+function gpuRendererName(gl: THREE.WebGLRenderer) {
+  const context = gl.getContext()
+  const debug = context.getExtension("WEBGL_debug_renderer_info")
+  if (!debug) return "unknown"
+  const renderer = context.getParameter(debug.UNMASKED_RENDERER_WEBGL)
+  return typeof renderer === "string" ? renderer : "unknown"
+}
+
 function LoadedModel({
   src,
   parts,
@@ -98,7 +139,12 @@ function LoadedModel({
   showObjectLabel,
   focusNonce,
   markerPartIds,
+  optimized,
+  picking,
+  metrics,
   onIdentify,
+  onSceneReady,
+  onPick,
 }: {
   src: string
   parts: PartCatalogEntry[]
@@ -106,15 +152,23 @@ function LoadedModel({
   showObjectLabel: boolean
   focusNonce: number
   markerPartIds?: string[] | null
+  optimized: boolean
+  picking: PickingConfig | null
+  metrics: MetricsSession | null
   onIdentify: (partId: string | null, gltfNodeName: string | null) => void
+  onSceneReady: () => void
+  onPick: (result: ReturnType<typeof resolvePointerPick>) => void
 }) {
   const { scene } = useGLTF(src, true, true)
+  void showObjectLabel
   const cloned = useMemo(() => scene.clone(true), [scene])
   const bounds = useBounds()
+  const invalidate = useThree((state) => state.invalidate)
   const [hovered, setHovered] = useState(false)
-  useCursor(hovered, "pointer", "grab")
+  useCursor(!optimized && hovered, "pointer", "grab")
 
   const modelBox = useMemo(() => new THREE.Box3().setFromObject(cloned), [cloned])
+  const localBox = useMemo(() => localBoxFromObject(cloned), [cloned])
   const highlightRadius = useMemo(
     () => modelBox.getSize(new THREE.Vector3()).length() * 0.18,
     [modelBox]
@@ -129,28 +183,67 @@ function LoadedModel({
     })
   }, [cloned])
 
+  useEffect(() => {
+    invalidate()
+    onSceneReady()
+  }, [cloned, invalidate, onSceneReady])
+
+  function handleClick(event: ThreeEvent<MouseEvent>) {
+    event.stopPropagation()
+    const names = ancestorNames(event.object)
+    const nodeName = names[0] ?? "Unnamed"
+
+    if (!optimized) {
+      metrics?.recordPointerRaycast()
+      const match = identifyPartLegacy(parts, modelBox, event.point, names)
+      onIdentify(match?.id ?? null, nodeName)
+      onPick({
+        method: match ? "anchor" : "null",
+        partId: match?.id ?? null,
+        gltfNodeName: nodeName,
+      })
+      return
+    }
+
+    metrics?.recordPointerRaycast()
+    const localPoint = cloned.worldToLocal(event.point.clone())
+    const result = resolvePointerPick({
+      button: event.button,
+      delta: event.delta,
+      parts,
+      point: vec3Tuple(localPoint),
+      ancestorNames: names,
+      picking,
+      localBox,
+    })
+    onPick(result)
+    metrics?.recordResolution(result)
+    if (result.method === "ignore" || result.method === "drag" || result.method === "null") {
+      return
+    }
+    onIdentify(result.partId, result.gltfNodeName ?? nodeName)
+  }
+
   return (
     <>
       <primitive
         object={cloned}
-        onClick={(event: {
-          object: THREE.Object3D
-          point: THREE.Vector3
-          stopPropagation: () => void
-        }) => {
-          event.stopPropagation()
-          const names = ancestorNames(event.object)
-          const nodeName = names[0] ?? "Unnamed"
-          const match = identifyPart(parts, modelBox, event.point, names)
-          onIdentify(match?.id ?? null, nodeName)
-        }}
-        onDoubleClick={(event: { object: THREE.Object3D; stopPropagation: () => void }) => {
+        onClick={handleClick}
+        onDoubleClick={(event: ThreeEvent<MouseEvent>) => {
           event.stopPropagation()
           bounds.refresh(event.object).fit()
+          invalidate()
         }}
-        onPointerMissed={() => onIdentify(null, null)}
-        onPointerOver={() => setHovered(true)}
-        onPointerOut={() => setHovered(false)}
+        {...(!optimized
+          ? {
+              onPointerMissed: () => onIdentify(null, null),
+              onPointerOver: () => {
+                metrics?.recordPointerRaycast()
+                setHovered(true)
+              },
+              onPointerOut: () => setHovered(false),
+            }
+          : {})}
       />
       <PartMarkers
         parts={parts}
@@ -227,6 +320,7 @@ function FocusOnPart({
   focusNonce: number
 }) {
   const bounds = useBounds()
+  const invalidate = useThree((state) => state.invalidate)
 
   useEffect(() => {
     if (!selectedPartId || focusNonce === 0) return
@@ -238,7 +332,8 @@ function FocusOnPart({
       new THREE.Vector3(radius, radius, radius)
     )
     bounds.refresh(focus).fit()
-  }, [bounds, box, focusNonce, parts, radius, selectedPartId])
+    invalidate()
+  }, [bounds, box, focusNonce, invalidate, parts, radius, selectedPartId])
 
   return null
 }
@@ -249,14 +344,131 @@ function FitReporter({
   fitRef: MutableRefObject<(() => void) | null>
 }) {
   const bounds = useBounds()
+  const invalidate = useThree((state) => state.invalidate)
 
   useEffect(() => {
     fitRef.current = () => {
       bounds.refresh().clip().fit()
+      invalidate()
     }
-  }, [bounds, fitRef])
+  }, [bounds, fitRef, invalidate])
 
   return null
+}
+
+function InvalidateOnResize() {
+  const invalidate = useThree((state) => state.invalidate)
+
+  useEffect(() => {
+    const onResize = () => invalidate()
+    window.addEventListener("resize", onResize)
+    return () => window.removeEventListener("resize", onResize)
+  }, [invalidate])
+
+  return null
+}
+
+function FrameInstrumentation({
+  metrics,
+  enabled,
+}: {
+  metrics: MetricsSession | null
+  enabled: boolean
+}) {
+  const gl = useThree((state) => state.gl)
+
+  useFrame((state, delta) => {
+    if (!enabled || !metrics) return
+    metrics.recordFrameTime(delta * 1000)
+    metrics.setDrawCalls(state.gl.info.render.calls)
+    metrics.setDpr(state.gl.getPixelRatio())
+  })
+
+  useEffect(() => {
+    if (!enabled || !metrics) return
+    metrics.setEnvironment({ gpu: gpuRendererName(gl) })
+  }, [enabled, gl, metrics])
+
+  return null
+}
+
+function QualityGovernor({
+  enabled,
+  onTier,
+}: {
+  enabled: boolean
+  onTier: (tier: QualityTier) => void
+}) {
+  const invalidate = useThree((state) => state.invalidate)
+  const stateRef = useRef(createQualityGovernorState())
+  const accRef = useRef({ time: 0, frames: 0 })
+
+  useFrame((_, delta) => {
+    if (!enabled || stateRef.current.locked) return
+    accRef.current.time += delta
+    accRef.current.frames += 1
+    if (accRef.current.time * 1000 < QUALITY_WINDOW_MS) return
+    const fps = accRef.current.frames / accRef.current.time
+    const next = applyQualityBand(stateRef.current, classifyFpsBand(fps, 60))
+    const changed = next.tier !== stateRef.current.tier || next.locked !== stateRef.current.locked
+    stateRef.current = next
+    accRef.current = { time: 0, frames: 0 }
+    if (changed) {
+      queueMicrotask(() => onTier(next.tier))
+      invalidate()
+    }
+  })
+
+  return null
+}
+
+function RestFrameProbe({
+  metrics,
+  enabled,
+  restToken,
+}: {
+  metrics: MetricsSession | null
+  enabled: boolean
+  restToken: number
+}) {
+  const gl = useThree((state) => state.gl)
+
+  useEffect(() => {
+    if (!enabled || !metrics) return
+    let sampleTimer: number | undefined
+    const warmupTimer = window.setTimeout(() => {
+      const start = gl.info.render.frame
+      sampleTimer = window.setTimeout(() => {
+        metrics.setRestFrames(Math.max(0, gl.info.render.frame - start))
+      }, 2000)
+    }, 500)
+    return () => {
+      window.clearTimeout(warmupTimer)
+      if (sampleTimer !== undefined) window.clearTimeout(sampleTimer)
+    }
+  }, [enabled, gl, metrics, restToken])
+
+  return null
+}
+
+function ViewerOrbitControls({ onRest }: { onRest: () => void }) {
+  const invalidate = useThree((state) => state.invalidate)
+
+  return (
+    <OrbitControls
+      makeDefault
+      enableDamping
+      dampingFactor={0.08}
+      minDistance={0.2}
+      maxDistance={40}
+      onStart={() => invalidate()}
+      onChange={() => invalidate()}
+      onEnd={() => {
+        invalidate()
+        onRest()
+      }}
+    />
+  )
 }
 
 function LoadStatus() {
@@ -320,12 +532,166 @@ export function ModelViewerCanvas({
   const onIdentifyRef = useRef(onIdentify)
   onIdentifyRef.current = onIdentify
 
+  const modelFilename = modelFilenameFromSrc(src)
+  const optimized = is3dOptimizationEnabled(modelFilename)
+  const picking = getPickingConfig(modelFilename)
+  const metricsEnabled = is3dMetricsQueryEnabled()
+  const devicePixelRatio =
+    typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1
+
+  const [qualityTier, setQualityTier] = useState<QualityTier>("high")
+  const [restToken, setRestToken] = useState(0)
+  const [canvasReady, setCanvasReady] = useState(false)
+  const [lastMethod, setLastMethod] = useState("")
+  const lastPickRef = useRef<Cyclops3dHarness["lastPick"]>(null)
+
+  const metrics = useMemo(
+    () =>
+      new MetricsSession({
+        model: modelFilename,
+        route: typeof window !== "undefined" ? window.location.pathname : "/canvas",
+        browser: typeof navigator !== "undefined" ? navigator.userAgent : null,
+        viewport:
+          typeof window !== "undefined"
+            ? { width: window.innerWidth, height: window.innerHeight }
+            : null,
+      }),
+    [modelFilename]
+  )
+
+  useEffect(() => {
+    metrics.setQualityTier(qualityTier)
+    metrics.setDpr(dprForTier(qualityTier, devicePixelRatio))
+  }, [devicePixelRatio, metrics, qualityTier])
+
   useEffect(() => {
     onIdentifyRef.current?.(null, null)
+    setCanvasReady(false)
   }, [src])
+
+  const handleSceneReady = useCallback(() => {
+    setCanvasReady(true)
+  }, [])
+
+  const applyPick = useCallback((result: ReturnType<typeof resolvePointerPick>) => {
+    if (result.method === "ignore") return
+    lastPickRef.current = result
+    setLastMethod(result.method)
+  }, [])
+
+  const simulatePointer = useCallback<Cyclops3dHarness["simulatePointer"]>(
+    (input) => {
+      if (!optimized) {
+        const intent = input.button !== undefined && input.button !== 0 ? "ignore" : input.delta > 4 ? "drag" : "click"
+        if (intent === "ignore") return { method: "ignore" as const }
+        if (intent === "drag") {
+          const drag = { method: "drag" as const, partId: null, gltfNodeName: null }
+          applyPick(drag)
+          metrics.recordResolution(drag)
+          return drag
+        }
+        let best: PartCatalogEntry | null = null
+        let bestDist = Infinity
+        for (const part of parts) {
+          if (part.anchor?.length !== 3) continue
+          const dx = part.anchor[0]! - input.point[0]
+          const dy = part.anchor[1]! - input.point[1]
+          const dz = part.anchor[2]! - input.point[2]
+          const distance = Math.hypot(dx, dy, dz)
+          if (distance < bestDist) {
+            bestDist = distance
+            best = part
+          }
+        }
+        const mapped = parts.find((part) =>
+          (input.ancestors ?? []).some((name) =>
+            part.nodes.some((token) => name === token || name.startsWith(token))
+          )
+        )
+        const match = mapped ?? best
+        const result = {
+          method: match ? ("anchor" as const) : ("null" as const),
+          partId: match?.id ?? null,
+          gltfNodeName: input.ancestors?.[0] ?? null,
+        }
+        applyPick(result)
+        metrics.recordResolution(result)
+        onIdentifyRef.current?.(result.partId, result.gltfNodeName)
+        return result
+      }
+
+      const result = resolvePointerPick({
+        button: input.button ?? 0,
+        delta: input.delta,
+        parts,
+        point: input.point,
+        ancestorNames: input.ancestors ?? [],
+        picking,
+        localBox: {
+          min: [0, 0, 0],
+          size: [1, 1, 1],
+        },
+      })
+      applyPick(result)
+      metrics.recordResolution(result)
+      if (result.method === "exact" || result.method === "hit" || result.method === "anchor") {
+        onIdentifyRef.current?.(result.partId, result.gltfNodeName)
+      }
+      return result
+    },
+    [applyPick, metrics, optimized, parts, picking]
+  )
+
+  useEffect(() => {
+    const existing = window.__cyclops3d
+    if (existing?.ready) {
+      existing.canvasReady = canvasReady
+      existing.optimized = optimized
+      existing.model = modelFilename
+      existing.snapshot = () => {
+        metrics.setEnvironment({
+          browser: navigator.userAgent,
+          viewport: { width: window.innerWidth, height: window.innerHeight },
+        })
+        return metrics.snapshot()
+      }
+      return
+    }
+
+    const harness: Cyclops3dHarness = {
+      ready: true,
+      canvasReady,
+      model: modelFilename,
+      optimized,
+      get lastPick() {
+        return lastPickRef.current
+      },
+      simulatePointer,
+      snapshot: () => {
+        metrics.setEnvironment({
+          browser: navigator.userAgent,
+          viewport: { width: window.innerWidth, height: window.innerHeight },
+        })
+        return metrics.snapshot()
+      },
+    }
+    window.__cyclops3d = harness
+    return () => {
+      if (window.__cyclops3d === harness) {
+        delete window.__cyclops3d
+      }
+    }
+  }, [canvasReady, metrics, modelFilename, optimized, simulatePointer])
+
+  const dpr = optimized
+    ? dprForTier(qualityTier, devicePixelRatio)
+    : ([1, 1.75] as [number, number])
 
   return (
     <div
+      data-testid="model-viewer"
+      data-optimized={optimized ? "true" : "false"}
+      data-pick-method={lastMethod}
       className={cn(
         "relative min-h-0 cursor-grab overflow-hidden rounded-xl bg-zinc-950 active:cursor-grabbing",
         className
@@ -336,18 +702,37 @@ export function ModelViewerCanvas({
         <Canvas
           className="absolute inset-0 h-full w-full"
           camera={{ position: [2.4, 1.6, 2.8], fov: 40, near: 0.01, far: 200 }}
-          dpr={[1, 1.75]}
+          dpr={dpr}
+          frameloop={optimized ? "demand" : "always"}
           gl={{
             antialias: true,
             toneMapping: THREE.ACESFilmicToneMapping,
             toneMappingExposure: 1.05,
           }}
-          onPointerMissed={() => onIdentifyRef.current?.(null, null)}
+          onPointerMissed={
+            optimized ? undefined : () => onIdentifyRef.current?.(null, null)
+          }
         >
           <color attach="background" args={["#09090b"]} />
           <hemisphereLight args={["#f8fafc", "#1c1917", 0.7]} />
           <directionalLight position={[6, 8, 4]} intensity={1.35} />
           <directionalLight position={[-5, 2, -3]} intensity={0.35} />
+          <InvalidateOnResize />
+          <FrameInstrumentation metrics={metrics} enabled={optimized || metricsEnabled} />
+          {optimized ? (
+            <QualityGovernor
+              enabled
+              onTier={(tier) => {
+                setQualityTier(tier)
+                metrics.setQualityTier(tier)
+              }}
+            />
+          ) : null}
+          <RestFrameProbe
+            metrics={metrics}
+            enabled={optimized || metricsEnabled}
+            restToken={restToken}
+          />
           <Suspense fallback={null}>
             <Bounds fit clip observe margin={1.25}>
               <LoadedModel
@@ -357,19 +742,31 @@ export function ModelViewerCanvas({
                 showObjectLabel={showObjectLabel}
                 focusNonce={focusNonce}
                 markerPartIds={markerPartIds}
+                optimized={optimized}
+                picking={picking}
+                metrics={metrics}
                 onIdentify={(partId, nodeName) => onIdentifyRef.current?.(partId, nodeName)}
+                onSceneReady={handleSceneReady}
+                onPick={applyPick}
               />
               <FitReporter fitRef={fitRef} />
             </Bounds>
-            <ContactShadows opacity={0.4} scale={16} blur={1.8} far={8} />
+            {optimized ? (
+              qualityTier === "high" ? (
+                <ContactShadows
+                  frames={1}
+                  resolution={256}
+                  opacity={0.4}
+                  scale={16}
+                  blur={1.8}
+                  far={8}
+                />
+              ) : null
+            ) : (
+              <ContactShadows opacity={0.4} scale={16} blur={1.8} far={8} />
+            )}
           </Suspense>
-          <OrbitControls
-            makeDefault
-            enableDamping
-            dampingFactor={0.08}
-            minDistance={0.2}
-            maxDistance={40}
-          />
+          <ViewerOrbitControls onRest={() => setRestToken((value) => value + 1)} />
         </Canvas>
       </ViewerErrorBoundary>
 
@@ -377,15 +774,33 @@ export function ModelViewerCanvas({
         <p className="rounded-lg bg-black/45 px-2 py-1 text-[11px] text-zinc-300 backdrop-blur-sm">
           {modelName}
         </p>
-        <Button
-          type="button"
-          size="xs"
-          variant="secondary"
-          className="pointer-events-auto"
-          onClick={() => fitRef.current?.()}
-        >
-          Reset view
-        </Button>
+        <div className="pointer-events-auto flex items-center gap-2">
+          {metricsEnabled ? (
+            <Button
+              type="button"
+              size="xs"
+              variant="outline"
+              data-testid="download-3d-metrics"
+              onClick={() =>
+                downloadJson(
+                  `3d-metrics-${modelFilename.replace(/\.glb$/i, "")}.json`,
+                  metrics.snapshot()
+                )
+              }
+            >
+              Download 3D metrics
+            </Button>
+          ) : null}
+          <Button
+            type="button"
+            size="xs"
+            variant="secondary"
+            data-testid="reset-view"
+            onClick={() => fitRef.current?.()}
+          >
+            Reset view
+          </Button>
+        </div>
       </div>
 
       <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-3">
@@ -393,7 +808,10 @@ export function ModelViewerCanvas({
           All part names are on · send a photo if a label is in the wrong place
         </p>
         {selectedLabel ? (
-          <p className="rounded-lg bg-primary px-2 py-1 text-xs font-medium text-primary-foreground">
+          <p
+            data-testid="selected-part-label"
+            className="rounded-lg bg-primary px-2 py-1 text-xs font-medium text-primary-foreground"
+          >
             {selectedLabel}
           </p>
         ) : null}

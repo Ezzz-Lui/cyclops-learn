@@ -5,6 +5,11 @@
   "title": "Caja de cambios",
   "source": "CAJA DE CAMBIOS DESCRIPCION",
   "overview": "Caja de cambios manual. El GLB no nombra los meshes; este catálogo identifica las 9 piezas del diagrama. Los anclajes 3D son aproximados según el eje de las flechas.",
+  "picking": {
+    "clickMaxDelta": 4,
+    "anchorMaxDistance": 0.035,
+    "anchorAmbiguityMargin": 0.012
+  },
   "parts": [
     {
       "id": "contra-flecha",
@@ -24,7 +29,10 @@
       "layer": "shafts",
       "summary": "Eje estriado de entrada, al lado del motor/embrague. Recibe el giro y lo entrega a la caja.",
       "nodes": [],
-      "anchor": [-0.18, 0.01, 0.06]
+      "anchor": [-0.18, 0.01, 0.06],
+      "hitVolumes": [
+        { "kind": "sphere", "center": [-0.18, 0.01, 0.06], "radius": 0.016 }
+      ]
     },
     {
       "id": "caja-de-la-transmision",
@@ -34,7 +42,10 @@
       "layer": "housing",
       "summary": "Carcasa exterior que contiene engranes, flechas y aceite. Es el cuerpo estructural de la caja.",
       "nodes": [],
-      "anchor": [-0.16, -0.05, 0.08]
+      "anchor": [-0.16, -0.05, 0.08],
+      "hitVolumes": [
+        { "kind": "sphere", "center": [-0.16, -0.05, 0.08], "radius": 0.02 }
+      ]
     },
     {
       "id": "flecha-de-salida",
@@ -44,7 +55,10 @@
       "layer": "shafts",
       "summary": "Eje estriado de salida. Envía el par ya reducido al resto de la transmisión.",
       "nodes": [],
-      "anchor": [0.03, 0.01, 0.05]
+      "anchor": [0.03, 0.01, 0.05],
+      "hitVolumes": [
+        { "kind": "sphere", "center": [0.03, 0.01, 0.05], "radius": 0.02 }
+      ]
     },
     {
       "id": "palanca",
@@ -54,7 +68,10 @@
       "layer": "shift",
       "summary": "Palanca o varilla superior con la que el conductor selecciona la marcha.",
       "nodes": [],
-      "anchor": [-0.08, 0.12, 0.05]
+      "anchor": [-0.08, 0.12, 0.05],
+      "hitVolumes": [
+        { "kind": "sphere", "center": [-0.08, 0.12, 0.05], "radius": 0.018 }
+      ]
     },
     {
       "id": "varillaje",
@@ -64,7 +81,10 @@
       "layer": "shift",
       "summary": "Varillas y horquillas internas bajo la palanca. Mueven los collares sincronizadores.",
       "nodes": [],
-      "anchor": [-0.09, 0.07, 0.06]
+      "anchor": [-0.09, 0.07, 0.06],
+      "hitVolumes": [
+        { "kind": "sphere", "center": [-0.09, 0.07, 0.06], "radius": 0.018 }
+      ]
     },
     {
       "id": "collar-sincronizador-delantero",
@@ -74,7 +94,10 @@
       "layer": "synchronizers",
       "summary": "Conjunto sincronizador en la flecha principal, del lado de la entrada. Iguala velocidades antes de engranar.",
       "nodes": [],
-      "anchor": [-0.14, 0.02, 0.05]
+      "anchor": [-0.14, 0.02, 0.05],
+      "hitVolumes": [
+        { "kind": "sphere", "center": [-0.14, 0.02, 0.05], "radius": 0.016 }
+      ]
     },
     {
       "id": "engrane-de-reversa",
@@ -94,7 +117,10 @@
       "layer": "synchronizers",
       "summary": "Segundo sincronizador en la flecha principal, más cerca de la salida.",
       "nodes": [],
-      "anchor": [-0.03, 0.02, 0.05]
+      "anchor": [-0.03, 0.02, 0.05],
+      "hitVolumes": [
+        { "kind": "sphere", "center": [-0.03, 0.02, 0.05], "radius": 0.02 }
+      ]
     }
   ]
 }

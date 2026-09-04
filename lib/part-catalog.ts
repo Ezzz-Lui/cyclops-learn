@@ -5,6 +5,18 @@ import serverCatalog from "@/3Dmodels/IT_infraestructure/server_v2_console.parts
 import engineCatalog from "@/3Dmodels/mechanics/internal_combustion_engine_moto.parts.json"
 import transmissionCatalog from "@/3Dmodels/mechanics/transmission_model_for_3d_printing.parts.json"
 
+export type Vec3Tuple = [number, number, number]
+
+export type HitVolume =
+  | { kind: "sphere"; center: Vec3Tuple; radius: number }
+  | { kind: "box"; min: Vec3Tuple; max: Vec3Tuple }
+
+export type PickingConfig = {
+  clickMaxDelta: number
+  anchorMaxDistance: number
+  anchorAmbiguityMargin: number
+}
+
 export type PartCatalogEntry = {
   id: string
   diagramIndex?: number
@@ -15,6 +27,7 @@ export type PartCatalogEntry = {
   nodes: string[]
   anchor?: number[]
   anchorNorm?: number[]
+  hitVolumes?: HitVolume[]
 }
 
 export type PartCatalog = {
@@ -24,6 +37,7 @@ export type PartCatalog = {
   title: string
   source: string
   overview: string
+  picking?: PickingConfig
   parts: PartCatalogEntry[]
 }
 
@@ -50,6 +64,11 @@ export function listPartCatalogs() {
 
 export function getPartCatalog(modelFilename: string) {
   return byFilename.get(modelFilename) ?? null
+}
+
+/** Per-model picking thresholds. Missing config means no unbounded nearest-anchor fallback. */
+export function getPickingConfig(modelFilename: string): PickingConfig | null {
+  return getPartCatalog(modelFilename)?.picking ?? null
 }
 
 export function findPartById(modelFilename: string, partId: string) {
