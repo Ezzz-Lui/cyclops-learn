@@ -1,9 +1,19 @@
 "use client"
 
+import { ArrowDown01Icon } from "@hugeicons/core-free-icons"
+import { HugeiconsIcon } from "@hugeicons/react"
 import { useLocale, useTranslations } from "next-intl"
 
-import { localeNames } from "@/i18n/config"
-import { Link, usePathname } from "@/i18n/navigation"
+import { buttonVariants } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { isAppLocale } from "@/i18n/config"
+import { usePathname, useRouter } from "@/i18n/navigation"
 import { routing } from "@/i18n/routing"
 import { cn } from "@/lib/utils"
 
@@ -11,25 +21,38 @@ export function LocaleSwitcher() {
   const t = useTranslations("LocaleSwitch")
   const locale = useLocale()
   const pathname = usePathname()
+  const router = useRouter()
 
   return (
-    <nav aria-label={t("label")} className="flex items-center gap-1 text-xs">
-      {routing.locales.map((code) => (
-        <Link
-          key={code}
-          href={pathname}
-          locale={code}
-          hrefLang={code}
-          className={cn(
-            "rounded-md px-2 py-1 transition-colors",
-            code === locale
-              ? "bg-muted font-medium text-foreground"
-              : "text-muted-foreground hover:text-foreground"
-          )}
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        aria-label={t("label")}
+        className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "gap-1")}
+      >
+        {isAppLocale(locale) ? t(locale) : t("label")}
+        <HugeiconsIcon
+          icon={ArrowDown01Icon}
+          strokeWidth={2}
+          className="size-3.5 opacity-70"
+        />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="min-w-36 w-auto">
+        <DropdownMenuRadioGroup
+          value={locale}
+          onValueChange={(value) => {
+            if (!isAppLocale(value) || value === locale) {
+              return
+            }
+            router.replace(pathname, { locale: value })
+          }}
         >
-          {localeNames[code]}
-        </Link>
-      ))}
-    </nav>
+          {routing.locales.map((code) => (
+            <DropdownMenuRadioItem key={code} value={code}>
+              {t(code)}
+            </DropdownMenuRadioItem>
+          ))}
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }

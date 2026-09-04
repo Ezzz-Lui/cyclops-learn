@@ -44,6 +44,7 @@ export type PartCatalog = {
   overview: string
   overviewEn?: string
   overviewZh?: string
+  picking?: PickingConfig
   parts: PartCatalogEntry[]
 }
 
