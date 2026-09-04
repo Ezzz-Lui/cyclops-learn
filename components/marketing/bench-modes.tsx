@@ -4,44 +4,32 @@ import {
   Search01Icon,
   Wrench01Icon,
 } from "@hugeicons/core-free-icons"
+import { useTranslations } from "next-intl"
 
 const modes = [
-  {
-    title: "Explore",
-    body: "Walk a system and map how the parts fit.",
-    icon: Search01Icon,
-    featured: true,
-  },
-  {
-    title: "Fault bench",
-    body: "Hypothesize what broke and test the claim.",
-    icon: Wrench01Icon,
-    featured: false,
-  },
-  {
-    title: "Guided diagnosis",
-    body: "Trace a fault with the agent at your shoulder.",
-    icon: MicroscopeIcon,
-    featured: false,
-  },
-]
+  { key: "explore", icon: Search01Icon, featured: true },
+  { key: "faults", icon: Wrench01Icon, featured: false },
+  { key: "diagnosis", icon: MicroscopeIcon, featured: false },
+] as const
 
 export function BenchModesSection() {
+  const t = useTranslations("Marketing")
+
   return (
     <section className="px-6 py-20 md:py-28">
       <div className="mx-auto w-full max-w-6xl space-y-12">
         <div className="max-w-2xl space-y-3">
           <p className="font-mono text-xs tracking-[0.22em] text-primary uppercase">
-            On the bench
+            {t("modesKicker")}
           </p>
           <h2 className="font-heading text-3xl font-medium tracking-tight sm:text-4xl">
-            Bench modes
+            {t("modesTitle")}
           </h2>
         </div>
         <div className="grid gap-4 md:grid-cols-2">
           {modes.map((mode) => (
             <article
-              key={mode.title}
+              key={mode.key}
               className={
                 mode.featured
                   ? "rounded-3xl border border-primary/30 bg-primary/12 p-8 md:row-span-2 md:min-h-72"
@@ -52,10 +40,10 @@ export function BenchModesSection() {
                 <HugeiconsIcon icon={mode.icon} strokeWidth={1.8} className="size-5" />
               </span>
               <h3 className="mt-6 font-heading text-2xl font-medium tracking-tight">
-                {mode.title}
+                {t(`modes.${mode.key}.title`)}
               </h3>
               <p className="mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">
-                {mode.body}
+                {t(`modes.${mode.key}.body`)}
               </p>
             </article>
           ))}

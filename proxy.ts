@@ -1,6 +1,20 @@
 import { clerkMiddleware } from "@clerk/nextjs/server"
+import createMiddleware from "next-intl/middleware"
 
-export default clerkMiddleware()
+import { routing } from "./i18n/routing"
+
+const intlMiddleware = createMiddleware(routing)
+
+export default clerkMiddleware(async (_auth, req) => {
+  if (
+    req.nextUrl.pathname.startsWith("/api") ||
+    req.nextUrl.pathname.startsWith("/trpc")
+  ) {
+    return
+  }
+
+  return intlMiddleware(req)
+})
 
 export const config = {
   matcher: [

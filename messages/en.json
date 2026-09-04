@@ -1,0 +1,162 @@
+{
+  "Metadata": {
+    "title": "Cyclops",
+    "description": "A systems lab for peeling objects layer by layer and asking a contextual agent on the bench."
+  },
+  "Brand": {
+    "name": "Cyclops"
+  },
+  "NotFound": {
+    "title": "We couldn't find that route",
+    "body": "Head back to the lab or switch language."
+  },
+  "LocaleSwitch": {
+    "label": "Language",
+    "es": "Español",
+    "en": "English",
+    "zh": "中文"
+  },
+  "Nav": {
+    "home": "Home",
+    "canvas": "Canvas"
+  },
+  "Auth": {
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "signInTitle": "Sign in",
+    "signUpTitle": "Sign up"
+  },
+  "Marketing": {
+    "badge": "Systems lab",
+    "heroTitleBefore": "Enter the",
+    "heroTitleAccent": "lab.",
+    "heroBody": "Peel complex systems layer by layer, then ask a contextual agent on the bench.",
+    "ctaEnter": "Enter the lab",
+    "ctaBench": "Go to bench",
+    "patternKicker": "The pattern",
+    "patternTitle": "Object → layers → components",
+    "patternSteps": {
+      "object": {
+        "title": "Object",
+        "body": "Load a system onto the bench."
+      },
+      "layers": {
+        "title": "Layers",
+        "body": "Peel structure until the working parts show."
+      },
+      "components": {
+        "title": "Components",
+        "body": "Ask in context about the piece in front of you."
+      }
+    },
+    "modesKicker": "On the bench",
+    "modesTitle": "Bench modes",
+    "modes": {
+      "explore": {
+        "title": "Explore",
+        "body": "Walk a system and map how the parts fit."
+      },
+      "faults": {
+        "title": "Fault bench",
+        "body": "Hypothesize what broke and test the claim."
+      },
+      "diagnosis": {
+        "title": "Guided diagnosis",
+        "body": "Trace a fault with the agent at your shoulder."
+      }
+    },
+    "domainsKicker": "Same bench",
+    "domainsTitle": "Domains",
+    "domains": {
+      "computing": {
+        "title": "Computing",
+        "blurb": "Machines, boards, and the stack that runs them."
+      },
+      "architecture": {
+        "title": "Architecture",
+        "blurb": "Spaces, structure, and how a building holds."
+      },
+      "mechanics": {
+        "title": "Mechanics",
+        "blurb": "Moving assemblies and the forces they take."
+      }
+    },
+    "closeKicker": "Ready",
+    "closeTitle": "The bench is open.",
+    "closeBody": "Bring a system to the lab. Peel it, test a claim, and diagnose with the agent in context."
+  },
+  "Home": {
+    "title": "Home",
+    "subtitle": "Recent projects by topic, plus newly added projects. Data is mocked.",
+    "recentByTopic": "Recent projects by topic",
+    "newlyAdded": "Newly added projects",
+    "openCanvas": "Open canvas"
+  },
+  "Topics": {
+    "architecture": "Architecture",
+    "mechanics": "Mechanics",
+    "computing": "Computing"
+  },
+  "Canvas": {
+    "title": "Canvas",
+    "indexBody": "Pick a project from home, or open a seeded placeholder.",
+    "noProject": "No project selected",
+    "backHome": "Back to home",
+    "projectMeta": "Project {id} · labeled parts, viewer, chat",
+    "parts": "Parts",
+    "practice": "Practice",
+    "viewer": "3D viewer",
+    "chat": "Agent chat",
+    "file": "File",
+    "modePractice": "practice",
+    "modeExplore": "explore",
+    "startPractice": "Practice identification",
+    "backToExplore": "Back to explore",
+    "clickMesh": "Click a mesh. That selection is what the agent can talk about.",
+    "tryThis": "Try this: {prompt}",
+    "node": "Node {name}",
+    "connecting": "Connecting to the lab backend…",
+    "signedInNoConvex": "Clerk session is up, Convex token is not. Refresh once so the lab backend can pick it up.",
+    "signInToChat": "Sign in to persist selection and talk to the lab instructor.",
+    "emptyChat": "Ask what the selected mesh does. Without a click, I will send you back to the canvas.",
+    "you": "You",
+    "agentName": "Cyclops",
+    "placeholder": "Ask about the selected part",
+    "send": "Send",
+    "thinking": "Thinking…",
+    "preparingViewer": "Preparing 3D viewer",
+    "sessionError": "Could not open session",
+    "agentError": "Agent failed",
+    "authHintJwt": "Clerk issued a Convex JWT, but the backend never accepted it. This machine likely has a different NEXT_PUBLIC_CONVEX_URL than the shared silent-lobster-652 deployment.",
+    "authHintNoToken": "Clerk is signed in, but getToken({ template: \"convex\" }) returned nothing. This Clerk app needs a JWT template named convex, and .env.local must use the same Clerk keys as the shared Cyclops Learn app.",
+    "authHintTemplate": "Clerk is signed in, but the convex JWT template failed. Create a JWT template named convex on this Clerk app, or copy the shared .env.local keys."
+  },
+  "Practice": {
+    "title": "Identification practice",
+    "intro": "I name a part and you find it by clicking the model. No labels in view: if you miss, I hint; every attempt counts toward your history.",
+    "historyHint": "We start with the parts that gave you trouble in earlier rounds.",
+    "start": "Start ({count} parts)",
+    "cancel": "Cancel",
+    "pieceOf": "Part {current} of {total}",
+    "locate": "Find it on the model",
+    "hint": "Hint",
+    "hintRevealed": "Its label is visible on the model.",
+    "rotateHint": "Orbit the model and click where you think it is.",
+    "summary": "See summary",
+    "next": "Next",
+    "giveUp": "I can't find it",
+    "exit": "Exit",
+    "result": "Score: {solved} of {total}",
+    "firstTry": "first try",
+    "attempts": "{count} attempts",
+    "withHelp": "with help",
+    "retryFailed": "Retry missed ({count})",
+    "anotherRound": "Another round",
+    "correctFirst": "Correct on the first try. {summary}",
+    "correct": "Correct. {summary}",
+    "correctWithLabel": "You found it with the label visible. {summary}",
+    "wrongPart": "That's {clicked}, not {target}.",
+    "wrongEmpty": "Nothing cataloged there. Look for {target}.",
+    "gaveUp": "It was here (label on the model). {summary}"
+  }
+}

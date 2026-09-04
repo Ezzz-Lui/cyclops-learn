@@ -1,9 +1,10 @@
 "use client"
 
 import { Show } from "@clerk/nextjs"
-import Link from "next/link"
+import { useTranslations } from "next-intl"
 
 import { buttonVariants } from "@/components/ui/button"
+import { Link } from "@/i18n/navigation"
 import { cn } from "@/lib/utils"
 
 const ctaClass = cn(
@@ -12,16 +13,18 @@ const ctaClass = cn(
 )
 
 export function LandingCta() {
+  const t = useTranslations("Marketing")
+
   return (
     <div className="flex flex-wrap gap-3">
       <Show when="signed-out">
         <Link href="/sign-up" className={ctaClass}>
-          Enter the lab
+          {t("ctaEnter")}
         </Link>
       </Show>
       <Show when="signed-in">
         <Link href="/home" className={ctaClass}>
-          Go to bench
+          {t("ctaBench")}
         </Link>
       </Show>
     </div>

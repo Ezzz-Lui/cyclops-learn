@@ -1,6 +1,7 @@
 "use client"
 
 import { useMutation, useQuery } from "convex/react"
+import { useTranslations } from "next-intl"
 import { useCallback, useMemo, useRef, useState } from "react"
 
 import { Button } from "@/components/ui/button"
@@ -75,6 +76,7 @@ export function usePractice({
   const [state, setState] = useState<PracticeState>(IDLE)
   const stateRef = useRef(state)
   stateRef.current = state
+  const t = useTranslations("Practice")
 
   // Only query once practice opens, so explore mode never depends on the
   // practice functions being deployed.
@@ -168,10 +170,10 @@ export function usePractice({
         settle(s.hintLevel < 2, {
           tone: s.hintLevel < 2 ? "ok" : "help",
           text: clean
-            ? `Correcto a la primera. ${target.summary}`
+            ? t("correctFirst", { summary: target.summary })
             : s.hintLevel < 2
-              ? `Correcto. ${target.summary}`
-              : `La encontraste con la etiqueta visible. ${target.summary}`,
+              ? t("correct", { summary: target.summary })
+              : t("correctWithLabel", { summary: target.summary }),
         })
         return
       }
@@ -190,12 +192,12 @@ export function usePractice({
         feedback: {
           tone: "miss",
           text: clicked
-            ? `Eso es ${clicked.label}, no ${target.label}.`
-            : `Ahí no hay nada catalogado. Busca ${target.label}.`,
+            ? t("wrongPart", { clicked: clicked.label, target: target.label })
+            : t("wrongEmpty", { target: target.label }),
         },
       })
     },
-    [apply, onReveal, partsById, settle]
+    [apply, onReveal, partsById, settle, t]
   )
 
   const requestHint = useCallback(() => {
@@ -214,9 +216,9 @@ export function usePractice({
     const target = partsById.get(s.queue[s.index])
     settle(false, {
       tone: "help",
-      text: `Era aquí (etiqueta en el modelo). ${target?.summary ?? ""}`,
+      text: t("gaveUp", { summary: target?.summary ?? "" }),
     })
-  }, [partsById, settle])
+  }, [partsById, settle, t])
 
   const next = useCallback(() => {
     const s = stateRef.current
@@ -272,6 +274,7 @@ export function PracticePanel({
   parts: PartCatalogEntry[]
 }) {
   const { state, targetPart } = practice
+  const t = useTranslations("Practice")
   const partsById = useMemo(
     () => new Map(parts.map((part) => [part.id, part])),
     [parts]
@@ -280,16 +283,10 @@ export function PracticePanel({
   if (state.phase === "intro") {
     return (
       <div className="flex min-h-0 flex-1 flex-col gap-3 text-sm">
-        <p className="font-medium">Práctica de identificación</p>
-        <p className="text-muted-foreground">
-          Te pido una pieza y la buscas haciendo clic en el modelo. Sin
-          etiquetas a la vista: si fallas, te doy pistas; cada intento cuenta
-          para tu historial.
-        </p>
+        <p className="font-medium">{t("title")}</p>
+        <p className="text-muted-foreground">{t("intro")}</p>
         {practice.hasHistory ? (
-          <p className="text-xs text-muted-foreground">
-            Empezamos por las piezas que te costaron en rondas anteriores.
-          </p>
+          <p className="text-xs text-muted-foreground">{t("historyHint")}</p>
         ) : null}
         <div className="flex flex-wrap gap-2">
           <Button
@@ -299,13 +296,13 @@ export function PracticePanel({
             onClick={practice.start}
           >
             {practice.statsReady ? (
-              `Empezar (${parts.length} piezas)`
+              t("start", { count: parts.length })
             ) : (
               <Spinner className="size-4" />
             )}
           </Button>
           <Button type="button" size="sm" variant="outline" onClick={practice.stop}>
-            Cancelar
+            {t("cancel")}
           </Button>
         </div>
       </div>
@@ -316,21 +313,19 @@ export function PracticePanel({
     return (
       <div className="flex min-h-0 flex-1 flex-col gap-3 text-sm">
         <p className="text-xs text-muted-foreground">
-          Pieza {state.index + 1} de {state.queue.length}
+          {t("pieceOf", { current: state.index + 1, total: state.queue.length })}
         </p>
         <div className="rounded-lg bg-muted/60 px-3 py-2">
-          <p className="text-xs text-muted-foreground">Localiza en el modelo</p>
+          <p className="text-xs text-muted-foreground">{t("locate")}</p>
           <p className="text-base font-semibold">{targetPart.label}</p>
         </div>
 
         {state.hintLevel >= 1 && !state.settled ? (
           <div className="rounded-lg border border-border px-3 py-2 text-xs text-muted-foreground">
-            <p className="mb-1 font-medium text-foreground">Pista</p>
+            <p className="mb-1 font-medium text-foreground">{t("hint")}</p>
             <p>{targetPart.summary}</p>
             {state.hintLevel >= 2 ? (
-              <p className="mt-1 font-medium text-foreground">
-                Su etiqueta está visible en el modelo.
-              </p>
+              <p className="mt-1 font-medium text-foreground">{t("hintRevealed")}</p>
             ) : null}
           </div>
         ) : null}
@@ -349,17 +344,15 @@ export function PracticePanel({
             {state.feedback.text}
           </div>
         ) : (
-          <p className="text-xs text-muted-foreground">
-            Gira el modelo y haz clic donde creas que está.
-          </p>
+          <p className="text-xs text-muted-foreground">{t("rotateHint")}</p>
         )}
 
         <div className="mt-auto flex flex-wrap gap-2">
           {state.settled ? (
             <Button type="button" size="sm" onClick={practice.next}>
               {state.index + 1 >= state.queue.length
-                ? "Ver resumen"
-                : "Siguiente"}
+                ? t("summary")
+                : t("next")}
             </Button>
           ) : (
             <>
@@ -370,7 +363,7 @@ export function PracticePanel({
                 disabled={state.hintLevel >= 2}
                 onClick={practice.requestHint}
               >
-                Pista
+                {t("hint")}
               </Button>
               <Button
                 type="button"
@@ -378,12 +371,12 @@ export function PracticePanel({
                 variant="ghost"
                 onClick={practice.giveUp}
               >
-                No la encuentro
+                {t("giveUp")}
               </Button>
             </>
           )}
           <Button type="button" size="sm" variant="ghost" onClick={practice.stop}>
-            Salir
+            {t("exit")}
           </Button>
         </div>
       </div>
@@ -396,7 +389,10 @@ export function PracticePanel({
     return (
       <div className="flex min-h-0 flex-1 flex-col gap-3 text-sm">
         <p className="font-medium">
-          Resultado: {solved} de {state.results.length}
+          {t("result", {
+            solved,
+            total: state.results.length,
+          })}
         </p>
         <ul className="min-h-0 flex-1 space-y-1 overflow-y-auto text-xs">
           {state.results.map((result) => {
@@ -414,9 +410,9 @@ export function PracticePanel({
                 >
                   {result.solved
                     ? result.clicks === 1 && result.hintsUsed === 0
-                      ? "a la primera"
-                      : `${result.clicks} intentos`
-                    : "con ayuda"}
+                      ? t("firstTry")
+                      : t("attempts", { count: result.clicks })
+                    : t("withHelp")}
                 </span>
               </li>
             )
@@ -425,7 +421,7 @@ export function PracticePanel({
         <div className="flex flex-wrap gap-2">
           {failed.length > 0 ? (
             <Button type="button" size="sm" onClick={practice.retryFailed}>
-              Repetir falladas ({failed.length})
+              {t("retryFailed", { count: failed.length })}
             </Button>
           ) : null}
           <Button
@@ -434,10 +430,10 @@ export function PracticePanel({
             variant={failed.length > 0 ? "outline" : "default"}
             onClick={practice.start}
           >
-            Otra ronda
+            {t("anotherRound")}
           </Button>
           <Button type="button" size="sm" variant="ghost" onClick={practice.stop}>
-            Salir
+            {t("exit")}
           </Button>
         </div>
       </div>

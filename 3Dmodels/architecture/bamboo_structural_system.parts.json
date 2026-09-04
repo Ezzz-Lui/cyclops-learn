@@ -13,8 +13,17 @@
       "labelEn": "Primary columns",
       "layer": "structure",
       "summary": "Pilares redondos Ø102/130. Ejes verticales que bajan carga a cimentación.",
-      "nodes": ["Round-Anglel-Column102"],
-      "anchorNorm": [0.22, 0.45, 0.35]
+      "nodes": [
+        "Round-Anglel-Column102"
+      ],
+      "anchorNorm": [
+        0.22,
+        0.45,
+        0.35
+      ],
+      "summaryEn": "Round Ø102/130 columns. Vertical axes that take load down to the foundation.",
+      "labelZh": "主柱",
+      "summaryZh": "Ø102/130 圆竹柱。把竖向荷载传到基础。"
     },
     {
       "id": "columnas-menores",
@@ -23,8 +32,17 @@
       "labelEn": "Secondary columns",
       "layer": "structure",
       "summary": "Pilares 80×80. Refuerzan vanos y apoyan entrepisos o barandillas.",
-      "nodes": ["Round-Anglel-Column 80"],
-      "anchorNorm": [0.45, 0.38, 0.55]
+      "nodes": [
+        "Round-Anglel-Column 80"
+      ],
+      "anchorNorm": [
+        0.45,
+        0.38,
+        0.55
+      ],
+      "summaryEn": "80×80 columns. Stiffen bays and support floors or railings.",
+      "labelZh": "次柱",
+      "summaryZh": "80×80 柱。加强开间，并支承楼面或栏杆。"
     },
     {
       "id": "tubos-hss",
@@ -33,8 +51,17 @@
       "labelEn": "HSS tubing",
       "layer": "structure",
       "summary": "Tubo estructural redondo Ø130. Vigas y riostras que atan las columnas.",
-      "nodes": ["HSS-Round Structural Tubing"],
-      "anchorNorm": [0.5, 0.58, 0.4]
+      "nodes": [
+        "HSS-Round Structural Tubing"
+      ],
+      "anchorNorm": [
+        0.5,
+        0.58,
+        0.4
+      ],
+      "summaryEn": "Round Ø130 structural tube. Beams and braces that tie the columns.",
+      "labelZh": "HSS 钢管",
+      "summaryZh": "Ø130 圆管。梁和支撑，把柱子连成整体。"
     },
     {
       "id": "pisos",
@@ -43,8 +70,21 @@
       "labelEn": "Floors",
       "layer": "structure",
       "summary": "Losas y entrepisos (Floor 10/20, genéricas). Superficie de uso sobre la estructura.",
-      "nodes": ["Floor 20", "Floor 10", "Floor Generic", "Floor 150", "Floor Brick"],
-      "anchorNorm": [0.5, 0.22, 0.5]
+      "nodes": [
+        "Floor 20",
+        "Floor 10",
+        "Floor Generic",
+        "Floor 150",
+        "Floor Brick"
+      ],
+      "anchorNorm": [
+        0.5,
+        0.22,
+        0.5
+      ],
+      "summaryEn": "Slabs and floors (Floor 10/20, generic). Occupied surface over the structure.",
+      "labelZh": "楼面",
+      "summaryZh": "楼板与楼面（Floor 10/20 等）。结构上的使用面。"
     },
     {
       "id": "muros-cob",
@@ -53,8 +93,17 @@
       "labelEn": "Cob walls",
       "layer": "envelope",
       "summary": "Muros de tierra/cob. Cierran el recinto y aportan masa térmica.",
-      "nodes": ["Basic Wall Cob"],
-      "anchorNorm": [0.15, 0.35, 0.6]
+      "nodes": [
+        "Basic Wall Cob"
+      ],
+      "anchorNorm": [
+        0.15,
+        0.35,
+        0.6
+      ],
+      "summaryEn": "Earthen/cob walls. Close the enclosure and add thermal mass.",
+      "labelZh": "土墙",
+      "summaryZh": "生土/cob 墙。围合空间并提供热质量。"
     },
     {
       "id": "muros-base",
@@ -63,8 +112,17 @@
       "labelEn": "Base walls",
       "layer": "envelope",
       "summary": "Muro base y cámara. Zócalo o cerramiento bajo las columnas.",
-      "nodes": ["Basic Wall Base"],
-      "anchorNorm": [0.35, 0.12, 0.3]
+      "nodes": [
+        "Basic Wall Base"
+      ],
+      "anchorNorm": [
+        0.35,
+        0.12,
+        0.3
+      ],
+      "summaryEn": "Base wall and cavity. Plinth or enclosure under the columns.",
+      "labelZh": "基础墙",
+      "summaryZh": "基础墙与空腔。柱下的勒脚或围护。"
     },
     {
       "id": "barandillas",
@@ -73,8 +131,17 @@
       "labelEn": "Railings",
       "layer": "protection",
       "summary": "Barandales en bordes de piso o escalera. Protección contra caída.",
-      "nodes": ["Railings"],
-      "anchorNorm": [0.68, 0.42, 0.28]
+      "nodes": [
+        "Railings"
+      ],
+      "anchorNorm": [
+        0.68,
+        0.42,
+        0.28
+      ],
+      "summaryEn": "Railings at floor or stair edges. Fall protection.",
+      "labelZh": "栏杆",
+      "summaryZh": "楼面或楼梯边缘的栏杆。防坠落。"
     },
     {
       "id": "fachada",
@@ -83,8 +150,17 @@
       "labelEn": "Glazed facade",
       "layer": "envelope",
       "summary": "Paneles de vidrio (System Panel Glazed). Cerramiento transparente.",
-      "nodes": ["System Panel Glazed"],
-      "anchorNorm": [0.82, 0.48, 0.45]
+      "nodes": [
+        "System Panel Glazed"
+      ],
+      "anchorNorm": [
+        0.82,
+        0.48,
+        0.45
+      ],
+      "summaryEn": "Glazed panels (System Panel Glazed). Transparent enclosure.",
+      "labelZh": "玻璃幕墙",
+      "summaryZh": "玻璃面板（System Panel Glazed）。透明围护。"
     },
     {
       "id": "montantes",
@@ -93,8 +169,17 @@
       "labelEn": "Mullions",
       "layer": "envelope",
       "summary": "Montantes 64×128 del muro cortina. Sostienen y dividen el vidrio.",
-      "nodes": ["Rectangular Mullion"],
-      "anchorNorm": [0.8, 0.5, 0.52]
+      "nodes": [
+        "Rectangular Mullion"
+      ],
+      "anchorNorm": [
+        0.8,
+        0.5,
+        0.52
+      ],
+      "summaryEn": "64×128 curtain-wall mullions. Hold and divide the glass.",
+      "labelZh": "竖挺",
+      "summaryZh": "64×128 幕墙竖挺。固定并划分玻璃。"
     },
     {
       "id": "columnas-arbol",
@@ -103,8 +188,21 @@
       "labelEn": "Tree columns",
       "layer": "structure",
       "summary": "Columnas ramificadas (Round Column Tree). Apoyos con brazos que abren el vano.",
-      "nodes": ["Round Column Tree"],
-      "anchorNorm": [0.4, 0.5, 0.72]
+      "nodes": [
+        "Round Column Tree"
+      ],
+      "anchorNorm": [
+        0.4,
+        0.5,
+        0.72
+      ],
+      "summaryEn": "Branched columns (Round Column Tree). Supports with arms that open the bay.",
+      "labelZh": "树形柱",
+      "summaryZh": "分叉柱（Round Column Tree）。用臂展开开间。"
     }
-  ]
+  ],
+  "titleEn": "Bamboo structure",
+  "overviewEn": "Bamboo pavilion: round columns, HSS tubes, floors, cob walls, and a glazed facade. GLB groups follow Revit family names.",
+  "titleZh": "竹结构",
+  "overviewZh": "竹亭：圆竹柱、HSS 管、楼面、土墙和玻璃幕墙。GLB 组沿用 Revit 族名称。"
 }
