@@ -1,7 +1,7 @@
 {
   "Metadata": {
     "title": "Cyclops",
-    "description": "Un lab de sistemas para pelar objetos capa por capa y consultar a un agente contextual en el banco."
+    "description": "Para estudiantes y autodidactas: inspecciona un modelo 3D y pregunta a un agente que sabe qué pieza seleccionaste."
   },
   "Brand": {
     "name": "Cyclops"
@@ -27,63 +27,98 @@
     "signUpTitle": "Crear cuenta"
   },
   "Marketing": {
-    "badge": "Lab de sistemas",
-    "heroTitleBefore": "Entra al",
-    "heroTitleAccent": "lab.",
-    "heroBody": "Pela sistemas complejos capa por capa y consulta a un agente contextual en el banco.",
-    "ctaEnter": "Entrar al lab",
-    "ctaBench": "Ir al banco",
+    "badge": "Para estudiantes",
+    "versionBadge": "Alpha",
+    "scrollHint": "Desplázate",
+    "heroStatusLabel": "Hoy",
+    "heroStatusValue": "6 modelos · explorar y practicar",
+    "domainsFilterAll": "Todos",
+    "heroTitleBefore": "Aprende un sistema",
+    "heroTitleAccent": "por dentro.",
+    "heroLead": "Inspecciona un modelo 3D. Pregunta por la pieza que clicaste. Seis objetos, para estudiantes.",
+    "heroBody": "Para estudiantes y autodidactas de arquitectura, mecánica y computación. Inspecciona un modelo 3D, haz clic en una pieza y pregunta a un agente que ya sabe cuál seleccionaste. No es fotorrealismo ni un título: son seis objetos para identificar partes, sin el objeto real.",
+    "ctaEnter": "Empezar a explorar",
+    "ctaBench": "Ir a mis proyectos",
+    "problemKicker": "El hueco",
+    "problemTitle": "Un plano no enseña el espacio",
+    "problemBody": "En clase ves un diagrama 2D. En la vida, las piezas están unas dentro de otras. Si no tienes taller, obra o laboratorio a mano, identificar partes se queda en memorizar nombres.",
     "patternKicker": "El patrón",
     "patternTitle": "Objeto → capas → componentes",
+    "patternSubtitle": "El mismo gesto en los tres dominios. Cambia el objeto y el vocabulario, no la forma de explorar.",
     "patternSteps": {
       "object": {
         "title": "Objeto",
-        "body": "Carga un sistema en el banco."
+        "body": "Carga un sistema del catálogo: un motor, una placa base, una sala."
       },
       "layers": {
         "title": "Capas",
-        "body": "Pela la estructura hasta que aparezcan las piezas que trabajan."
+        "body": "Inspecciona envolventes hasta la estructura que trabaja: chasis, instalaciones, gabinete."
       },
       "components": {
         "title": "Componentes",
-        "body": "Pregunta en contexto sobre la pieza que tienes enfrente."
+        "body": "Clic en una pieza. El chat responde sobre eso, no sobre el universo."
       }
     },
-    "modesKicker": "En el banco",
-    "modesTitle": "Modos de banco",
+    "liveKicker": "Lo que ya corre",
+    "liveTitle": "Explorar, preguntar, identificar",
+    "liveSubtitle": "Visor 3D, un agente anclado a la pieza que clicaste, y práctica de identificación. Eso es el producto hoy. El agente no ve píxeles: ve la pieza que seleccionaste.",
+    "live": {
+      "viewer": {
+        "title": "Visor 3D",
+        "body": "Órbita, zoom y clic. Modelos low-poly a propósito, para leer la jerarquía, no para lucir un render."
+      },
+      "agent": {
+        "title": "Agente contextual",
+        "body": "Responde sobre la pieza que seleccionaste. Sin clic, te pide que elijas una en el modelo."
+      },
+      "practice": {
+        "title": "Práctica de identificación",
+        "body": "Te nombra una pieza; tú la buscas en el modelo, sin etiquetas. Fallas, pistas e historial."
+      }
+    },
+    "modesKicker": "Qué no es un switcher",
+    "modesTitle": "Fallas y diagnóstico no se eligen",
+    "modesNote": "En la app no hay un selector de modos. Hoy abres un modelo, inspeccionas capas y practicas identificar piezas. Resolución de fallas y diagnóstico guiado usan el mismo visor y el mismo agente, con otro objetivo pedagógico. Todavía no están en la interfaz.",
+    "modesPathKicker": "Mismo patrón, más adelante",
     "modes": {
       "explore": {
-        "title": "Explorar",
-        "body": "Recorre un sistema y mapea cómo encajan las partes."
+        "title": "Exploración y práctica",
+        "body": "Identifica partes a tu ritmo. Inspecciona, selecciona y pregunta qué hace esa pieza. O entra a práctica: te nombra una, tú la buscas en el modelo.",
+        "status": "Hoy"
       },
       "faults": {
-        "title": "Banco de fallas",
-        "body": "Formula qué se rompió y pon a prueba la hipótesis."
+        "title": "Resolución de fallas",
+        "body": "Un síntoma. Tú investigas en el modelo. El agente acota causas y no suelta la respuesta de entrada. No es un modo que puedas activar hoy.",
+        "status": "Próximamente"
       },
       "diagnosis": {
         "title": "Diagnóstico guiado",
-        "body": "Sigue una falla con el agente a tu lado."
+        "body": "Un caso con pasos, como lo haría un técnico. El agente dice qué revisar primero. Tampoco se elige en la app.",
+        "status": "Próximamente"
       }
     },
-    "domainsKicker": "El mismo banco",
-    "domainsTitle": "Dominios",
+    "domainsKicker": "Tres vocabularios",
+    "domainsTitle": "Un patrón, tres dominios",
     "domains": {
       "computing": {
         "title": "Computación",
-        "blurb": "Máquinas, placas y el stack que las hace correr."
+        "blurb": "Gabinete → placa → CPU, RAM, ranuras. En el catálogo: placa base y rack de servidores.",
+        "example": "Placa base · Rack"
       },
       "architecture": {
         "title": "Arquitectura",
-        "blurb": "Espacios, estructura y cómo se sostiene un edificio."
+        "blurb": "Envolvente → estructura → instalaciones. En el catálogo: una sala y un sistema estructural de bambú.",
+        "example": "Sala · Bambú"
       },
       "mechanics": {
         "title": "Mecánica",
-        "blurb": "Conjuntos en movimiento y las fuerzas que reciben."
+        "blurb": "Bloque → subsistemas → pistón, engranajes. En el catálogo: motor de combustión y caja de cambios.",
+        "example": "Motor · Transmisión"
       }
     },
-    "closeKicker": "Listo",
-    "closeTitle": "El banco está abierto.",
-    "closeBody": "Trae un sistema al lab. Pélalo, prueba una hipótesis y diagnostica con el agente en contexto."
+    "closeKicker": "Para quién",
+    "closeTitle": "Seis modelos. Empieza a inspeccionar.",
+    "closeBody": "Hecho para estudiantes y autodidactas de perfil técnico bajo-medio. No sustituye formación formal ni es una herramienta de trabajo para profesionales certificados."
   },
   "Home": {
     "title": "Inicio",

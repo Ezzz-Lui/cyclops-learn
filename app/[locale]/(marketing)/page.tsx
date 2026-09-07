@@ -4,7 +4,9 @@ import { BenchModesSection } from "@/components/marketing/bench-modes"
 import { CloseSection } from "@/components/marketing/close"
 import { DomainsSection } from "@/components/marketing/domains"
 import { HeroSection } from "@/components/marketing/hero"
+import { LiveBenchSection } from "@/components/marketing/live-bench"
 import { PatternSection } from "@/components/marketing/pattern"
+import { ProblemSection } from "@/components/marketing/problem"
 
 export async function generateMetadata() {
   const t = await getTranslations("Metadata")
@@ -16,17 +18,24 @@ export async function generateMetadata() {
 
 export default function LandingPage() {
   return (
-    <main className="relative isolate flex flex-1 flex-col">
+    <main className="relative isolate flex flex-1 flex-col overflow-x-clip bg-black">
+      {/* Fixed grain overlay above everything (spec: z-9999, pointer-safe). */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
-      >
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] [background-size:56px_56px] [mask-image:radial-gradient(ellipse_at_top,black_18%,transparent_62%)]" />
-        <div className="absolute top-[-12%] right-[-8%] size-[34rem] rounded-full bg-primary/30 blur-3xl dark:bg-primary/18" />
-        <div className="absolute bottom-[8%] left-[-12%] size-[26rem] rounded-full bg-primary/12 blur-3xl" />
+        className="bg-grain pointer-events-none fixed inset-0 z-[9999] opacity-[0.05] mix-blend-overlay"
+      />
+      {/* Fixed vertical grid lines. */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
+        <div className="mx-auto grid h-full w-full max-w-6xl grid-cols-2 border-x border-white/[0.04] md:grid-cols-4">
+          <div className="border-r border-white/[0.04]" />
+          <div className="hidden border-r border-white/[0.04] md:block" />
+          <div className="hidden border-r border-white/[0.04] md:block" />
+        </div>
       </div>
       <HeroSection />
+      <ProblemSection />
       <PatternSection />
+      <LiveBenchSection />
       <BenchModesSection />
       <DomainsSection />
       <CloseSection />

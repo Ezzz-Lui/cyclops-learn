@@ -1,7 +1,7 @@
 {
   "Metadata": {
     "title": "Cyclops",
-    "description": "A systems lab for peeling objects layer by layer and asking a contextual agent on the bench."
+    "description": "For students and self-learners: inspect a 3D model and ask an agent that knows which part you selected."
   },
   "Brand": {
     "name": "Cyclops"
@@ -27,63 +27,98 @@
     "signUpTitle": "Sign up"
   },
   "Marketing": {
-    "badge": "Systems lab",
-    "heroTitleBefore": "Enter the",
-    "heroTitleAccent": "lab.",
-    "heroBody": "Peel complex systems layer by layer, then ask a contextual agent on the bench.",
-    "ctaEnter": "Enter the lab",
-    "ctaBench": "Go to bench",
+    "badge": "Built for students",
+    "versionBadge": "Alpha",
+    "scrollHint": "Scroll",
+    "heroStatusLabel": "Today",
+    "heroStatusValue": "6 models · explore and practice",
+    "domainsFilterAll": "All",
+    "heroTitleBefore": "Learn a system",
+    "heroTitleAccent": "from the inside.",
+    "heroLead": "Inspect a 3D model. Ask about the part you clicked. Six objects, for students.",
+    "heroBody": "For students and self-learners in architecture, mechanics, and computing. Inspect a 3D model, click a part, and ask an agent that already knows which one you selected. Not photorealism, not a credential: six objects to identify parts, without the physical thing.",
+    "ctaEnter": "Start exploring",
+    "ctaBench": "Go to my projects",
+    "problemKicker": "The gap",
+    "problemTitle": "A diagram does not teach space",
+    "problemBody": "Class gives you a 2D drawing. Reality nests parts inside parts. Without a shop, a site, or a lab, identification turns into memorizing names.",
     "patternKicker": "The pattern",
     "patternTitle": "Object → layers → components",
+    "patternSubtitle": "The same gesture in all three domains. The object and the vocabulary change. The way you explore does not.",
     "patternSteps": {
       "object": {
         "title": "Object",
-        "body": "Load a system onto the bench."
+        "body": "Load a catalog system: an engine, a motherboard, a room."
       },
       "layers": {
         "title": "Layers",
-        "body": "Peel structure until the working parts show."
+        "body": "Inspect envelopes until the working structure shows: chassis, services, enclosure."
       },
       "components": {
         "title": "Components",
-        "body": "Ask in context about the piece in front of you."
+        "body": "Click a part. Chat answers about that, not about the universe."
       }
     },
-    "modesKicker": "On the bench",
-    "modesTitle": "Bench modes",
+    "liveKicker": "What already ships",
+    "liveTitle": "Explore, ask, identify",
+    "liveSubtitle": "A 3D viewer, an agent tied to the part you clicked, and identification practice. That is the product today. The agent cannot see pixels. It sees the part you selected.",
+    "live": {
+      "viewer": {
+        "title": "3D viewer",
+        "body": "Orbit, zoom, click. Low-poly on purpose, so you can read the hierarchy instead of a pretty render."
+      },
+      "agent": {
+        "title": "Contextual agent",
+        "body": "It answers about the part you selected. With no click, it asks you to pick one on the model."
+      },
+      "practice": {
+        "title": "Identification practice",
+        "body": "It names a part; you find it on the model, with labels hidden. Misses, hints, and a history."
+      }
+    },
+    "modesKicker": "Not a mode switcher",
+    "modesTitle": "Faults and diagnosis are not a toggle",
+    "modesNote": "There is no mode picker in the app. Today you open a model, inspect layers, and practice finding parts. Fault finding and guided diagnosis use the same viewer and the same agent, with a different teaching goal. They are not in the UI yet.",
+    "modesPathKicker": "Same pattern, later",
     "modes": {
       "explore": {
-        "title": "Explore",
-        "body": "Walk a system and map how the parts fit."
+        "title": "Exploration and practice",
+        "body": "Identify parts at your own pace. Inspect, select, and ask what a piece does. Or start practice: it names a part, you find it on the model.",
+        "status": "Today"
       },
       "faults": {
-        "title": "Fault bench",
-        "body": "Hypothesize what broke and test the claim."
+        "title": "Fault finding",
+        "body": "A symptom. You investigate on the model. The agent narrows causes and does not dump the answer up front. Not a mode you can turn on today.",
+        "status": "Soon"
       },
       "diagnosis": {
         "title": "Guided diagnosis",
-        "body": "Trace a fault with the agent at your shoulder."
+        "body": "A case with steps, the way a technician would work. The agent says what to inspect first. Also not something you pick in the app.",
+        "status": "Soon"
       }
     },
-    "domainsKicker": "Same bench",
-    "domainsTitle": "Domains",
+    "domainsKicker": "Three vocabularies",
+    "domainsTitle": "One pattern, three domains",
     "domains": {
       "computing": {
         "title": "Computing",
-        "blurb": "Machines, boards, and the stack that runs them."
+        "blurb": "Enclosure → board → CPU, RAM, slots. In the catalog: a motherboard and a server rack.",
+        "example": "Motherboard · Rack"
       },
       "architecture": {
         "title": "Architecture",
-        "blurb": "Spaces, structure, and how a building holds."
+        "blurb": "Envelope → structure → services. In the catalog: a living room and a bamboo structural system.",
+        "example": "Room · Bamboo"
       },
       "mechanics": {
         "title": "Mechanics",
-        "blurb": "Moving assemblies and the forces they take."
+        "blurb": "Block → subsystems → piston, gears. In the catalog: a combustion engine and a gearbox.",
+        "example": "Engine · Transmission"
       }
     },
-    "closeKicker": "Ready",
-    "closeTitle": "The bench is open.",
-    "closeBody": "Bring a system to the lab. Peel it, test a claim, and diagnose with the agent in context."
+    "closeKicker": "Who it is for",
+    "closeTitle": "Six models. Start inspecting.",
+    "closeBody": "Made for students and self-learners at a low-to-mid technical level. Not a substitute for formal training, and not a job tool for licensed professionals."
   },
   "Home": {
     "title": "Home",

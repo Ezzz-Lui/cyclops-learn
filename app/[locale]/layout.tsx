@@ -3,7 +3,12 @@ import { shadcn } from "@clerk/ui/themes"
 import { hasLocale } from "next-intl"
 import { NextIntlClientProvider } from "next-intl"
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server"
-import { Figtree, Geist_Mono, Noto_Sans_SC } from "next/font/google"
+import {
+  Figtree,
+  Geist_Mono,
+  Instrument_Serif,
+  Noto_Sans_SC,
+} from "next/font/google"
 import { notFound } from "next/navigation"
 
 import { ConvexClientProvider } from "@/components/providers/convex-client-provider"
@@ -26,6 +31,13 @@ const notoSansSC = Noto_Sans_SC({
 const fontMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
+})
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-serif",
 })
 
 export function generateStaticParams() {
@@ -77,6 +89,7 @@ export default async function LocaleLayout({
         "antialiased font-sans",
         fontMono.variable,
         figtree.variable,
+        instrumentSerif.variable,
         notoSansSC.variable,
         locale === "zh" && "[--font-sans:var(--font-cjk)]"
       )}

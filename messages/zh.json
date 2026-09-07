@@ -1,7 +1,7 @@
 {
   "Metadata": {
     "title": "Cyclops",
-    "description": "一套系统实验室：一层层剥开对象，并在工作台上向情境化智能体提问。"
+    "description": "面向学生和自学者：检视三维模型，向已经知道你选了哪块零件的智能体提问。"
   },
   "Brand": {
     "name": "Cyclops"
@@ -27,63 +27,98 @@
     "signUpTitle": "注册"
   },
   "Marketing": {
-    "badge": "系统实验室",
-    "heroTitleBefore": "进入",
-    "heroTitleAccent": "实验室。",
-    "heroBody": "一层层剥开复杂系统，然后在工作台上向情境化智能体提问。",
-    "ctaEnter": "进入实验室",
-    "ctaBench": "前往工作台",
+    "badge": "面向学生",
+    "versionBadge": "Alpha",
+    "scrollHint": "滚动",
+    "heroStatusLabel": "今天",
+    "heroStatusValue": "6 个模型 · 探索与辨认练习",
+    "domainsFilterAll": "全部",
+    "heroTitleBefore": "从内部",
+    "heroTitleAccent": "学会一个系统。",
+    "heroLead": "检视三维模型。就你点选的零件提问。六个对象，面向学生。",
+    "heroBody": "面向建筑、机械与计算的学生和自学者。检视三维模型，点选零件，再向已经知道你选了哪块的智能体提问。不是照片级仿真，也不是证书：现在是六个对象，用来辨认零件，不必碰到实物。",
+    "ctaEnter": "开始探索",
+    "ctaBench": "前往我的项目",
+    "problemKicker": "缺口",
+    "problemTitle": "平面图教不会空间",
+    "problemBody": "课堂上是二维图纸。现实里零件套着零件。没有车间、工地或实验室时，辨认零件就变成背名字。",
     "patternKicker": "模式",
     "patternTitle": "对象 → 图层 → 组件",
+    "patternSubtitle": "三个领域同一套动作。变的是对象和术语，不是探索方式。",
     "patternSteps": {
       "object": {
         "title": "对象",
-        "body": "把一个系统放到工作台上。"
+        "body": "从目录加载一个系统：发动机、主板、房间。"
       },
       "layers": {
         "title": "图层",
-        "body": "剥开结构，直到工作零件露出来。"
+        "body": "检视外壳，直到工作结构露出来：底盘、管线、机箱。"
       },
       "components": {
         "title": "组件",
-        "body": "就眼前的零件，在情境里提问。"
+        "body": "点击一块零件。对话只回答这个，而不是整个宇宙。"
       }
     },
-    "modesKicker": "在工作台上",
-    "modesTitle": "工作台模式",
+    "liveKicker": "已经能用的",
+    "liveTitle": "探索、提问、辨认",
+    "liveSubtitle": "三维查看器、绑定你点选零件的智能体，以及辨认练习。这就是今天的产品。智能体看不见像素，只看见你选中的零件。",
+    "live": {
+      "viewer": {
+        "title": "三维查看器",
+        "body": "旋转、缩放、点击。刻意使用低面数模型，好读层级，而不是好看的渲染。"
+      },
+      "agent": {
+        "title": "情境智能体",
+        "body": "只回答你选中的零件。没有点选时，会请你先在模型上选一块。"
+      },
+      "practice": {
+        "title": "辨认练习",
+        "body": "它说出一块零件，你在模型上找，标签隐藏。失误、提示和历史都会留下。"
+      }
+    },
+    "modesKicker": "不是模式切换",
+    "modesTitle": "故障与诊断不是一个开关",
+    "modesNote": "应用里没有模式选择器。今天你打开模型、检视图层、练习找出零件。排查故障和引导诊断用同一查看器和同一智能体，教学目标不同。它们还不在界面里。",
+    "modesPathKicker": "同一模式，以后再说",
     "modes": {
       "explore": {
-        "title": "探索",
-        "body": "走一遍系统，理清零件如何咬合。"
+        "title": "探索与辨认练习",
+        "body": "按自己的节奏辨认零件。检视、选中，再问这块零件做什么。也可以进入练习：它说出一块，你在模型上找。",
+        "status": "今天"
       },
       "faults": {
-        "title": "故障台",
-        "body": "提出哪里坏了，并验证这个判断。"
+        "title": "排查故障",
+        "body": "一个症状。你在模型上调查。智能体收窄原因，不先甩出答案。今天不能当成一个模式打开。",
+        "status": "即将推出"
       },
       "diagnosis": {
         "title": "引导诊断",
-        "body": "在智能体陪同下追踪一次故障。"
+        "body": "带步骤的案例，像技师那样做。智能体说先检查什么。同样不能在应用里选择。",
+        "status": "即将推出"
       }
     },
-    "domainsKicker": "同一张工作台",
-    "domainsTitle": "领域",
+    "domainsKicker": "三套术语",
+    "domainsTitle": "一种模式，三个领域",
     "domains": {
       "computing": {
         "title": "计算",
-        "blurb": "机器、主板，以及驱动它们的技术栈。"
+        "blurb": "机箱 → 主板 → CPU、内存、插槽。目录里有：主板和服务器机柜。",
+        "example": "主板 · 机柜"
       },
       "architecture": {
         "title": "建筑",
-        "blurb": "空间、结构，以及一座建筑如何站住。"
+        "blurb": "围护 → 结构 → 管线。目录里有：起居室和竹结构体系。",
+        "example": "房间 · 竹结构"
       },
       "mechanics": {
         "title": "机械",
-        "blurb": "运动总成，以及它们承受的力。"
+        "blurb": "机体 → 子系统 → 活塞、齿轮。目录里有：内燃机和变速箱。",
+        "example": "发动机 · 变速箱"
       }
     },
-    "closeKicker": "就绪",
-    "closeTitle": "工作台已开放。",
-    "closeBody": "把一个系统带进实验室。剥开它，验证判断，并在情境中与智能体一起诊断。"
+    "closeKicker": "给谁用",
+    "closeTitle": "六个模型。开始检视。",
+    "closeBody": "为技术基础中低的学生和自学者而做。不能替代正规训练，也不是持证专业人士的工作工具。"
   },
   "Home": {
     "title": "首页",
