@@ -9,7 +9,7 @@ export function CloseSection() {
   return (
     <section className="px-6 pb-28">
       <Reveal>
-        <div className="relative mx-auto w-full max-w-6xl overflow-hidden rounded-[2rem] border border-primary/25 bg-gradient-to-br from-primary/15 via-neutral-950 to-neutral-950 px-8 py-16 sm:px-12 sm:py-20">
+        <div className="relative mx-auto w-full max-w-6xl overflow-hidden rounded-[1.5rem] border border-primary/25 bg-gradient-to-br from-primary/15 via-neutral-950 to-neutral-950 px-5 py-12 sm:rounded-[2rem] sm:px-12 sm:py-20">
           {/* Shimmer sweep. */}
           <div
             aria-hidden
@@ -23,7 +23,7 @@ export function CloseSection() {
           <p className="relative font-mono text-xs tracking-[0.22em] text-primary uppercase">
             {t("closeKicker")}
           </p>
-          <h2 className="relative mt-4 max-w-xl font-heading text-4xl font-medium tracking-tight text-balance sm:text-5xl">
+          <h2 className="relative mt-4 max-w-xl font-heading text-3xl font-medium tracking-tight text-balance sm:text-5xl">
             <span className="text-glow">{t("closeTitle")}</span>
           </h2>
           <p className="relative mt-4 max-w-xl text-base leading-relaxed text-neutral-400">
