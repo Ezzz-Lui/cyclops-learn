@@ -27,7 +27,7 @@ function HeroAtmosphere() {
           width={1920}
           height={1080}
           fetchPriority="high"
-          className="hero-figure-mask size-full object-cover object-[58%_42%] brightness-[0.88] contrast-110"
+          className="hero-figure-mask size-full object-cover object-[70%_38%] brightness-[0.88] contrast-110 md:object-[58%_42%]"
         />
         <div className="pointer-events-none absolute inset-0 bg-linear-to-r from-black via-black/50 to-transparent md:via-black/30" />
         <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black via-black/70 to-transparent" />
@@ -55,6 +55,7 @@ export function HeroSection() {
         },
         (context) => {
           const reduceMotion = Boolean(context.conditions?.reduceMotion)
+          const isCoarse = window.matchMedia("(pointer: coarse)").matches
           const intro = root.querySelectorAll(".hero-intro")
           const plate = root.querySelector(".hero-plate")
           const scrollLine = root.querySelector(".hero-scroll-line")
@@ -88,7 +89,7 @@ export function HeroSection() {
           )
 
           gsap.to(plate, {
-            scale: 1.06,
+            scale: isCoarse ? 1.03 : 1.06,
             duration: 22,
             ease: "sine.inOut",
             yoyo: true,
@@ -107,7 +108,7 @@ export function HeroSection() {
             })
           }
 
-          if (!plate) return
+          if (!plate || isCoarse) return
 
           const xTo = gsap.quickTo(plate, "x", {
             duration: 0.9,
@@ -142,11 +143,11 @@ export function HeroSection() {
   return (
     <section
       ref={rootRef}
-      className="relative flex min-h-svh items-end overflow-hidden px-6 pt-28 pb-16 md:items-center md:pb-24"
+      className="relative flex min-h-svh flex-col px-6 pt-24 pb-6 md:justify-center md:pt-28 md:pb-24"
     >
       <HeroAtmosphere />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-8 md:gap-10">
+      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center gap-5 md:flex-none md:gap-10">
         <div className="hero-intro motion-reduce:opacity-100 max-w-3xl opacity-0">
           <div className="inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 backdrop-blur">
             <span className="rounded-full border border-primary/40 bg-primary/15 px-2 py-0.5 font-mono text-[10px] tracking-[0.2em] text-primary uppercase">
@@ -158,7 +159,7 @@ export function HeroSection() {
           </div>
         </div>
 
-        <h1 className="hero-intro motion-reduce:opacity-100 max-w-4xl font-heading text-5xl leading-[0.95] font-semibold tracking-tight text-balance opacity-0 sm:text-7xl lg:text-8xl">
+        <h1 className="hero-intro motion-reduce:opacity-100 max-w-4xl font-heading text-[2.35rem] leading-[0.95] font-semibold tracking-tight text-balance opacity-0 sm:text-6xl lg:text-8xl">
           <span className="text-glow block uppercase">{t("heroTitleBefore")}</span>
           <span className="mt-2 block text-primary">{t("heroTitleAccent")}</span>
         </h1>
@@ -167,7 +168,7 @@ export function HeroSection() {
           {t("heroLead")}
         </p>
 
-        <div className="hero-intro motion-reduce:opacity-100 flex flex-wrap items-center gap-4 opacity-0">
+        <div className="hero-intro motion-reduce:opacity-100 flex flex-col items-start gap-4 opacity-0 sm:flex-row sm:flex-wrap sm:items-center">
           <LandingCta />
           <ul className="flex flex-wrap gap-2">
             {domainChips.map((key) => (
@@ -182,7 +183,7 @@ export function HeroSection() {
         </div>
       </div>
 
-      <div className="hero-intro motion-reduce:opacity-100 absolute bottom-8 left-8 z-20 hidden items-center gap-3 rounded-2xl border border-white/10 bg-neutral-950/60 px-4 py-3 opacity-0 backdrop-blur md:flex">
+      <div className="hero-intro motion-reduce:opacity-100 relative z-20 mx-auto mt-8 hidden items-center gap-3 rounded-2xl border border-white/10 bg-neutral-950/60 px-4 py-3 opacity-0 backdrop-blur md:absolute md:bottom-8 md:left-8 md:mt-0 md:flex">
         <span className="relative flex size-2">
           <span className="absolute inline-flex size-full animate-ping rounded-full bg-primary/60" />
           <span className="relative inline-flex size-2 rounded-full bg-primary" />
@@ -197,18 +198,18 @@ export function HeroSection() {
         </div>
       </div>
 
-      <div className="hero-intro motion-reduce:opacity-100 absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-3 opacity-0">
+      <div className="hero-intro motion-reduce:opacity-100 relative z-20 mx-auto mt-8 flex flex-col items-center gap-2 opacity-0 md:absolute md:bottom-8 md:left-1/2 md:mt-0 md:-translate-x-1/2 md:gap-3">
         <p className="font-mono text-[10px] tracking-[0.3em] text-neutral-500 uppercase">
           {t("scrollHint")}
         </p>
-        <div className="hero-scroll-line h-14 w-px origin-top bg-linear-to-b from-white/70 to-transparent" />
+        <div className="hero-scroll-line h-8 w-px origin-top bg-linear-to-b from-white/70 to-transparent md:h-14" />
       </div>
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-[15]"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-5"
       >
-        <div className="h-40 bg-linear-to-t from-black to-transparent" />
-        <div className="h-20 bg-black" />
+        <div className="h-24 bg-linear-to-t from-black to-transparent md:h-40" />
+        <div className="hidden h-20 bg-black md:block" />
       </div>
     </section>
   )

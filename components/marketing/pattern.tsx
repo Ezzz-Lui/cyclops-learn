@@ -51,7 +51,7 @@ export function PatternSection() {
                   <span
                     aria-hidden
                     className={
-                      "pointer-events-none absolute -top-14 font-heading text-[8rem] leading-none font-bold text-white/5 select-none sm:text-[10rem] " +
+                      "pointer-events-none absolute -top-8 font-heading text-[5rem] leading-none font-bold text-white/5 select-none sm:-top-14 sm:text-[10rem] " +
                       (flip ? "right-0 md:-left-6" : "right-0 md:-right-6")
                     }
                   >

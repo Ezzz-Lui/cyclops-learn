@@ -65,7 +65,7 @@ export function DomainsSection() {
           {/* Segmented control (spec: projects grid filter). */}
           <div
             role="tablist"
-            className="flex flex-wrap gap-1 rounded-full border border-white/10 bg-white/5 p-1 backdrop-blur"
+            className="flex max-w-full flex-nowrap gap-1 overflow-x-auto rounded-full border border-white/10 bg-white/5 p-1 backdrop-blur [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
             {filters.map((value) => (
               <button
@@ -75,7 +75,7 @@ export function DomainsSection() {
                 aria-selected={filter === value}
                 onClick={() => setFilter(value)}
                 className={cn(
-                  "rounded-full px-4 py-1.5 font-mono text-[11px] tracking-[0.14em] uppercase transition-colors duration-300",
+                  "shrink-0 rounded-full px-4 py-1.5 font-mono text-[11px] tracking-[0.14em] uppercase transition-colors duration-300",
                   filter === value
                     ? "bg-primary text-neutral-950"
                     : "text-neutral-400 hover:text-neutral-100"
